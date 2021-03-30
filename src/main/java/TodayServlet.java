@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,18 +20,18 @@ public class TodayServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
 
-		PrintWriter htmlContents = response.getWriter();
-		LocalDateTime currentDateTime = LocalDateTime.now();
+		PrintWriter htmlContentsWriter = response.getWriter();
+		String currentTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/M/d HH:mm"));
 		
-		htmlContents.println("<html>");
-		htmlContents.println("<head><title>My Homepage</title></head>");
-		htmlContents.println("<body>");
-		htmlContents.println("<a href='/aboutme/index.html'>메인화면</a>");
-		htmlContents.println("<h1 style=\"text-align:center;line-height:50vh;margin:20vh 0\">현재 시간 : " + currentDateTime + "</h1>");
-		htmlContents.println("</body>");
-		htmlContents.println("</html>");
+		htmlContentsWriter.println("<html>");
+		htmlContentsWriter.println("<head><title>My Homepage</title></head>");
+		htmlContentsWriter.println("<body>");
+		htmlContentsWriter.println("<a href='/aboutme/index.html'>메인화면</a>");
+		htmlContentsWriter.println("<h1 style=\"text-align:center;line-height:50vh;margin:20vh 0\">현재 시간 : " + currentTime + "</h1>");
+		htmlContentsWriter.println("</body>");
+		htmlContentsWriter.println("</html>");
 		
-		htmlContents.close();
+		htmlContentsWriter.close();
 	}
 
 }
