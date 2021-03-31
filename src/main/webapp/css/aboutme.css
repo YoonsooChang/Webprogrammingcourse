@@ -1,0 +1,15 @@
+@charset "UTF-8";
+
+#wrapper-contents {
+	text-align: left;
+}
+
+#wrapper-contents h3, p, a {
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+
+#wrapper-ability, #wrapper-portfolio, #wrapper-project-intro {
+	margin-top: 20px;
+	margin-bottom: 20px;	
+}
