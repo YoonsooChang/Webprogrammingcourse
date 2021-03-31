@@ -45,12 +45,12 @@ main {
 	margin-bottom: 10px;
 }
 
-main .left-padding {
+main .padding-left {
 	float: left;
 	width: 10%;
 }
 
-main .right-padding {
+main .padding-right {
 	float: right;
 	width: 10%;
 }
@@ -74,7 +74,7 @@ main .right-padding {
  	color: #ffffff;
 }
 
-#home-image {
+#map-home {
 	width: 600px;
 	height: 450px;
 }
