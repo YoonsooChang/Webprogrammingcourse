@@ -34,6 +34,7 @@ header #menubar li a {
 	background-color: #8fbbc6;
 	box-shadow: 0 1px 5px #656565, 0 1px 1px #ffff44;
 	font-weight: bold;
+	font-size: 0.8rem;
 	text-align: center;
 	text-decoration: none;
 	line-height: 50px;

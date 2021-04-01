@@ -27,9 +27,12 @@ public class TodayServlet extends HttpServlet {
 		htmlContentsWriter.println("<html>");
 		htmlContentsWriter.println("<head><title>My Homepage</title></head>");
 		htmlContentsWriter.println("<body>");
-		htmlContentsWriter.println("<a href='/aboutme/index.html'>메인화면</a>");
 		htmlContentsWriter
-			.println("<h1 style=\"text-align:center;line-height:50vh;margin:20vh 0\">현재 시간 : " + currentTime + "</h1>");
+			.println("<a href=\"/aboutme/index.html\" style=\"position:relative;top:10px;left:20px\">메인화면</a>");
+		htmlContentsWriter
+			.println("<h1 style=\"text-align:center;line-height:50vh;margin:20vh 0\">"
+				+ "현재 시간 : " + currentTime
+				+ "</h1>");
 		htmlContentsWriter.println("</body>");
 		htmlContentsWriter.println("</html>");
 
