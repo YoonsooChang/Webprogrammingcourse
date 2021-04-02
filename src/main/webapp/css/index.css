@@ -1,0 +1,30 @@
+@charset "UTF-8";
+
+#wrapper-contents ul {
+	padding-right: 40px;
+}
+
+#wrapper-contents ul li {
+	list-style: none;
+	display: inline;
+}
+
+#wrapper-contents ul li a {
+	display: inline-block;
+	height: 100px;
+	width: 100px;
+	margin-right: 4px;
+	background-color: #8fbbc6;
+	box-shadow: 0 1px 5px #656565, 0 1px 1px #ffff44;
+	font-weight: bold;
+	text-align: center;
+	text-decoration: none;
+	line-height: 100px;
+ 	color: #ffffff;
+}
+
+#map-home {
+	width: 600px;
+	height: 450px;
+	margin-bottom: 16px;
+}
