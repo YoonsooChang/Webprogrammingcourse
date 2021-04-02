@@ -1,15 +1,15 @@
 @charset "UTF-8";
 
-#wrapper-contents ul {
+#contents ul {
 	padding-right: 40px;
 }
 
-#wrapper-contents ul li {
+#contents ul li {
 	list-style: none;
 	display: inline;
 }
 
-#wrapper-contents ul li a {
+#contents ul li a {
 	display: inline-block;
 	height: 100px;
 	width: 100px;
@@ -20,7 +20,7 @@
 	text-align: center;
 	text-decoration: none;
 	line-height: 100px;
- 	color: #ffffff;
+	color: #ffffff;
 }
 
 #map-home {
