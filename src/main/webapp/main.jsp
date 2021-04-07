@@ -22,7 +22,7 @@
 						<p class="card-title">${item.title}</p>
 						<span class="card-detail">등록날짜: ${item.regDate}
 							${item.name} 우선순위 ${item.sequence}</span>
-						<button class="btn-change">→</button>
+						<button id="todo_${item.id}" class="btn-update">→</button>
 					</article>
 				</c:forEach>
 			</section>
@@ -34,7 +34,7 @@
 						<p class="card-title">${item.title}</p>
 						<span class="card-detail">등록날짜: ${item.regDate}
 							${item.name} 우선순위 ${item.sequence}</span>
-						<button class="btn-change">→</button>
+						<button id="doing_${item.id}" class="btn-update">→</button>
 					</article>
 				</c:forEach>
 			</section>
@@ -46,7 +46,7 @@
 						<p class="card-title">${item.title}</p>
 						<span class="card-detail">등록날짜: ${item.regDate}
 							${item.name} 우선순위 ${item.sequence}</span>
-						<button class="btn-change">→</button>
+						<button id="done_${item.id}" class="btn-update">→</button>
 					</article>
 				</c:forEach>
 			</section>

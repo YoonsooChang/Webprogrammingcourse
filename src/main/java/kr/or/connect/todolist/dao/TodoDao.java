@@ -51,12 +51,37 @@ public class TodoDao {
 		return todos;
 	}
 
-	// TO DO : 추가와 상태 수정
-	//	public int addTodo(TodoDto todo) {
-	//		
-	//	}
+	public int updateTodo(TodoDto todo) {
+		int updateCount = 0;
 
-	//	public int updateTodo(TodoDto todo) {
-	//		
-	//	}
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		String todoType = todo.getType();
+		String sql = "UPDATE todo SET type = "
+			+ (todoType.equals("TODO") ? "'DOING'" : "'DONE'")
+			+ " WHERE id = "
+			+ todo.getId().toString()
+			+ ";";
+
+		System.out.println(sql);
+
+		try (Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPasswd);
+			PreparedStatement ps = conn.prepareStatement(sql)) {
+
+			try {
+				updateCount = ps.executeUpdate();
+			} catch (Exception rsEx) {
+				rsEx.printStackTrace();
+			}
+
+		} catch (Exception connPsEx) {
+			connPsEx.printStackTrace();
+		}
+
+		return updateCount;
+	}
 }
