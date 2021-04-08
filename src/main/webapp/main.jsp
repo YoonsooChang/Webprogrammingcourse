@@ -6,12 +6,13 @@
 <head>
 <meta charset="UTF-8">
 <title>TO-DO LIST</title>
+<link rel="stylesheet" href="css/common.css">
 <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
 	<section id="container-main">
 		<header>
-			<button id="btn-register">새로운 TODO등록</button>
+			<button class="btn-register">새로운 TODO등록</button>
 		</header>
 		<article id="title">나의 해야할 일들</article>
 		<section id="container-items">

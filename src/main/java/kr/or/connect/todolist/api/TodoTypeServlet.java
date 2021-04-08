@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import kr.or.connect.todolist.dao.TodoDao;
 import kr.or.connect.todolist.dto.TodoDto;
 
-@WebServlet("/type")
+@WebServlet("/update")
 public class TodoTypeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
