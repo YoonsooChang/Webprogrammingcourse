@@ -34,12 +34,13 @@ public class MainServlet extends HttpServlet {
 
 		for (TodoDto todo : todoItems) {
 			String todoType = todo.getType();
-			if (todoType.equals("TODO"))
+			if (todoType.equals("TODO")) {
 				todos.add(todo);
-			else if (todoType.equals("DOING"))
+			} else if (todoType.equals("DOING")) {
 				doings.add(todo);
-			else
+			} else {
 				dones.add(todo);
+			}
 		}
 
 		request.setAttribute("todos", todos);

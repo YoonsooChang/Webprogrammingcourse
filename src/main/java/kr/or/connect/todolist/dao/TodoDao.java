@@ -4,94 +4,76 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import kr.or.connect.todolist.dto.TodoDto;
 
 public class TodoDao {
-	private static String dburl = "jdbc:mysql://10.113.116.52:13306/intern06";
-	private static String dbUser = "intern06";
-	private static String dbpasswd = "intern06";
+	private static final String dburl = "jdbc:mysql://10.113.116.52:13306/intern06";
+	private static final String dbUser = "intern06";
+	private static final String dbpasswd = "intern06";
 
-	public List<TodoDto> getTodos() {
-		List<TodoDto> todos = new ArrayList<>();
-
+	public TodoDao() {
+		super();
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+	}
 
-		String sql = "SELECT id, title, name, sequence, type, DATE_FORMAT(regdate, '%Y-%m-%d') FROM todo ORDER BY regdate DESC";
+	public List<TodoDto> getTodos() {
+		String sql = "SELECT id, title, name, sequence, type, DATE_FORMAT(regdate, '%Y-%m-%d') AS regdate FROM todo ORDER BY regdate DESC";
+		List<TodoDto> todos = new ArrayList<>();
 
 		try (Connection conn = DriverManager.getConnection(dburl, dbUser, dbpasswd);
-			PreparedStatement ps = conn.prepareStatement(sql)) {
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery()) {
 
-			try (ResultSet rs = ps.executeQuery()) {
-				while (rs.next()) {
-					Long id = rs.getLong(1);
-					String title = rs.getString(2);
-					String name = rs.getString(3);
-					int sequence = rs.getInt(4);
-					String type = rs.getString(5);
-					String regDate = rs.getString(6);
+			while (rs.next()) {
+				Long id = rs.getLong("id");
+				String title = rs.getString("title");
+				String name = rs.getString("name");
+				int sequence = rs.getInt("sequence");
+				String type = rs.getString("type");
+				String regDate = rs.getString("regdate");
 
-					TodoDto todo = new TodoDto(id, name, regDate, sequence, title, type);
-					todos.add(todo);
-				}
-			} catch (Exception qEx) {
-				qEx.printStackTrace();
+				TodoDto todo = new TodoDto(id, name, regDate, sequence, title, type);
+				todos.add(todo);
 			}
 
-		} catch (Exception connPsEx) {
-			connPsEx.printStackTrace();
+		} catch (SQLException sqlEx) {
+			sqlEx.printStackTrace();
 		}
 
 		return todos;
 	}
 
 	public int updateTodo(TodoDto todo) {
-		int updateCount = 0;
-
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		String todoType = todo.getType();
 		String sql = "UPDATE todo SET type = ? WHERE id = ?";
+		int updateCount = 0;
 
 		try (Connection conn = DriverManager.getConnection(dburl, dbUser, dbpasswd);
 			PreparedStatement ps = conn.prepareStatement(sql)) {
 
+			String todoType = todo.getType();
 			ps.setString(1, (todoType.equals("TODO") ? "DOING" : "DONE"));
 			ps.setLong(2, todo.getId());
 
-			try {
-				updateCount = ps.executeUpdate();
-			} catch (Exception uEx) {
-				uEx.printStackTrace();
-			}
+			updateCount = ps.executeUpdate();
 
-		} catch (Exception connPsEx) {
-			connPsEx.printStackTrace();
+		} catch (SQLException sqlEx) {
+			sqlEx.printStackTrace();
 		}
 
 		return updateCount;
 	}
 
 	public int addTodo(TodoDto todo) {
-		int insertCount = 0;
-
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
 		String sql = "INSERT INTO todo (title, name, sequence) VALUES (?, ?, ?)";
+		int insertCount = 0;
 
 		try (Connection conn = DriverManager.getConnection(dburl, dbUser, dbpasswd);
 			PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -100,14 +82,10 @@ public class TodoDao {
 			ps.setString(2, todo.getName());
 			ps.setInt(3, todo.getSequence());
 
-			try {
-				insertCount = ps.executeUpdate();
-			} catch (Exception uEx) {
-				uEx.printStackTrace();
-			}
+			insertCount = ps.executeUpdate();
 
-		} catch (Exception connPsEx) {
-			connPsEx.printStackTrace();
+		} catch (SQLException sqlEx) {
+			sqlEx.printStackTrace();
 		}
 		return insertCount;
 

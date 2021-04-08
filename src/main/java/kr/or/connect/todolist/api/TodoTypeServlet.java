@@ -30,7 +30,10 @@ public class TodoTypeServlet extends HttpServlet {
 		String type = request.getParameter("type");
 
 		TodoDao todoDao = new TodoDao();
-		TodoDto updateTarget = new TodoDto(id, "", "", -1, "", type);
+		TodoDto updateTarget = new TodoDto();
+
+		updateTarget.setId(id);
+		updateTarget.setType(type);
 
 		int updateResult = todoDao.updateTodo(updateTarget);
 

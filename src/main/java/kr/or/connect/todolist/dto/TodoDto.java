@@ -8,6 +8,10 @@ public class TodoDto {
 	private String title;
 	private String type;
 
+	public TodoDto() {
+		super();
+	}
+
 	public TodoDto(Long id, String name, String regDate, int sequence, String title, String type) {
 		super();
 		this.id = id;
