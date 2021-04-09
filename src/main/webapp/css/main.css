@@ -50,8 +50,8 @@ header {
 
 .card-item {
 	margin-bottom: 12px;
-	padding-top: 20px;
-	padding-bottom: 20px;
+	padding-top: 16px;
+	padding-bottom: 16px;
 	padding-left: 16px;
 	padding-right: 16px;
 	background-color: #c7e0ee;
@@ -62,13 +62,16 @@ header {
 
 .card-title {
 	margin-top: 0px;
+	width: 250px;
+	font-size: 14px;
 }
 
 .card-detail {
 	position: absolute;
-	font-size: 12px;
+	width: 220px;
 	font-weight: normal;
 	bottom: 20px;
+	font-size: 12px;
 }
 
 .btn-update {
