@@ -19,11 +19,11 @@
 			<section id="todos" class="card-col">
 				<article class="card-col-header">TODO</article>
 				<c:forEach items="${todos}" var="item">
-					<article id="card-${item.id}" class="card-item">
+					<article id="todo-${item.id}" class="card-item">
 						<p class="card-title">${item.title}</p>
 						<span class="card-detail">등록날짜: ${item.regDate}
 							${item.name} 우선순위 ${item.sequence}</span>
-						<button id="todo-${item.id}" class="btn-update">→</button>
+						<button class="btn-update">→</button>
 					</article>
 				</c:forEach>
 			</section>
@@ -31,11 +31,11 @@
 			<section id="doings" class="card-col">
 				<article class="card-col-header">DOING</article>
 				<c:forEach items="${doings}" var="item">
-					<article id="card-${item.id}" class="card-item">
+					<article id="doing-${item.id}" class="card-item">
 						<p class="card-title">${item.title}</p>
 						<span class="card-detail">등록날짜: ${item.regDate}
 							${item.name} 우선순위 ${item.sequence}</span>
-						<button id="doing-${item.id}" class="btn-update">→</button>
+						<button class="btn-update">→</button>
 					</article>
 				</c:forEach>
 			</section>
@@ -43,11 +43,11 @@
 			<section id="dones" class="card-col">
 				<article class="card-col-header">DONE</article>
 				<c:forEach items="${dones}" var="item">
-					<article id="card-${item.id}" class="card-item">
+					<article id="done-${item.id}" class="card-item">
 						<p class="card-title">${item.title}</p>
 						<span class="card-detail">등록날짜: ${item.regDate}
 							${item.name} 우선순위 ${item.sequence}</span>
-						<button id="done-${item.id}" class="btn-update">→</button>
+						<button class="btn-update">→</button>
 					</article>
 				</c:forEach>
 			</section>

@@ -8,7 +8,8 @@ updateBtns.forEach(updateBtn =>
 registerBtn.addEventListener("click", registerNewTodo, false);
 
 function updateTodoType(event) {
-	const todoItemInfo = event.target.id.split("-");
+	const targetTodo = event.target.parentNode;
+	const todoItemInfo = targetTodo.id.split("-");
 
 	const type = todoItemInfo[0].toUpperCase();
 	const id = todoItemInfo[1];
@@ -21,7 +22,7 @@ function updateTodoType(event) {
 		if (oReq.readyState === XMLHttpRequest.DONE &&
 			oReq.status === 200 &&
 			updateResult === "Success") {
-			renewItemColumn(id);
+			renewItemColumn(id, type, targetTodo);
 		} else ("요청에 실패하였습니다.")
 	}
 
@@ -30,28 +31,25 @@ function updateTodoType(event) {
 	oReq.send(`id=${id}&type=${type}`);
 }
 
-function renewItemColumn(currentItemId){
-	const currentItem = document.getElementById(`card-${currentItemId}`);
-	
-	const currentItemType = currentItem.children[2].id.split("-")[0];
+function renewItemColumn(currentItemId, currentItemType, currentItem) {
 	const newItemType = (currentItemType === 'todo' ? 'doing' : 'done');
-	currentItem.children[2].id = `${newItemType}-${currentItemId}`;	
-	
+	currentItem.id = `${newItemType}-${currentItemId}`;
+
 	const nextColumnItems = currentItem.parentNode.nextSibling.nextSibling.children;
-	
+
 	let itemIndex = 1;
-	for(itemIndex = 1; itemIndex < nextColumnItems.length; itemIndex++) {
+	for (itemIndex = 1; itemIndex < nextColumnItems.length; itemIndex++) {
 		const item = nextColumnItems[itemIndex];
 		const itemId = item.id.split("-")[1];
-		if(currentItemId < itemId){
+		if (currentItemId < itemId) {
 			item.parentNode.insertBefore(currentItem, item);
 			break;
 		}
 	}
-	if(itemIndex === nextColumnItems.length){
+	if (itemIndex === nextColumnItems.length) {
 		nextColumnItems[0].parentNode.appendChild(currentItem);
 	}
-	
+
 }
 
 function registerNewTodo(_) {
