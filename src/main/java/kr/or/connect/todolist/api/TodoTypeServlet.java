@@ -30,15 +30,13 @@ public class TodoTypeServlet extends HttpServlet {
 		String type = request.getParameter("type");
 
 		TodoDao todoDao = new TodoDao();
-		TodoDto updateTarget = new TodoDto();
 
-		updateTarget.setId(id);
-		updateTarget.setType(type);
-
-		int updateResult = todoDao.updateTodo(updateTarget);
+		TodoDto updateTarget = TodoDto.getUpdateTodoDto(id, type);
+		String updateResult = todoDao.updateTodo(updateTarget);
 
 		PrintWriter out = response.getWriter();
-		out.print(updateResult == 1 ? "Success" : "Failure");
+
+		out.print(updateResult);
 		out.close();
 
 	}

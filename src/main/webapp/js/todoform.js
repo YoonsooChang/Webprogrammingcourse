@@ -1,11 +1,11 @@
-document.getElementById('clear-btn')
-	.addEventListener('click', clearFormData, false);
+document.getElementById("clear_btn")
+	.addEventListener("click", clearFormData, false);
 
-document.getElementById('back-btn')
-	.addEventListener('click', goBack, false);
+document.getElementById("back_btn")
+	.addEventListener("click", goBack, false);
 
 function clearFormData(_) {
-	document.getElementById('todo-form').reset();
+	document.getElementById("todo_form").reset();
 }
 
 function goBack(_) {

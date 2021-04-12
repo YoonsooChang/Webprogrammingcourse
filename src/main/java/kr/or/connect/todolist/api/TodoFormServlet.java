@@ -38,14 +38,15 @@ public class TodoFormServlet extends HttpServlet {
 		int addSequence = Integer.parseInt(request.getParameter("sequence"));
 
 		TodoDao todoDao = new TodoDao();
-		TodoDto addTarget = new TodoDto();
 
-		addTarget.setName(addName);
-		addTarget.setSequence(addSequence);
-		addTarget.setTitle(addTitle);
+		TodoDto addTarget = TodoDto.getAddTodoDto(addName, addSequence, addTitle);
 
-		todoDao.addTodo(addTarget);
-		response.sendRedirect("http://localhost:8080/todoapp/main");
+		int addResult = todoDao.addTodo(addTarget);
+		if (addResult == 1) {
+			response.sendRedirect("/main");
+		} else {
+			response.sendRedirect("/register");
+		}
 	}
 
 }

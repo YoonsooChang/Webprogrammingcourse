@@ -1,5 +1,5 @@
-const updateBtns = document.querySelectorAll(".btn-update");
-const registerBtn = document.querySelector(".btn-register");
+const updateBtns = document.querySelectorAll(".btn_update");
+const registerBtn = document.querySelector(".btn_register");
 
 updateBtns.forEach(updateBtn =>
 	updateBtn.addEventListener("click", updateTodoType, false)
@@ -9,7 +9,7 @@ registerBtn.addEventListener("click", registerNewTodo, false);
 
 function updateTodoType(event) {
 	const targetTodo = event.target.parentNode;
-	const todoItemInfo = targetTodo.id.split("-");
+	const todoItemInfo = targetTodo.id.split("_");
 
 	const type = todoItemInfo[0].toUpperCase();
 	const id = todoItemInfo[1];
@@ -23,24 +23,24 @@ function updateTodoType(event) {
 			oReq.status === 200 &&
 			updateResult === "Success") {
 			renewItemColumn(id, type, targetTodo);
-		} else ("요청에 실패하였습니다.")
+		} else alert("요청에 실패하였습니다.")
 	}
 
-	oReq.open("POST", "http://localhost:8080/todoapp/update");
+	oReq.open("POST", "/update");
 	oReq.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	oReq.send(`id=${id}&type=${type}`);
 }
 
 function renewItemColumn(currentItemId, currentItemType, currentItem) {
-	const newItemType = (currentItemType === 'todo' ? 'doing' : 'done');
-	currentItem.id = `${newItemType}-${currentItemId}`;
+	const newItemType = (currentItemType === "todo" ? "doing" : "done");
+	currentItem.id = `${newItemType}_${currentItemId}`;
 
-	const nextColumnItems = currentItem.parentNode.nextSibling.nextSibling.children;
+	const nextColumnItems = document.getElementById(`${newItemType}s`).children;
 
 	let itemIndex = 1;
 	for (itemIndex = 1; itemIndex < nextColumnItems.length; itemIndex++) {
 		const item = nextColumnItems[itemIndex];
-		const itemId = item.id.split("-")[1];
+		const itemId = item.id.split("_")[1];
 		if (currentItemId < itemId) {
 			item.parentNode.insertBefore(currentItem, item);
 			break;
@@ -52,6 +52,6 @@ function renewItemColumn(currentItemId, currentItemType, currentItem) {
 
 }
 
-function registerNewTodo(_) {
-	window.location.href = "http://localhost:8080/todoapp/register";
+function registerNewTodo() {
+	window.location.href = "/register";
 }

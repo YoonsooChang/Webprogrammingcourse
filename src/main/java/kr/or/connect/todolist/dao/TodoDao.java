@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class TodoDao {
 	}
 
 	public List<TodoDto> getTodos() {
-		String sql = "SELECT id, title, name, sequence, type, DATE_FORMAT(regdate, '%Y-%m-%d') AS regdate FROM todo ORDER BY regdate DESC";
+		String sql = "SELECT id, title, name, sequence, type, regdate FROM todo ORDER BY regdate DESC";
 		List<TodoDto> todos = new ArrayList<>();
 
 		try (Connection conn = DriverManager.getConnection(dburl, dbUser, dbpasswd);
@@ -38,7 +39,7 @@ public class TodoDao {
 				String name = rs.getString("name");
 				int sequence = rs.getInt("sequence");
 				String type = rs.getString("type");
-				String regDate = rs.getString("regdate");
+				String regDate = new SimpleDateFormat("yyyy-MM-dd").format(rs.getString("regdate"));
 
 				TodoDto todo = new TodoDto(id, name, regDate, sequence, title, type);
 				todos.add(todo);
@@ -51,9 +52,10 @@ public class TodoDao {
 		return todos;
 	}
 
-	public int updateTodo(TodoDto todo) {
+	public String updateTodo(TodoDto todo) {
 		String sql = "UPDATE todo SET type = ? WHERE id = ?";
 		int updateCount = 0;
+		String updateResult = null;
 
 		try (Connection conn = DriverManager.getConnection(dburl, dbUser, dbpasswd);
 			PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -68,7 +70,13 @@ public class TodoDao {
 			sqlEx.printStackTrace();
 		}
 
-		return updateCount;
+		if (updateCount == 0) {
+			updateResult = "Failure";
+		} else {
+			updateResult = "Success";
+		}
+
+		return updateResult;
 	}
 
 	public int addTodo(TodoDto todo) {
@@ -83,6 +91,7 @@ public class TodoDao {
 			ps.setInt(3, todo.getSequence());
 
 			insertCount = ps.executeUpdate();
+			return insertCount;
 
 		} catch (SQLException sqlEx) {
 			sqlEx.printStackTrace();
