@@ -18,7 +18,7 @@
 		<section id="container_items">
 			<section id="todos" class="card_col">
 				<span class="card_col_header">TODO</span>
-				<c:forEach items="${todos}" var="item">
+				<c:forEach items="${todolists.todo}" var="item">
 					<article id="todo_${item.id}" class="card_item">
 						<p class="card_title">${item.title}</p>
 						<span class="card_detail">등록날짜: ${item.regDate}
@@ -30,7 +30,7 @@
 
 			<section id="doings" class="card_col">
 				<span class="card_col_header">DOING</span>
-				<c:forEach items="${doings}" var="item">
+				<c:forEach items="${todolists.doing}" var="item">
 					<article id="doing_${item.id}" class="card_item">
 						<p class="card_title">${item.title}</p>
 						<span class="card_detail">등록날짜: ${item.regDate}
@@ -42,7 +42,7 @@
 
 			<section id="dones" class="card_col">
 				<span class="card_col_header">DONE</span>
-				<c:forEach items="${dones}" var="item">
+				<c:forEach items="${todolists.done}" var="item">
 					<article id="done_${item.id}" class="card_item">
 						<p class="card_title">${item.title}</p>
 						<span class="card_detail">등록날짜: ${item.regDate}

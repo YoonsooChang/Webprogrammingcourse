@@ -6,7 +6,7 @@ header {
 	line-height: 100px;
 }
 
-.btn-register {
+.btn_register {
 	display: inline-block;
 	background-color: #1ea1eb;
 	border: solid #1ca1ed;
@@ -24,7 +24,7 @@ header {
 	color: #4e6572
 }
 
-#container-items {
+#container_items {
 	position: relative;
 	float: right;
 	background: #ffffff;
@@ -32,23 +32,25 @@ header {
 	text-align: left;
 }
 
-.card-col {
+.card_col {
 	float: left;
 	min-width: 300px;
 	margin-right: 12px;
 }
 
-.card-col-header {
+.card_col_header {
+	display: inline-block;
 	margin-bottom: 12px;
 	padding-left: 16px;
 	background-color: #4e6572;
 	height: 55px;
-	color: #ffffff;
+	width: 300px;
 	font-size: 20px;
 	line-height: 55px;
+	color: #ffffff;
 }
 
-.card-item {
+.card_item {
 	margin-bottom: 12px;
 	padding-top: 16px;
 	padding-bottom: 16px;
@@ -60,13 +62,13 @@ header {
 	position: relative;
 }
 
-.card-title {
+.card_title {
 	margin-top: 0px;
 	width: 250px;
 	font-size: 14px;
 }
 
-.card-detail {
+.card_detail {
 	position: absolute;
 	width: 220px;
 	font-weight: normal;
@@ -74,7 +76,7 @@ header {
 	font-size: 12px;
 }
 
-.btn-update {
+.btn_update {
 	position: absolute;
 	bottom: 10px;
 	right: 8px;

@@ -1,28 +1,55 @@
 package kr.or.connect.todolist.dao;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Properties;
 
 import kr.or.connect.todolist.dto.TodoDto;
+import kr.or.connect.todolist.dto.TodoStatus;
 
 public class TodoDao {
-	private static final String dburl = "jdbc:mysql://10.113.116.52:13306/intern06";
-	private static final String dbUser = "intern06";
-	private static final String dbpasswd = "intern06";
+	private static TodoDao instance;
+	private String dburl;
+	private String dbUser;
+	private String dbpasswd;
 
-	public TodoDao() {
+	private TodoDao() {
 		super();
+		Properties props = new Properties();
+		Reader reader;
+
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+
+			reader = new FileReader(getClass().getResource("jdbc.properties").getPath());
+			props.load(reader);
+			Class.forName(props.getProperty("driver"));
+			dburl = props.getProperty("url");
+			dbUser = props.getProperty("user");
+			dbpasswd = props.getProperty("password");
+
+		} catch (ClassNotFoundException classEx) {
+			classEx.printStackTrace();
+		} catch (FileNotFoundException fileEx) {
+			fileEx.printStackTrace();
+		} catch (IOException ioEx) {
+			ioEx.printStackTrace();
 		}
+
+	}
+
+	public static TodoDao getInstance() {
+		return Optional.ofNullable(instance).orElse(instance = new TodoDao());
 	}
 
 	public List<TodoDto> getTodos() {
@@ -38,8 +65,8 @@ public class TodoDao {
 				String title = rs.getString("title");
 				String name = rs.getString("name");
 				int sequence = rs.getInt("sequence");
-				String type = rs.getString("type");
-				String regDate = new SimpleDateFormat("yyyy-MM-dd").format(rs.getString("regdate"));
+				TodoStatus type = TodoStatus.valueOf(rs.getString("type"));
+				LocalDate regDate = rs.getDate("regdate").toLocalDate();
 
 				TodoDto todo = new TodoDto(id, name, regDate, sequence, title, type);
 				todos.add(todo);
@@ -55,13 +82,11 @@ public class TodoDao {
 	public String updateTodo(TodoDto todo) {
 		String sql = "UPDATE todo SET type = ? WHERE id = ?";
 		int updateCount = 0;
-		String updateResult = null;
 
 		try (Connection conn = DriverManager.getConnection(dburl, dbUser, dbpasswd);
 			PreparedStatement ps = conn.prepareStatement(sql)) {
 
-			String todoType = todo.getType();
-			ps.setString(1, (todoType.equals("TODO") ? "DOING" : "DONE"));
+			ps.setString(1, todo.getType().getNextStatus().toUpperCase());
 			ps.setLong(2, todo.getId());
 
 			updateCount = ps.executeUpdate();
@@ -69,6 +94,8 @@ public class TodoDao {
 		} catch (SQLException sqlEx) {
 			sqlEx.printStackTrace();
 		}
+
+		String updateResult = null;
 
 		if (updateCount == 0) {
 			updateResult = "Failure";
@@ -79,9 +106,9 @@ public class TodoDao {
 		return updateResult;
 	}
 
-	public int addTodo(TodoDto todo) {
+	public String addTodo(TodoDto todo) {
 		String sql = "INSERT INTO todo (title, name, sequence) VALUES (?, ?, ?)";
-		int insertCount = 0;
+		int addCount = 0;
 
 		try (Connection conn = DriverManager.getConnection(dburl, dbUser, dbpasswd);
 			PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -90,13 +117,20 @@ public class TodoDao {
 			ps.setString(2, todo.getName());
 			ps.setInt(3, todo.getSequence());
 
-			insertCount = ps.executeUpdate();
-			return insertCount;
+			addCount = ps.executeUpdate();
 
 		} catch (SQLException sqlEx) {
 			sqlEx.printStackTrace();
 		}
-		return insertCount;
 
+		String addResult = null;
+
+		if (addCount == 0) {
+			addResult = "Failure";
+		} else {
+			addResult = "Success";
+		}
+
+		return addResult;
 	}
 }

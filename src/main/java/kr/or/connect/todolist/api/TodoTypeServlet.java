@@ -11,13 +11,21 @@ import javax.servlet.http.HttpServletResponse;
 
 import kr.or.connect.todolist.dao.TodoDao;
 import kr.or.connect.todolist.dto.TodoDto;
+import kr.or.connect.todolist.dto.TodoStatus;
 
 @WebServlet("/update")
 public class TodoTypeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private TodoDao todoDao;
 
 	public TodoTypeServlet() {
 		super();
+	}
+
+	@Override
+	public void init() throws ServletException {
+		super.init();
+		todoDao = TodoDao.getInstance();
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -27,11 +35,9 @@ public class TodoTypeServlet extends HttpServlet {
 		response.setContentType("charset=UTF-8");
 
 		Long id = Long.parseLong(request.getParameter("id"));
-		String type = request.getParameter("type");
+		TodoStatus type = TodoStatus.valueOf(request.getParameter("type"));
 
-		TodoDao todoDao = new TodoDao();
-
-		TodoDto updateTarget = TodoDto.getUpdateTodoDto(id, type);
+		TodoDto updateTarget = TodoDto.createUpdateTodoDto(id, type);
 		String updateResult = todoDao.updateTodo(updateTarget);
 
 		PrintWriter out = response.getWriter();

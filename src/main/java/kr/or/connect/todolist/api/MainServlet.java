@@ -1,8 +1,9 @@
 package kr.or.connect.todolist.api;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,35 +18,27 @@ import kr.or.connect.todolist.dto.TodoDto;
 @WebServlet("/main")
 public class MainServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private TodoDao todoDao;
 
 	public MainServlet() {
 		super();
 	}
 
+	@Override
+	public void init() throws ServletException {
+		super.init();
+		todoDao = TodoDao.getInstance();
+	}
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
 
-		TodoDao todoDao = new TodoDao();
 		List<TodoDto> todoItems = todoDao.getTodos();
 
-		List<TodoDto> todos = new ArrayList<>();
-		List<TodoDto> doings = new ArrayList<>();
-		List<TodoDto> dones = new ArrayList<>();
+		Map<String, List<TodoDto>> todoLists = todoItems.stream()
+			.collect(Collectors.groupingBy(todo -> todo.getType().toString().toLowerCase()));
 
-		for (TodoDto todo : todoItems) {
-			String todoType = todo.getType();
-			if (todoType.equals("TODO")) {
-				todos.add(todo);
-			} else if (todoType.equals("DOING")) {
-				doings.add(todo);
-			} else {
-				dones.add(todo);
-			}
-		}
-
-		request.setAttribute("todos", todos);
-		request.setAttribute("doings", doings);
-		request.setAttribute("dones", dones);
+		request.setAttribute("todolists", todoLists);
 
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("/main.jsp");
 		requestDispatcher.forward(request, response);
