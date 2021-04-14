@@ -17,13 +17,12 @@ function updateTodoType(event) {
 	let oReq = new XMLHttpRequest;
 
 	oReq.onload = function() {
-		const updateResult = this.responseText;
-
-		if (oReq.readyState === XMLHttpRequest.DONE &&
-			oReq.status === 200 &&
-			updateResult === "Success") {
-			renewItemColumn(id, type, targetTodo);
-		} else alert("요청에 실패하였습니다.")
+		if (oReq.readyState === XMLHttpRequest.DONE && oReq.status === 200) {
+			const { isValid, nextType } = validateUpdateResp(this.response);
+			isValid && renewItemColumn(id, nextType, targetTodo);
+		} else {
+			alert("요청에 실패하였습니다.");
+		}
 	}
 
 	oReq.open("POST", "update");
@@ -31,9 +30,18 @@ function updateTodoType(event) {
 	oReq.send(`id=${id}&type=${type.toUpperCase()}`);
 }
 
-function renewItemColumn(currentItemId, currentItemType, currentItem) {
+function validateUpdateResp(response) {
+	const { message, newState } = JSON.parse(response);
 
-	const newItemType = (currentItemType === "todo" ? "doing" : "done");
+	const validated = (message && message === "Success")
+		? { isValid: true, nextType: newState }
+		: { isValid: false, nextType: null };
+
+	return validated;
+}
+
+function renewItemColumn(currentItemId, newItemType, currentItem) {
+
 	currentItem.id = `${newItemType}_${currentItemId}`;
 
 	const nextColumnItems = document.getElementById(`${newItemType}s`).children;
