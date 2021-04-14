@@ -15,9 +15,16 @@ import kr.or.connect.todolist.dto.TodoDto;
 @WebServlet("/register")
 public class TodoFormServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private TodoDao todoDao;
 
 	public TodoFormServlet() {
 		super();
+	}
+
+	@Override
+	public void init() throws ServletException {
+		super.init();
+		todoDao = TodoDao.getInstance();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -37,12 +44,10 @@ public class TodoFormServlet extends HttpServlet {
 		String addName = request.getParameter("name");
 		int addSequence = Integer.parseInt(request.getParameter("sequence"));
 
-		TodoDao todoDao = new TodoDao();
+		TodoDto addTarget = TodoDto.createAddTodoDto(addName, addSequence, addTitle);
 
-		TodoDto addTarget = TodoDto.getAddTodoDto(addName, addSequence, addTitle);
-
-		int addResult = todoDao.addTodo(addTarget);
-		if (addResult == 1) {
+		String addResult = todoDao.addTodo(addTarget);
+		if (addResult.equals("Success")) {
 			response.sendRedirect("/main");
 		} else {
 			response.sendRedirect("/register");

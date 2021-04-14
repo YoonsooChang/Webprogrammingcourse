@@ -1,18 +1,20 @@
 package kr.or.connect.todolist.dto;
 
+import java.time.LocalDate;
+
 public class TodoDto {
 	private Long id;
 	private String name;
-	private String regDate;
+	private LocalDate regDate;
 	private int sequence;
 	private String title;
-	private String type;
+	private TodoStatus type;
 
 	public TodoDto() {
 		super();
 	}
 
-	private TodoDto(Long id, String type) {
+	private TodoDto(Long id, TodoStatus type) {
 		super();
 		this.id = id;
 		this.type = type;
@@ -25,7 +27,7 @@ public class TodoDto {
 		this.title = title;
 	}
 
-	public TodoDto(Long id, String name, String regDate, int sequence, String title, String type) {
+	public TodoDto(Long id, String name, LocalDate regDate, int sequence, String title, TodoStatus type) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -35,11 +37,11 @@ public class TodoDto {
 		this.type = type;
 	}
 
-	public static TodoDto getUpdateTodoDto(Long id, String type) {
+	public static TodoDto createUpdateTodoDto(Long id, TodoStatus type) {
 		return new TodoDto(id, type);
 	}
 
-	public static TodoDto getAddTodoDto(String name, int sequence, String title) {
+	public static TodoDto createAddTodoDto(String name, int sequence, String title) {
 		return new TodoDto(name, sequence, title);
 	}
 
@@ -51,7 +53,7 @@ public class TodoDto {
 		return name;
 	}
 
-	public String getRegDate() {
+	public LocalDate getRegDate() {
 		return regDate;
 	}
 
@@ -63,13 +65,13 @@ public class TodoDto {
 		return title;
 	}
 
-	public String getType() {
+	public TodoStatus getType() {
 		return type;
 	}
 
 	@Override
 	public String toString() {
-		return "Todo [id=" + id + ", name=" + name + ", regDate=" + regDate + ", sequence=" + sequence + ", title="
+		return "TodoDto [id=" + id + ", name=" + name + ", regDate=" + regDate + ", sequence=" + sequence + ", title="
 			+ title + ", type=" + type + "]";
 	}
 

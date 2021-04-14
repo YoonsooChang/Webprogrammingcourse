@@ -11,7 +11,7 @@ function updateTodoType(event) {
 	const targetTodo = event.target.parentNode;
 	const todoItemInfo = targetTodo.id.split("_");
 
-	const type = todoItemInfo[0].toUpperCase();
+	const type = todoItemInfo[0];
 	const id = todoItemInfo[1];
 
 	let oReq = new XMLHttpRequest;
@@ -26,12 +26,13 @@ function updateTodoType(event) {
 		} else alert("요청에 실패하였습니다.")
 	}
 
-	oReq.open("POST", "/update");
+	oReq.open("POST", "update");
 	oReq.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-	oReq.send(`id=${id}&type=${type}`);
+	oReq.send(`id=${id}&type=${type.toUpperCase()}`);
 }
 
 function renewItemColumn(currentItemId, currentItemType, currentItem) {
+
 	const newItemType = (currentItemType === "todo" ? "doing" : "done");
 	currentItem.id = `${newItemType}_${currentItemId}`;
 
@@ -41,7 +42,7 @@ function renewItemColumn(currentItemId, currentItemType, currentItem) {
 	for (itemIndex = 1; itemIndex < nextColumnItems.length; itemIndex++) {
 		const item = nextColumnItems[itemIndex];
 		const itemId = item.id.split("_")[1];
-		if (currentItemId < itemId) {
+		if (currentItemId > itemId) {
 			item.parentNode.insertBefore(currentItem, item);
 			break;
 		}

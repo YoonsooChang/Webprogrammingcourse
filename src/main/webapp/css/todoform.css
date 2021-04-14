@@ -1,14 +1,14 @@
 @charset "UTF-8";
 
-#container-form {
+#container_form {
 	display: inline-block;
 }
 
-#todo-form {
+#todo_form {
 	text-align: left;
 }
 
-.block-input {
+.block_input {
 	margin-bottom: 28px;
 }
 
@@ -17,11 +17,11 @@
 	font-size: 14px;
 }
 
-#title-input {
+#title_input {
 	width: 480px;
 }
 
-#title-name {
+#title_name {
 	width: 240px;
 }
 
@@ -49,13 +49,13 @@ input[type="radio"] {
 	vertical-align: middle;
 }
 
-.input-label {
+.input_label {
 	margin-right: 8px;
 	font-weight: bold;
 	font-size: 12px;
 }
 
-#page-man {
+#page_man {
 	padding-top: 20px;
 	margin-bottom: 20px;
 }
@@ -66,17 +66,17 @@ button {
 	font-weight: bold;
 }
 
-#form-man {
+#form_man {
 	float: right;
 }
 
-#back-btn {
+#back_btn {
 	background-color: #ffffff;
 	border: 2px solid #b4b5b5;
 	text-decoration: underline;
 }
 
-.btn-form {
+.btn_form {
 	margin-right: 10px;
 	display: inline-block;
 	background-color: #1ea1eb;

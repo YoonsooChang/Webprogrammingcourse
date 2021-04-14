@@ -3,3 +3,4 @@ build/
 .classpath
 .project
 target/
+src/main/java/kr/or/connect/todolist/dao/jdbc.properties
