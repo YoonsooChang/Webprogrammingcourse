@@ -38,7 +38,7 @@ public class DBConfig implements TransactionManagementConfigurer {
 
 	@Bean
 	public PlatformTransactionManager getTransactionManager() {
-		return new DataSourceTransactionManager();
+		return new DataSourceTransactionManager(dataSource());
 	}
 
 }
