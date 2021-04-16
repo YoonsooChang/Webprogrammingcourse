@@ -81,12 +81,14 @@ public class TodoDao {
 
 	public String updateTodo(TodoDto todo) {
 		String sql = "UPDATE todo SET type = ? WHERE id = ?";
+
+		String nextType = todo.getType().getNextStatus();
 		int updateCount = 0;
 
 		try (Connection conn = DriverManager.getConnection(dburl, dbUser, dbpasswd);
 			PreparedStatement ps = conn.prepareStatement(sql)) {
 
-			ps.setString(1, todo.getType().getNextStatus().toUpperCase());
+			ps.setString(1, nextType);
 			ps.setLong(2, todo.getId());
 
 			updateCount = ps.executeUpdate();
@@ -98,9 +100,9 @@ public class TodoDao {
 		String updateResult = null;
 
 		if (updateCount == 0) {
-			updateResult = "Failure";
+			updateResult = "{\"message\": \"Failure\"}";
 		} else {
-			updateResult = "Success";
+			updateResult = "{\"message\": \"Success\", \"newState\": \"" + nextType.toLowerCase() + "\"}";
 		}
 
 		return updateResult;
