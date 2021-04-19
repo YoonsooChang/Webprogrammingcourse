@@ -8,17 +8,23 @@ import org.springframework.transaction.annotation.Transactional;
 
 import kr.or.connect.reservation.dao.PromotionDao;
 import kr.or.connect.reservation.dto.Promotion;
+import kr.or.connect.reservation.dto.PromotionResponse;
 import kr.or.connect.reservation.service.PromotionService;
 
 @Service
 public class PromotionServiceImpl implements PromotionService {
 	@Autowired
-	PromotionDao promotionDao;
+	private PromotionDao promotionDao;
 
 	@Override
 	@Transactional
-	public List<Promotion> getPromotions() {
-		return promotionDao.selectAll();
+	public PromotionResponse getPromotions() {
+		List<Promotion> list = promotionDao.selectAll();
+
+		PromotionResponse promotionResponse = new PromotionResponse();
+		promotionResponse.setItems(list);
+
+		return promotionResponse;
 	}
 
 }
