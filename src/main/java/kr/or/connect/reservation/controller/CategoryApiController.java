@@ -1,29 +1,22 @@
 package kr.or.connect.reservation.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import kr.or.connect.reservation.dto.Category;
+import kr.or.connect.reservation.dto.CategoryResponse;
 import kr.or.connect.reservation.service.CategoryService;
 
 @RestController
-@RequestMapping(path = "/api/categories")
+@RequestMapping(path = "/api/category")
 public class CategoryApiController {
 	@Autowired
-	CategoryService categoryService;
+	private CategoryService categoryService;
 
 	@GetMapping
-	public Map<String, Object> list() {
-		List<Category> categoryList = categoryService.getCategories();
-		Map<String, Object> map = new HashMap<String, Object>();
-
-		map.put("items", categoryList);
-		return map;
+	public CategoryResponse list() {
+		CategoryResponse catogoryList = categoryService.getCategories();
+		return catogoryList;
 	}
 }

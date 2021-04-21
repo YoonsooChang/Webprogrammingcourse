@@ -1,29 +1,22 @@
 package kr.or.connect.reservation.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import kr.or.connect.reservation.dto.Promotion;
+import kr.or.connect.reservation.dto.PromotionResponse;
 import kr.or.connect.reservation.service.PromotionService;
 
 @RestController
-@RequestMapping(path = "/api/promotions")
+@RequestMapping(path = "/api/promotion")
 public class PromotionApiController {
 	@Autowired
-	PromotionService promotionService;
+	private PromotionService promotionService;
 
 	@GetMapping
-	public Map<String, Object> list() {
-		List<Promotion> promotionList = promotionService.getPromotions();
-		Map<String, Object> map = new HashMap<String, Object>();
-
-		map.put("items", promotionList);
-		return map;
+	public PromotionResponse list() {
+		PromotionResponse promotionList = promotionService.getPromotions();
+		return promotionList;
 	}
 }

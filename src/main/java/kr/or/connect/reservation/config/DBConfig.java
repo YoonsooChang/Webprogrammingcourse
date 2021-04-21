@@ -3,8 +3,10 @@ package kr.or.connect.reservation.config;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -12,14 +14,20 @@ import org.springframework.transaction.annotation.TransactionManagementConfigure
 
 @Configuration
 @EnableTransactionManagement
+@PropertySource({"classpath:/application.properties"})
 public class DBConfig implements TransactionManagementConfigurer {
-	private String driverClassName = "com.mysql.jdbc.Driver";
 
-	private String url = "jdbc:mysql://10.113.116.52:13306/intern06?useUnicode=true&characterEncoding=utf8";
+	@Value("${spring.datasource.driver-class-name}")
+	private String driverClassName;
 
-	private String username = "intern06";
+	@Value("${spring.datasource.url}")
+	private String url;
 
-	private String password = "intern06";
+	@Value("${spring.datasource.username}")
+	private String username;
+
+	@Value("${spring.datasource.password}")
+	private String password;
 
 	@Bean
 	public DataSource dataSource() {
