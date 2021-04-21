@@ -9,7 +9,7 @@ import kr.or.connect.reservation.dto.PromotionResponse;
 import kr.or.connect.reservation.service.PromotionService;
 
 @RestController
-@RequestMapping(path = "/api/promotions")
+@RequestMapping(path = "/api/promotion")
 public class PromotionApiController {
 	@Autowired
 	private PromotionService promotionService;

@@ -9,7 +9,7 @@ import kr.or.connect.reservation.dto.CategoryResponse;
 import kr.or.connect.reservation.service.CategoryService;
 
 @RestController
-@RequestMapping(path = "/api/categories")
+@RequestMapping(path = "/api/category")
 public class CategoryApiController {
 	@Autowired
 	private CategoryService categoryService;

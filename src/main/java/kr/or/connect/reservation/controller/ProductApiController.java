@@ -10,7 +10,7 @@ import kr.or.connect.reservation.dto.ProductResponse;
 import kr.or.connect.reservation.service.ProductService;
 
 @RestController
-@RequestMapping(path = "/api/products")
+@RequestMapping(path = "/api/product")
 public class ProductApiController {
 	@Autowired
 	private ProductService productService;

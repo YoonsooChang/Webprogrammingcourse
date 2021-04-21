@@ -23,5 +23,7 @@ public class ProductDaoSqls {
 		+ "limit :start, :limit;";
 
 	public static final String SELECT_COUNT_BY_CATEGORY = "SELECT COUNT(*) FROM product \n"
+		+ "JOIN display_info \n"
+		+ "ON (product.id = display_info.product_id) \n"
 		+ "WHERE ( (:categoryid IS NULL) OR (:categoryid IS NOT NULL AND category_id = :categoryid) )";
 }
