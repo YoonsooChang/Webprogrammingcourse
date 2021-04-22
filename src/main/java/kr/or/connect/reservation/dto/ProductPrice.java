@@ -4,12 +4,12 @@ import java.time.LocalDateTime;
 
 public class ProductPrice {
 	private LocalDateTime createDate;
-	private Double discountRate;
+	private double discountRate;
 	private LocalDateTime modifyDate;
-	private Integer price;
+	private int price;
 	private String priceTypeName;
-	private Integer productId;
-	private Integer productPriceId;
+	private int productId;
+	private int productPriceId;
 
 	@Override
 	public String toString() {
@@ -26,11 +26,11 @@ public class ProductPrice {
 		this.createDate = createDate;
 	}
 
-	public Double getDiscountRate() {
+	public double getDiscountRate() {
 		return discountRate;
 	}
 
-	public void setDiscountRate(Double discountRate) {
+	public void setDiscountRate(double discountRate) {
 		this.discountRate = discountRate;
 	}
 
@@ -42,11 +42,11 @@ public class ProductPrice {
 		this.modifyDate = modifyDate;
 	}
 
-	public Integer getPrice() {
+	public int getPrice() {
 		return price;
 	}
 
-	public void setPrice(Integer price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 
@@ -58,19 +58,19 @@ public class ProductPrice {
 		this.priceTypeName = priceTypeName;
 	}
 
-	public Integer getProductId() {
+	public int getProductId() {
 		return productId;
 	}
 
-	public void setProductId(Integer productId) {
+	public void setProductId(int productId) {
 		this.productId = productId;
 	}
 
-	public Integer getProductPriceId() {
+	public int getProductPriceId() {
 		return productPriceId;
 	}
 
-	public void setProductPriceId(Integer productPriceId) {
+	public void setProductPriceId(int productPriceId) {
 		this.productPriceId = productPriceId;
 	}
 }

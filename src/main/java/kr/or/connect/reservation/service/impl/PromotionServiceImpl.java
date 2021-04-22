@@ -20,9 +20,7 @@ public class PromotionServiceImpl implements PromotionService {
 	@Transactional
 	public PromotionResponse getPromotions() {
 		List<Promotion> list = promotionDao.selectAll();
-
-		PromotionResponse promotionResponse = new PromotionResponse();
-		promotionResponse.setItems(list);
+		PromotionResponse promotionResponse = new PromotionResponse(list);
 
 		return promotionResponse;
 	}

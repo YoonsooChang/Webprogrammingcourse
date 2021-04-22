@@ -1,9 +1,9 @@
-const targetComponents = ["promotion", "product"];
+const loadTargets = ["promotion", "product"];
 const DOMAppenders = {};
 
 const startLoad = () => {
 	setDOMAppenders();
-	targetComponents.forEach(component => getRequest(component));
+	loadTargets.forEach(target => getRequest(target));
 }
 
 const setDOMAppenders = () => {
@@ -45,42 +45,41 @@ const renderDOMByTemplate = (data, name) => {
 
 	items.forEach((item) => {
 		let replaced = templateHTML;
-		Object.keys(item).forEach((key) =>
-			replaced = replaced.replaceAll(`{${key}}`, item[key]));
+		Object.keys(item).forEach((attr) =>
+			replaced = replaced.replaceAll(`{${attr}}`, item[attr]));
 		resultHTMLs.push(replaced);
 	});
 
 	DOMAppenders[name](resultHTMLs, subData);
 }
 
-const appendPromotions = (htmls) =>
+const renderErr = (name) => {
+	console.log(name, 'error');
+}
+
+const appendPromotions = (htmls) => {
 	document.querySelector(".visual_img").innerHTML = htmls.join("");
+	startAnimation();
+}
 
 const appendProducts = (htmls, subData) => {
 	const { totalCount } = subData;
 	const colCount = 2;
 	let cols = document.querySelectorAll(".lst_event_box");
-	const currentItemCounts = (cols[0].children.length + cols[1].children.length);
 
 	htmls.forEach((html, index) =>
 		cols[index % colCount].innerHTML += html);
 
-	(totalCount === currentItemCounts + htmls.length) && setViewMoreBtnState("off");
+	const currentItemCounts = (cols[0].children.length + cols[1].children.length);
+	(currentItemCounts === totalCount) && setViewMoreBtnState("off");
 
 	document.querySelector("#event_count").innerHTML = totalCount + "개";
-}
-
-const renderErr = (name) => {
-	console.log(name, 'error');
 }
 
 const setViewMoreBtnState = (state) => {
 	let viewMore = document.querySelector(".wrap_btn");
 	viewMore.style.display = (state === "on" ? "block" : "none");
 }
-
-const clearCols = () => document.querySelectorAll(".lst_event_box")
-	.forEach(col => col.innerHTML = "");
 
 const getCategoryFromClicked = (clicked) => {
 	const tagName = clicked.tagName;
@@ -99,10 +98,15 @@ const getCategoryFromClicked = (clicked) => {
 	return category;
 }
 
+const clearCols = () => document.querySelectorAll(".lst_event_box")
+	.forEach(col => col.innerHTML = "");
+
+
 let tabUI = document.querySelector(".event_tab_lst");
+
 tabUI.addEventListener("click", (e) => {
 	const clicked = e.target;
-	let selectedCategory = getCategoryFromClicked(clicked);
+	const selectedCategory = getCategoryFromClicked(clicked);
 	if (selectedCategory === null) {
 		return;
 	}
@@ -126,9 +130,11 @@ tabUI.addEventListener("click", (e) => {
 	getRequest("product", params);
 });
 
+
 let viewMoreBtn = document.querySelector(".btn_more");
+
 viewMoreBtn.addEventListener("click", () => {
-	let cols = document.querySelectorAll(".lst_event_box");
+	const cols = document.querySelectorAll(".lst_event_box");
 	const currentItemCounts = (cols[0].children.length + cols[1].children.length);
 
 	const anchor = document.querySelector(".active");
@@ -139,5 +145,41 @@ viewMoreBtn.addEventListener("click", () => {
 
 	getRequest("product", params);
 });
+
+
+let promotionCounts = 0;
+let slideBox = document.querySelector(".visual_img");
+let promotionPos = 0;
+let tick = 0;
+
+const startAnimation = () => {
+	let firstChildClone = slideBox.firstElementChild.cloneNode(true);
+	slideBox.appendChild(firstChildClone);
+	slideBox.style.left = 0;
+
+	promotionCounts = slideBox.children.length;
+
+	requestAnimationFrame(slideRight);
+}
+
+const slideRight = () => {
+	tick = (tick + 1) % 50;
+	if (tick === 0) {
+		promotionPos = (promotionPos + 1) % promotionCounts;
+		slideBox.style.left = -promotionPos * 100 + "%";
+
+		if (promotionPos === promotionCounts - 1) {
+			setTimeout(function() {
+				slideBox.style.transition = "none";
+				promotionPos = 0;
+				slideBox.style.left = 0;
+			}, 1000);
+		} else {
+			slideBox.style.transition = "left 1s ease-in-out";
+		}
+	}
+
+	requestAnimationFrame(slideRight);
+}
 
 document.addEventListener("DOMContentLoaded", startLoad);

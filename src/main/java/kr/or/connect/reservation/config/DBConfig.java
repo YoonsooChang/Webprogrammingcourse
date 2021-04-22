@@ -10,12 +10,11 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 
 @Configuration
 @EnableTransactionManagement
 @PropertySource({"classpath:/application.properties"})
-public class DBConfig implements TransactionManagementConfigurer {
+public class DBConfig {
 
 	@Value("${spring.datasource.driver-class-name}")
 	private String driverClassName;
@@ -37,11 +36,6 @@ public class DBConfig implements TransactionManagementConfigurer {
 		dataSource.setUsername(username);
 		dataSource.setPassword(password);
 		return dataSource;
-	}
-
-	@Override
-	public PlatformTransactionManager annotationDrivenTransactionManager() {
-		return getTransactionManager();
 	}
 
 	@Bean

@@ -53,6 +53,44 @@
 							<div class="container_visual">
 								<!-- 슬라이딩기능: 이미지 (type = 'th')를 순차적으로 노출 -->
 								<ul class="visual_img">
+									<!-- 테스트 용 백그라운드 
+									<li class="item" style="background-color: #fff;"><a
+										href="#"> <span class="img_btm_border"></span> <span
+											class="img_right_border"></span> <span class="img_bg_gra"></span>
+											<div class="event_txt">
+												<h4 class="event_txt_tit"></h4>
+												<p class="event_txt_adr"></p>
+												<p class="event_txt_dsc"></p>
+											</div>
+									</a></li>
+									<li class="item" style="background-color: #ffa;"><a
+										href="#"> <span class="img_btm_border"></span> <span
+											class="img_right_border"></span> <span class="img_bg_gra"></span>
+											<div class="event_txt">
+												<h4 class="event_txt_tit"></h4>
+												<p class="event_txt_adr"></p>
+												<p class="event_txt_dsc"></p>
+											</div>
+									</a></li>
+									<li class="item" style="background-color: #faf;"><a
+										href="#"> <span class="img_btm_border"></span> <span
+											class="img_right_border"></span> <span class="img_bg_gra"></span>
+											<div class="event_txt">
+												<h4 class="event_txt_tit"></h4>
+												<p class="event_txt_adr"></p>
+												<p class="event_txt_dsc"></p>
+											</div>
+									</a></li>
+									<li class="item" style="background-color: #aff;"><a
+										href="#"> <span class="img_btm_border"></span> <span
+											class="img_right_border"></span> <span class="img_bg_gra"></span>
+											<div class="event_txt">
+												<h4 class="event_txt_tit"></h4>
+												<p class="event_txt_adr"></p>
+												<p class="event_txt_dsc"></p>
+											</div>
+									</a></li>
+									-->
 								</ul>
 							</div>
 							<span class="nxt_fix" style="display: none;"></span>
@@ -88,7 +126,7 @@
 			</div>
 			<div class="section_event_lst">
 				<p class="event_lst_txt">
-					바로 예매 가능한 행사가 <span id="event_count" class="pink">10개</span> 있습니다
+					바로 예매 가능한 행사가 <span id="event_count" class="pink"></span> 있습니다
 				</p>
 				<div class="wrap_event_box">
 					<!-- [D] lst_event_box 가 2컬럼으로 좌우로 나뉨, 더보기를 클릭할때마다 좌우 ul에 li가 추가됨 -->
@@ -100,7 +138,7 @@
 					</ul>
 					<!-- 더보기 -->
 					<div class="wrap_btn">
-						<button class="btn_more btn_search_more">
+						<button class="btn_more">
 							<span>더보기</span>
 						</button>
 					</div>

@@ -5,12 +5,12 @@ import java.time.LocalDateTime;
 public class ProductImage {
 	private String contentType;
 	private LocalDateTime createDate;
-	private Boolean deleteFlag;
-	private Integer fildInfoId;
+	private boolean deleteFlag;
+	private int fildInfoId;
 	private String fileName;
 	private LocalDateTime modifyDate;
-	private Integer productId;
-	private Integer productImageId;
+	private int productId;
+	private int productImageId;
 	private String saveFileName;
 	private String type;
 
@@ -30,19 +30,19 @@ public class ProductImage {
 		this.createDate = createDate;
 	}
 
-	public Boolean getDeleteFlag() {
+	public boolean getDeleteFlag() {
 		return deleteFlag;
 	}
 
-	public void setDeleteFlag(Boolean deleteFlag) {
+	public void setDeleteFlag(boolean deleteFlag) {
 		this.deleteFlag = deleteFlag;
 	}
 
-	public Integer getFildInfoId() {
+	public int getFildInfoId() {
 		return fildInfoId;
 	}
 
-	public void setFildInfoId(Integer fildInfoId) {
+	public void setFildInfoId(int fildInfoId) {
 		this.fildInfoId = fildInfoId;
 	}
 
@@ -62,19 +62,19 @@ public class ProductImage {
 		this.modifyDate = modifyDate;
 	}
 
-	public Integer getProductId() {
+	public int getProductId() {
 		return productId;
 	}
 
-	public void setProductId(Integer productId) {
+	public void setProductId(int productId) {
 		this.productId = productId;
 	}
 
-	public Integer getProductImageId() {
+	public int getProductImageId() {
 		return productImageId;
 	}
 
-	public void setProductImageId(Integer productImageId) {
+	public void setProductImageId(int productImageId) {
 		this.productImageId = productImageId;
 	}
 

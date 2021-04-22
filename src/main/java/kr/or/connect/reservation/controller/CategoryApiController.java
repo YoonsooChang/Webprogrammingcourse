@@ -16,7 +16,7 @@ public class CategoryApiController {
 
 	@GetMapping
 	public CategoryResponse list() {
-		CategoryResponse catogoryList = categoryService.getCategories();
-		return catogoryList;
+		CategoryResponse categoryResponse = categoryService.getCategories();
+		return categoryResponse;
 	}
 }
