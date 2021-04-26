@@ -42,7 +42,7 @@ public class ProductDaoSqls {
 		+ "JOIN "
 		+ "		file_info F ON I.file_id = F.id \n"
 		+ "AND "
-		+ "		I.type =\"tah\" \n"
+		+ "		I.type =\"th\" \n"
 		+ "ORDER BY "
 		+ "		display_info_id DESC \n"
 		+ "limit :start, :limit";

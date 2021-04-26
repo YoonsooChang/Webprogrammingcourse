@@ -171,6 +171,9 @@
         </li>
     </script>
 
+	<script src="js/request.js">
+		
+	</script>
 	<script src="js/mainpage.js">
 		
 	</script>

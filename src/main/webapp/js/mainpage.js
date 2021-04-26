@@ -1,56 +1,6 @@
-const loadTargets = ["category", "promotion", "product"];
-const DOMAppenders = {};
+const startLoad = () =>
+	Object.keys(DOMAppenders).forEach(target => getRequest(target, DOMAppenders[target]));
 
-const startLoad = () => {
-	setDOMAppenders();
-	loadTargets.forEach(target => getRequest(target));
-}
-
-const setDOMAppenders = () => {
-	DOMAppenders.product = appendProducts;
-	DOMAppenders.promotion = appendPromotions;
-	DOMAppenders.category = appendCategories;
-}
-
-const getRequest = (componentName, paramObj) => {
-	let oReq = new XMLHttpRequest;
-
-	oReq.onload = function() {
-		if (oReq.readyState === XMLHttpRequest.DONE && oReq.status === 200) {
-			isValid(this.response)
-				? DOMAppenders[componentName](this.response, componentName)
-				: handleErr(componentName);
-		} else {
-			alert(`${componentName} 요청에 실패하였습니다.`);
-		}
-	}
-
-	const queryString = makeQueryString(paramObj);
-	const url = `api/${componentName}${queryString}`;
-
-	oReq.open("GET", url);
-	oReq.send();
-}
-
-const makeQueryString = (paramObj) => (paramObj ? ("?" + new URLSearchParams(paramObj)) : "");
-
-const isValid = (response) => (response && JSON.parse(response).items) ? true : false;
-
-const handleErr = (name) => console.log(name, 'error');
-
-const renderHTMLByTemplate = (items, componentName) => {
-	const templateHTML = document.getElementById(componentName + "Item").innerHTML;
-	let resultHTMLs = [];
-
-	items.forEach((item) => {
-		let replaced = templateHTML;
-		Object.keys(item).forEach((attr) =>
-			replaced = replaced.replaceAll(`{${attr}}`, item[attr]));
-		resultHTMLs.push(replaced);
-	});
-
-	return resultHTMLs;
-}
 
 const appendCategories = (data, componentName) => {
 	const { items } = JSON.parse(data);
@@ -88,6 +38,20 @@ const appendProducts = (data, componentName) => {
 	}
 
 	document.getElementById("event_count").innerHTML = totalCount + "개";
+}
+
+const renderHTMLByTemplate = (items, componentName) => {
+	const templateHTML = document.getElementById(componentName + "Item").innerHTML;
+	let resultHTMLs = [];
+
+	items.forEach((item) => {
+		let replaced = templateHTML;
+		Object.keys(item).forEach((attr) =>
+			replaced = replaced.replaceAll(`{${attr}}`, item[attr]));
+		resultHTMLs.push(replaced);
+	});
+
+	return resultHTMLs;
 }
 
 const setViewMoreBtnState = (state) => {
@@ -131,7 +95,7 @@ tabUI.addEventListener("click", (e) => {
 	clearCols();
 
 	const paramObj = { categoryId: selectedCategory };
-	getRequest("product", paramObj);
+	getRequest("product", DOMAppenders.product, paramObj);
 });
 
 
@@ -142,14 +106,17 @@ viewMoreBtn.addEventListener("click", () => {
 	const currentCategory = document.querySelector(".item.active").dataset.category;
 
 	const paramObj = { categoryId: currentCategory, start: currentItemCounts };
-	getRequest("product", paramObj);
+	getRequest("product", DOMAppenders.product, paramObj);
 });
 
 
-let promotionCounts = 0;
 let slideBox = document.getElementById("promotion-slide");
+
+let promotionCounts = 0;
 let promotionPos = 0;
-let tick = 0;
+
+let waitStart = null;
+const movePeriod = 2000;
 
 const runAnimation = () => {
 	let firstChildClone = slideBox.firstElementChild.cloneNode(true);
@@ -172,11 +139,16 @@ const blinkToStart = () => {
 	slideBox.style.left = 0;
 }
 
-const slideLeft = () => {
-	tick = (tick + 1) % 100;
+const slideLeft = (timestamp) => {
+	if (!tickStart) {
+		waitStart = timestamp;
+	}
 
-	if (tick === 0) {
+	const progress = timestamp - waitStart;
+
+	if (progress > movePeriod) {
 		movePositionLeft();
+		waitStart = timestamp;
 
 		if (promotionPos === promotionCounts - 1) {
 			setTimeout(blinkToStart, 1000);
@@ -187,5 +159,11 @@ const slideLeft = () => {
 
 	requestAnimationFrame(slideLeft);
 }
+
+const DOMAppenders = {
+	product: appendProducts,
+	promotion: appendPromotions,
+	category: appendCategories,
+};
 
 document.addEventListener("DOMContentLoaded", startLoad);

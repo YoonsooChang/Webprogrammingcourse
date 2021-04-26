@@ -49,6 +49,8 @@ public class ProductDao {
 
 	public int selectCountByCategory(int categoryId) {
 		Map<String, Integer> params = new HashMap<>();
+		params.put("categoryid", categoryId);
+
 		return jdbc.queryForObject(SELECT_COUNT_BY_CATEGORY, params, Integer.class);
 	}
 
