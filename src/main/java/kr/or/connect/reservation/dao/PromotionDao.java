@@ -1,6 +1,6 @@
 package kr.or.connect.reservation.dao;
 
-import static kr.or.connect.reservation.dao.sqls.PromotionDaoSqls.SELECT_ALL;
+import static kr.or.connect.reservation.dao.sqls.PromotionDaoSqls.SELECT_ALL_WITH_IMAGE_URL;
 
 import java.util.Collections;
 import java.util.List;
@@ -24,6 +24,6 @@ public class PromotionDao {
 	}
 
 	public List<Promotion> selectAll() {
-		return jdbc.query(SELECT_ALL, Collections.emptyMap(), rowMapper);
+		return jdbc.query(SELECT_ALL_WITH_IMAGE_URL, Collections.emptyMap(), rowMapper);
 	}
 }

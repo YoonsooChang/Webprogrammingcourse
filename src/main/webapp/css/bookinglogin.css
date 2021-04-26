@@ -16057,10 +16057,7 @@ select {
 	text-align: center;
 	vertical-align: middle;
 	-webkit-tap-highlight-color: transparent;
-}
-
-.event .section_event_tab .event_tab_lst>.item .anchor {
-	display: inline-block;
+	cursor: pointer;
 	margin-right: 13px;
 	padding: 10px 4.5px 10px 4px;
 	color: #000;
@@ -16068,7 +16065,7 @@ select {
 	line-height: 20px
 }
 
-.event .section_event_tab .event_tab_lst>.item .anchor.active {
+.event .section_event_tab .event_tab_lst>.item.active {
 	padding: 10px 4.5px 8px 4px;
 	color: #0aba16;
 	border-bottom: 2px solid #0aba16;

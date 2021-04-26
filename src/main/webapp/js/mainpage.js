@@ -1,4 +1,4 @@
-const loadTargets = ["promotion", "product"];
+const loadTargets = ["category", "promotion", "product"];
 const DOMAppenders = {};
 
 const startLoad = () => {
@@ -9,38 +9,37 @@ const startLoad = () => {
 const setDOMAppenders = () => {
 	DOMAppenders.product = appendProducts;
 	DOMAppenders.promotion = appendPromotions;
+	DOMAppenders.category = appendCategories;
 }
 
-const getRequest = (componentName, params) => {
+const getRequest = (componentName, paramObj) => {
 	let oReq = new XMLHttpRequest;
 
 	oReq.onload = function() {
 		if (oReq.readyState === XMLHttpRequest.DONE && oReq.status === 200) {
 			isValid(this.response)
-				? renderDOMByTemplate(this.response, componentName)
-				: renderErr(componentName);
+				? DOMAppenders[componentName](this.response, componentName)
+				: handleErr(componentName);
 		} else {
 			alert(`${componentName} 요청에 실패하였습니다.`);
 		}
 	}
 
-	const queryString = params ? makeQueryString(params) : "";
+	const queryString = makeQueryString(paramObj);
 	const url = `api/${componentName}${queryString}`;
 
 	oReq.open("GET", url);
 	oReq.send();
 }
 
-const makeQueryString = (params) => "?" + Object.entries(params)
-	.map(KVpair => `${KVpair[0]}=${KVpair[1]}`)
-	.reduce((acc, cur) => `${acc}&${cur}`);
-
+const makeQueryString = (paramObj) => (paramObj ? ("?" + new URLSearchParams(paramObj)) : "");
 
 const isValid = (response) => (response && JSON.parse(response).items) ? true : false;
 
-const renderDOMByTemplate = (data, name) => {
-	const { items, ...subData } = JSON.parse(data);
-	const templateHTML = document.getElementById(name + "Item").innerHTML;
+const handleErr = (name) => console.log(name, 'error');
+
+const renderHTMLByTemplate = (items, componentName) => {
+	const templateHTML = document.getElementById(componentName + "Item").innerHTML;
 	let resultHTMLs = [];
 
 	items.forEach((item) => {
@@ -50,30 +49,45 @@ const renderDOMByTemplate = (data, name) => {
 		resultHTMLs.push(replaced);
 	});
 
-	DOMAppenders[name](resultHTMLs, subData);
+	return resultHTMLs;
 }
 
-const renderErr = (name) => {
-	console.log(name, 'error');
+const appendCategories = (data, componentName) => {
+	const { items } = JSON.parse(data);
+
+	const htmls = renderHTMLByTemplate(items, componentName)
+	document.getElementById("category_tab").innerHTML += htmls.join("");
 }
 
-const appendPromotions = (htmls) => {
-	document.querySelector(".visual_img").innerHTML = htmls.join("");
-	startAnimation();
+const appendPromotions = (data, componentName) => {
+	const { items } = JSON.parse(data);
+
+	const htmls = renderHTMLByTemplate(items, componentName)
+	document.getElementById("promotion-slide").innerHTML = htmls.join("");
+
+	runAnimation();
 }
 
-const appendProducts = (htmls, subData) => {
-	const { totalCount } = subData;
+const appendProducts = (data, componentName) => {
+	const { items, totalCount } = JSON.parse(data);
+
+	const htmls = renderHTMLByTemplate(items, componentName)
+
 	const colCount = 2;
 	let cols = document.querySelectorAll(".lst_event_box");
-
 	htmls.forEach((html, index) =>
 		cols[index % colCount].innerHTML += html);
 
-	const currentItemCounts = (cols[0].children.length + cols[1].children.length);
-	(currentItemCounts === totalCount) && setViewMoreBtnState("off");
+	let itemCountsNode = document.getElementById("item-count");
+	const currentItemCounts = parseInt(itemCountsNode.value) + htmls.length;
 
-	document.querySelector("#event_count").innerHTML = totalCount + "개";
+	itemCountsNode.value = currentItemCounts;
+
+	if (currentItemCounts === totalCount) {
+		setViewMoreBtnState("off");
+	}
+
+	document.getElementById("event_count").innerHTML = totalCount + "개";
 }
 
 const setViewMoreBtnState = (state) => {
@@ -82,25 +96,17 @@ const setViewMoreBtnState = (state) => {
 }
 
 const getCategoryFromClicked = (clicked) => {
-	const tagName = clicked.tagName;
-
-	if (tagName === "UL") {
+	if (clicked.tagName === "UL") {
 		return null;
 	}
 
-	if (tagName !== "LI") {
-		const closest = clicked.closest("LI");
-		category = closest.dataset.category;
-	} else {
-		category = clicked.dataset.category;
-	}
-
-	return category;
+	return clicked.dataset.category;
 }
 
-const clearCols = () => document.querySelectorAll(".lst_event_box")
-	.forEach(col => col.innerHTML = "");
-
+const clearCols = () => {
+	document.querySelectorAll(".lst_event_box").forEach(col => col.innerHTML = "");
+	document.getElementById("item-count").value = "0";
+}
 
 let tabUI = document.querySelector(".event_tab_lst");
 
@@ -111,75 +117,75 @@ tabUI.addEventListener("click", (e) => {
 		return;
 	}
 
-	const currentAnchor = document.querySelector(".active");
-	const currentCategory = currentAnchor.closest("LI").dataset.category;
+	const currentTab = document.querySelector(".item.active");
+	const currentCategory = currentTab.dataset.category;
 	if (selectedCategory === currentCategory) {
 		return;
 	}
 
-	currentAnchor.className = "anchor";
-
-	document.querySelectorAll(".anchor").forEach(anchor => {
-		(anchor.closest("LI").dataset.category === selectedCategory) && (anchor.className = "anchor active");
-	});
+	const selectedTab = document.querySelector(`li[data-category="${selectedCategory}"]`);
+	currentTab.classList.remove("active");
+	selectedTab.classList.add("active");
 
 	setViewMoreBtnState("on");
 	clearCols();
 
-	const params = (category === "0" ? null : { categoryId: selectedCategory });
-	getRequest("product", params);
+	const paramObj = { categoryId: selectedCategory };
+	getRequest("product", paramObj);
 });
 
 
 let viewMoreBtn = document.querySelector(".btn_more");
 
 viewMoreBtn.addEventListener("click", () => {
-	const cols = document.querySelectorAll(".lst_event_box");
-	const currentItemCounts = (cols[0].children.length + cols[1].children.length);
+	const currentItemCounts = document.getElementById("item-count").value;
+	const currentCategory = document.querySelector(".item.active").dataset.category;
 
-	const anchor = document.querySelector(".active");
-	const category = anchor.closest("LI").dataset.category;
-
-	let params = { start: currentItemCounts };
-	(category !== "0") && (params = { categoryId: category, ...params });
-
-	getRequest("product", params);
+	const paramObj = { categoryId: currentCategory, start: currentItemCounts };
+	getRequest("product", paramObj);
 });
 
 
 let promotionCounts = 0;
-let slideBox = document.querySelector(".visual_img");
+let slideBox = document.getElementById("promotion-slide");
 let promotionPos = 0;
 let tick = 0;
 
-const startAnimation = () => {
+const runAnimation = () => {
 	let firstChildClone = slideBox.firstElementChild.cloneNode(true);
 	slideBox.appendChild(firstChildClone);
 	slideBox.style.left = 0;
 
 	promotionCounts = slideBox.children.length;
 
-	requestAnimationFrame(slideRight);
+	requestAnimationFrame(slideLeft);
 }
 
-const slideRight = () => {
-	tick = (tick + 1) % 50;
+const movePositionLeft = () => {
+	promotionPos = (promotionPos + 1) % promotionCounts;
+	slideBox.style.left = -promotionPos * 100 + "%";
+}
+
+const blinkToStart = () => {
+	slideBox.style.transition = "none";
+	promotionPos = 0;
+	slideBox.style.left = 0;
+}
+
+const slideLeft = () => {
+	tick = (tick + 1) % 100;
+
 	if (tick === 0) {
-		promotionPos = (promotionPos + 1) % promotionCounts;
-		slideBox.style.left = -promotionPos * 100 + "%";
+		movePositionLeft();
 
 		if (promotionPos === promotionCounts - 1) {
-			setTimeout(function() {
-				slideBox.style.transition = "none";
-				promotionPos = 0;
-				slideBox.style.left = 0;
-			}, 1000);
+			setTimeout(blinkToStart, 1000);
 		} else {
-			slideBox.style.transition = "left 1s ease-in-out";
+			slideBox.style.transition = "left 1s ease-in";
 		}
 	}
 
-	requestAnimationFrame(slideRight);
+	requestAnimationFrame(slideLeft);
 }
 
 document.addEventListener("DOMContentLoaded", startLoad);

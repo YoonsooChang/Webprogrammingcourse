@@ -39,7 +39,7 @@ public class DBConfig {
 	}
 
 	@Bean
-	public PlatformTransactionManager getTransactionManager() {
+	public PlatformTransactionManager platformTransactionManager() {
 		return new DataSourceTransactionManager(dataSource());
 	}
 

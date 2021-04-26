@@ -4917,7 +4917,7 @@ select {
 	color: #fff;
 	white-space: nowrap;
 	/* animation 추가 */
-	transition: left 1s ease-in-out;
+	transition: left 1s ease-in;
 }
 
 .group_visual .visual_img .item {

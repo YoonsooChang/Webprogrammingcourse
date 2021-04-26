@@ -4,5 +4,4 @@ import kr.or.connect.reservation.dto.PromotionResponse;
 
 public interface PromotionService {
 	PromotionResponse getPromotions();
-
 }
