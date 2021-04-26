@@ -1,31 +1,31 @@
 package kr.or.connect.reservation.dto;
 
 public class Promotion {
-	private Integer id;
-	private Integer productId;
-	private Integer productImageId;
+	private int id;
+	private int productId;
+	private int productImageId;
 
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
-	public Integer getProductId() {
+	public int getProductId() {
 		return productId;
 	}
 
-	public void setProductId(Integer productId) {
+	public void setProductId(int productId) {
 		this.productId = productId;
 	}
 
-	public Integer getProductImageId() {
+	public int getProductImageId() {
 		return productImageId;
 	}
 
-	public void setProductImageId(Integer productImageId) {
+	public void setProductImageId(int productImageId) {
 		this.productImageId = productImageId;
 	}
 

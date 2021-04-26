@@ -1,9 +1,9 @@
 package kr.or.connect.reservation.dto;
 
 public class Category {
-	private Integer id;
+	private int id;
 	private String name;
-	private Integer count;
+	private int count;
 
 	public String getName() {
 		return name;
@@ -13,19 +13,19 @@ public class Category {
 		this.name = name;
 	}
 
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
-	public Integer getCount() {
+	public int getCount() {
 		return count;
 	}
 
-	public void setCount(Integer count) {
+	public void setCount(int count) {
 		this.count = count;
 	}
 

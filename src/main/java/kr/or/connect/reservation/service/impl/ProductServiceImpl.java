@@ -19,10 +19,7 @@ public class ProductServiceImpl implements ProductService {
 	public ProductResponse getProductsByCategoryId(Integer categoryId, Integer start) {
 		List<Product> list = productDao.selectByCategory(categoryId, start, LIMIT);
 		Integer totalCount = productDao.selectCountByCategory(categoryId);
-
-		ProductResponse productResponse = new ProductResponse();
-		productResponse.setItems(list);
-		productResponse.setTotalCount(totalCount);
+		ProductResponse productResponse = new ProductResponse(list, totalCount);
 
 		return productResponse;
 	}

@@ -4,7 +4,13 @@ import java.util.List;
 
 public class ProductResponse {
 	private List<Product> items;
-	private Integer totalCount;
+	private int totalCount;
+
+	public ProductResponse(List<Product> items, int totalCount) {
+		super();
+		this.items = items;
+		this.totalCount = totalCount;
+	}
 
 	public List<Product> getItems() {
 		return items;
@@ -14,11 +20,11 @@ public class ProductResponse {
 		this.items = items;
 	}
 
-	public Integer getTotalCount() {
+	public int getTotalCount() {
 		return totalCount;
 	}
 
-	public void setTotalCount(Integer totalCount) {
+	public void setTotalCount(int totalCount) {
 		this.totalCount = totalCount;
 	}
 

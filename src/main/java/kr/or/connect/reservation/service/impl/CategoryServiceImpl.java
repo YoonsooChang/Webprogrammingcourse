@@ -20,9 +20,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Transactional
 	public CategoryResponse getCategories() {
 		List<Category> list = categoryDao.selectAll();
-
-		CategoryResponse categoryResponse = new CategoryResponse();
-		categoryResponse.setItems(list);
+		CategoryResponse categoryResponse = new CategoryResponse(list);
 
 		return categoryResponse;
 	}

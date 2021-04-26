@@ -20,7 +20,7 @@ public class ProductApiController {
 	Integer categoryId,
 		@RequestParam(name = "start", required = false, defaultValue = "0")
 		Integer start) {
-		ProductResponse productList = productService.getProductsByCategoryId(categoryId, start);
-		return productList;
+		ProductResponse productResponse = productService.getProductsByCategoryId(categoryId, start);
+		return productResponse;
 	}
 }

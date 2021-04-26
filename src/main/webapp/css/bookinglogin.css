@@ -16056,7 +16056,7 @@ select {
 	font-size: 16px;
 	text-align: center;
 	vertical-align: middle;
-	-webkit-tap-highlight-color: transparent
+	-webkit-tap-highlight-color: transparent;
 }
 
 .event .section_event_tab .event_tab_lst>.item .anchor {
@@ -16192,6 +16192,8 @@ select {
 }
 
 .event .wrap_event_box .lst_event_box .item .event_txt .event_txt_dsc {
+	/* height 추가 */
+	height: 50px;
 	margin-left: 2px;
 	margin-right: 2px;
 	font-size: 16px;

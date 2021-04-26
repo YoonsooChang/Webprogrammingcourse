@@ -16,7 +16,7 @@ public class PromotionApiController {
 
 	@GetMapping
 	public PromotionResponse list() {
-		PromotionResponse promotionList = promotionService.getPromotions();
-		return promotionList;
+		PromotionResponse promotionResponse = promotionService.getPromotions();
+		return promotionResponse;
 	}
 }
