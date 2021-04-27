@@ -16,11 +16,11 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public ProductResponse getProductsByCategoryId(int categoryId, int start) {
-		if (categoryId == 0) {
-			return new ProductResponse(productDao.selectAll(start, LIMIT),
+		if (categoryId == ProductService.CATEGORY_ALL) {
+			return new ProductResponse(productDao.selectAll(start, ProductService.LIMIT),
 				productDao.selectCountAll());
 		} else {
-			return new ProductResponse(productDao.selectByCategory(categoryId, start, LIMIT),
+			return new ProductResponse(productDao.selectByCategory(categoryId, start, ProductService.LIMIT),
 				productDao.selectCountByCategory(categoryId));
 		}
 

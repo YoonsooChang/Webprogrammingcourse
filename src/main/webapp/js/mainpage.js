@@ -1,28 +1,29 @@
-const startLoad = () =>
-	Object.keys(DOMAppenders)
-		.forEach(target => getRequest(`api/${target}`, target, DOMAppenders[target]));
+const startLoad = () => {
+	categoryReqHandler.getRequest();
+	promotionReqHandler.getRequest();
+	productReqHandler.getRequest();
+}
 
-
-const appendCategories = (data, componentName) => {
+const appendCategories = (data) => {
 	const { items } = JSON.parse(data);
 
-	const htmls = renderHTMLByTemplate(items, componentName)
+	const htmls = renderHTMLByTemplate(items, "category")
 	document.getElementById("category_tab").innerHTML += htmls.join("");
 }
 
-const appendPromotions = (data, componentName) => {
+const appendPromotions = (data) => {
 	const { items } = JSON.parse(data);
 
-	const htmls = renderHTMLByTemplate(items, componentName)
+	const htmls = renderHTMLByTemplate(items, "promotion")
 	document.getElementById("promotion-slide").innerHTML = htmls.join("");
 
 	runAnimation();
 }
 
-const appendProducts = (data, componentName) => {
+const appendProducts = (data) => {
 	const { items, totalCount } = JSON.parse(data);
 
-	const htmls = renderHTMLByTemplate(items, componentName)
+	const htmls = renderHTMLByTemplate(items, "product")
 
 	const colCount = 2;
 	let cols = document.querySelectorAll(".lst_event_box");
@@ -96,7 +97,7 @@ tabUI.addEventListener("click", (e) => {
 	clearCols();
 
 	const paramObj = { categoryId: selectedCategory };
-	getRequest("api/product", "product", DOMAppenders.product, paramObj);
+	productReqHandler.getRequest(paramObj);
 });
 
 
@@ -107,7 +108,7 @@ viewMoreBtn.addEventListener("click", () => {
 	const currentCategory = document.querySelector(".item.active").dataset.category;
 
 	const paramObj = { categoryId: currentCategory, start: currentItemCounts };
-	getRequest("api/product", "product", DOMAppenders.product, paramObj);
+	productReqHandler.getRequest(paramObj);
 });
 
 
@@ -161,10 +162,21 @@ const slideLeftInfinite = (timestamp) => {
 	requestAnimationFrame(slideLeftInfinite);
 }
 
-const DOMAppenders = {
-	product: appendProducts,
-	promotion: appendPromotions,
-	category: appendCategories,
-};
+const printReqErr = () => console.log("응답 형식이 잘못되었습니다.");
+
+const hasItem = (data) => {
+	try {
+		data = JSON.parse(data);
+		return (data && data.items) ? true : false;
+	} catch (parseErr) {
+		alert("응답 형식이 잘못되었습니다.\n" + parseErr);
+	}
+
+	return false;
+}
+
+const categoryReqHandler = new RequestHandler(`api/category`, appendCategories, printReqErr, hasItem);
+const promotionReqHandler = new RequestHandler(`api/promotion`, appendPromotions, printReqErr, hasItem);
+const productReqHandler = new RequestHandler(`api/product`, appendProducts, printReqErr, hasItem);
 
 document.addEventListener("DOMContentLoaded", startLoad);

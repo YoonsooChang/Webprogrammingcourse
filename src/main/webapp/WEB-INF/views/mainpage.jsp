@@ -171,7 +171,7 @@
         </li>
     </script>
 
-	<script src="js/request.js">
+	<script src="js/RequestHandler.js">
 		
 	</script>
 	<script src="js/mainpage.js">

@@ -94,7 +94,7 @@
 				<div class="section_store_details">
 					<!-- [D] 펼쳐보기 클릭 시 store_details에 close3 제거 -->
 					<div class="store_details close3">
-						<p id="product-description" class="dsc">
+						<p class="dsc product-description">
 							<!-- 상품 설명 productDescription -->
 						</p>
 					</div>
@@ -131,11 +131,11 @@
 							<div class="grade_area">
 								<!-- [D] 별점 graph_value는 퍼센트 환산하여 width 값을 넣어줌 -->
 								<span class="graph_mask"> <em id="star-score"
-									class="graph_value" style="width: 84%;"></em>
-								</span> <strong class="text_value"> <span></span> <em
-									id="average-score" class="total">5.0</em>
-								</strong> <span class="join_count"><em id="comment-counts"
-									class="green">52건</em> 등록</span>
+									class="graph_value" style="width: 84%;"></em> <strong
+									class="text_value"> <span id="average-score">4.2</span>
+										<em class="total">5.0</em>
+								</strong> </strong> <span class="join_count"><em id="comment-counts"
+										class="green">52건</em> 등록</span>
 							</div>
 							<ul class="list_short_review">
 								<!-- 댓글(Comment) -->
@@ -166,7 +166,7 @@
 								<h3 class="blind">상세정보</h3>
 								<ul class="detail_info_group">
 									<li class="detail_info_lst"><strong class="in_tit">[소개]</strong>
-										<p id="in-product-description" class="in_dsc">
+										<p class="in_dsc product-description">
 											<!-- 상품설명2 (productDescription) -->
 										</p></li>
 									<li class="detail_info_lst"><strong class="in_tit">[공지사항]</strong>
@@ -298,7 +298,7 @@
 									</li>
     </script>
 
-	<script src="js/request.js">
+	<script src="js/RequestHandler.js">
 		
 	</script>
 	<script src="js/detail.js">
