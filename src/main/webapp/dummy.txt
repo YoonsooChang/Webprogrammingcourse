@@ -1,0 +1,86 @@
+{
+  "averageScore": 0,
+  "comments": [
+    {
+      "comment": "string",
+      "commentId": 0,
+      "commentImages": [
+        {
+          "contentType": "string",
+          "createDate": "2021-04-27T07:36:03.058Z",
+          "deleteFlag": true,
+          "fileId": 0,
+          "fileName": "string",
+          "imageId": 0,
+          "modifyDate": "2021-04-27T07:36:03.058Z",
+          "reservationInfoId": 0,
+          "reservationUserCommentId": 0,
+          "saveFileName": "string"
+        }
+      ],
+      "createDate": "2021-04-27T07:36:03.058Z",
+      "modifyDate": "2021-04-27T07:36:03.058Z",
+      "productId": 0,
+      "reservationDate": "2021-04-27T07:36:03.058Z",
+      "reservationEmail": "string",
+      "reservationInfoId": 0,
+      "reservationName": "string",
+      "reservationTelephone": "string",
+      "score": 0
+    }
+  ],
+  "displayInfo": {
+    "categoryId": 0,
+    "categoryName": "string",
+    "createDate": "2021-04-27T07:36:03.058Z",
+    "displayInfoId": 0,
+    "email": "string",
+    "homepage": "string",
+    "modifyDate": "2021-04-27T07:36:03.058Z",
+    "openingHours": "string",
+    "placeLot": "string",
+    "placeName": "string",
+    "placeStreet": "string",
+    "productContent": "string",
+    "productDescription": "string",
+    "productEvent": "string",
+    "productId": 0,
+    "telephone": "string"
+  },
+  "displayInfoImage": {
+    "contentType": "string",
+    "createDate": "2021-04-27T07:36:03.058Z",
+    "deleteFlag": true,
+    "displayInfoId": 0,
+    "displayInfoImageId": 0,
+    "fileId": 0,
+    "fileName": "string",
+    "modifyDate": "2021-04-27T07:36:03.058Z",
+    "saveFileName": "string"
+  },
+  "productImages": [
+    {
+      "contentType": "string",
+      "createDate": "2021-04-27T07:36:03.058Z",
+      "deleteFlag": true,
+      "fileInfoId": 0,
+      "fileName": "string",
+      "modifyDate": "2021-04-27T07:36:03.058Z",
+      "productId": 0,
+      "productImageId": 0,
+      "saveFileName": "string",
+      "type": "ma"
+    }
+  ],
+  "productPrices": [
+    {
+      "createDate": "2021-04-27T07:36:03.058Z",
+      "discountRate": 0,
+      "modifyDate": "2021-04-27T07:36:03.058Z",
+      "price": 0,
+      "priceTypeName": "string",
+      "productId": 0,
+      "productPriceId": 0
+    }
+  ]
+}

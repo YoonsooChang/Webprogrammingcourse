@@ -1,5 +1,6 @@
 const startLoad = () =>
-	Object.keys(DOMAppenders).forEach(target => getRequest(target, DOMAppenders[target]));
+	Object.keys(DOMAppenders)
+		.forEach(target => getRequest(`api/${target}`, target, DOMAppenders[target]));
 
 
 const appendCategories = (data, componentName) => {
@@ -95,7 +96,7 @@ tabUI.addEventListener("click", (e) => {
 	clearCols();
 
 	const paramObj = { categoryId: selectedCategory };
-	getRequest("product", DOMAppenders.product, paramObj);
+	getRequest("api/product", "product", DOMAppenders.product, paramObj);
 });
 
 
@@ -106,7 +107,7 @@ viewMoreBtn.addEventListener("click", () => {
 	const currentCategory = document.querySelector(".item.active").dataset.category;
 
 	const paramObj = { categoryId: currentCategory, start: currentItemCounts };
-	getRequest("product", DOMAppenders.product, paramObj);
+	getRequest("api/product", "product", DOMAppenders.product, paramObj);
 });
 
 
@@ -125,7 +126,7 @@ const runAnimation = () => {
 
 	promotionCounts = slideBox.children.length;
 
-	requestAnimationFrame(slideLeft);
+	requestAnimationFrame(slideLeftInfinite);
 }
 
 const movePositionLeft = () => {
@@ -139,8 +140,8 @@ const blinkToStart = () => {
 	slideBox.style.left = 0;
 }
 
-const slideLeft = (timestamp) => {
-	if (!tickStart) {
+const slideLeftInfinite = (timestamp) => {
+	if (!waitStart) {
 		waitStart = timestamp;
 	}
 
@@ -157,7 +158,7 @@ const slideLeft = (timestamp) => {
 		}
 	}
 
-	requestAnimationFrame(slideLeft);
+	requestAnimationFrame(slideLeftInfinite);
 }
 
 const DOMAppenders = {
