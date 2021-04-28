@@ -1,9 +1,9 @@
 const startLoad = () => {
-	const urlParams = new URL(window.location.href).searchParams;
-	reqHandler.getRequest(urlParams);
+	reqHandler.getRequest();
 };
 
 const appendDetails = (data) => {
+	console.log(data)
 	const { averageScore,
 		comments,
 		displayInfo,
@@ -15,6 +15,8 @@ const appendDetails = (data) => {
 	document.querySelectorAll(".product-description").forEach(item => item.innerText = displayInfo.productDescription);
 }
 
-const reqHandler = new RequestHandler('dummy.txt', appendDetails, () => console.log('error'), () => true)
+
+const urlGetParams = new URL(window.location.href).searchParams;
+const reqHandler = new RequestHandler(`api/display/${urlGetParams.get("id")}`, appendDetails, () => console.log('error'), () => true)
 
 document.addEventListener("DOMContentLoaded", startLoad);

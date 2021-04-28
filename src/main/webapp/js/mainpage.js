@@ -175,8 +175,8 @@ const hasItem = (data) => {
 	return false;
 }
 
-const categoryReqHandler = new RequestHandler(`api/category`, appendCategories, printReqErr, hasItem);
-const promotionReqHandler = new RequestHandler(`api/promotion`, appendPromotions, printReqErr, hasItem);
-const productReqHandler = new RequestHandler(`api/product`, appendProducts, printReqErr, hasItem);
+const categoryReqHandler = new RequestHandler("api/category", appendCategories, printReqErr, hasItem);
+const promotionReqHandler = new RequestHandler("api/promotion", appendPromotions, printReqErr, hasItem);
+const productReqHandler = new RequestHandler("api/product", appendProducts, printReqErr, hasItem);
 
 document.addEventListener("DOMContentLoaded", startLoad);
