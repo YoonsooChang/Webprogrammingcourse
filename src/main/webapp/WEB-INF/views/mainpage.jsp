@@ -21,11 +21,11 @@
 				<h1 class="logo">
 					<a href="https://m.naver.com/" class="lnk_logo" title="네이버"> <span
 						class="spr_bi ico_n_logo">네이버</span>
-					</a> <a href="./myreservation.html" class="lnk_logo" title="예약"> <span
+					</a> <a href="" class="lnk_logo" title="예약"> <span
 						class="spr_bi ico_bk_logo">예약</span>
 					</a>
 				</h1>
-				<a href="./bookinglogin.html" class="btn_my"> <span
+				<a href="bookinglogin" class="btn_my"> <span
 					class="viewReservation" title="예약확인">예약확인</span>
 				</a>
 			</header>
@@ -52,8 +52,8 @@
 						<div>
 							<div class="container_visual">
 								<!-- 슬라이딩기능: 이미지 (type = 'th')를 순차적으로 노출 -->
-								<ul class="visual_img">
-									<!-- 테스트 용 백그라운드 
+								<ul id="promotion-slide" class="visual_img">
+									<!-- 테스트용 프로모션 
 									<li class="item" style="background-color: #fff;"><a
 										href="#"> <span class="img_btm_border"></span> <span
 											class="img_right_border"></span> <span class="img_bg_gra"></span>
@@ -99,29 +99,9 @@
 				</div>
 			</div>
 			<div class="section_event_tab">
-				<ul class="event_tab_lst tab_lst_min">
-					<li class="item" data-category="0"><a class="anchor active">
-							<span>전체리스트</span>
-					</a></li>
-					<li class="item" data-category="1"><a class="anchor"> <span>전시</span>
-					</a></li>
-					<li class="item" data-category="2"><a class="anchor"> <span>뮤지컬</span>
-					</a></li>
-					<li class="item" data-category="3"><a class="anchor"> <span>콘서트</span>
-					</a></li>
-					<li class="item" data-category="4"><a class="anchor"> <span>클래식</span>
-					</a></li>
-					<li class="item" data-category="5"><a class="anchor"> <span>연극</span>
-					</a></li>
-					<!-- li class="item" data-category="7">
-                        <a class="anchor"> <span>클래스</span> </a>
-                    </li>
-                    <li class="item" data-category="8">
-                        <a class="anchor"> <span>체험</span> </a>
-                    </li>
-                    <li class="item" data-category="9">
-                        <a class="anchor last"> <span>키즈</span> </a>
-                    </li -->
+				<ul id="category_tab" class="event_tab_lst tab_lst_min">
+					<li class="item active" data-category="0">전체리스트</li>
+					<!--  카테고리  -->
 				</ul>
 			</div>
 			<div class="section_event_lst">
@@ -136,6 +116,7 @@
 					<ul class="lst_event_box">
 						<!-- 2번째 column -->
 					</ul>
+					<input type="hidden" id="item-count" value="0">
 					<!-- 더보기 -->
 					<div class="wrap_btn">
 						<button class="btn_more">
@@ -158,24 +139,28 @@
 		</div>
 	</footer>
 
+	<script type="rv-template" id="categoryItem">
+		<li class="item" data-category={id}>{name}
+		</a></li>
+    </script>
 
 	<script type="rv-template" id="promotionItem">
-    <li class="item" style="background-image: url(http://211.249.62.123/productImages/{productId}/{productImageId});">
-        <a href="#"> <span class="img_btm_border"></span> <span class="img_right_border"></span> <span class="img_bg_gra"></span>
-            <div class="event_txt">
-                <h4 class="event_txt_tit"></h4>
-                <p class="event_txt_adr"></p>
-                <p class="event_txt_dsc"></p>
-            </div>
-        </a>
-    </li>
+    	<li class="item" style="background-image: url({productImageUrl});">
+    	    <a href="#"> <span class="img_btm_border"></span> <span class="img_right_border"></span> <span class="img_bg_gra"></span>
+    	        <div class="event_txt">
+    	            <h4 class="event_txt_tit"></h4>
+    	            <p class="event_txt_adr"></p>
+    	            <p class="event_txt_dsc"></p>
+    	        </div>
+    	    </a>
+    	</li>
     </script>
 
 	<script type="rv-template" id="productItem">
         <li class="item">
-            <a href="detail.html?id={productId}" class="item_book">
+            <a href="detail?id={displayInfoId}" class="item_book">
                 <div class="item_preview">
-                    <img alt="{productDescription}" class="img_thumb" src="http://211.249.62.123/productImages/{productId}?type=th">
+                    <img alt="{productDescription}" class="img_thumb" src="{productImageUrl}">
                     <span class="img_border"></span>
                 </div>
                 <div class="event_txt">
@@ -186,6 +171,9 @@
         </li>
     </script>
 
+	<script src="js/RequestHandler.js">
+		
+	</script>
 	<script src="js/mainpage.js">
 		
 	</script>

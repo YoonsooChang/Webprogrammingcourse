@@ -1626,9 +1626,9 @@ hr {
 
 .spr_icons {
 	width: 30px;
-	height: 30px; //
+	height: 30px; 
 	background-image:
-		url(../../img/spr_icons.629bfb7d82c6c1d00d86af55a6ead979.png);
+		url(../img/spr_icons.629bfb7d82c6c1d00d86af55a6ead979.png);
 	background-size: 200px 320px;
 	font-size: 0
 }
@@ -1853,7 +1853,7 @@ hr {
 	background-position: 0 -288px
 }
 
-.spr_book { //
+.spr_book {
 	background-image:
 		url(../img/spr_book.ada46c4e031284d4b513fda5c38b5187.png);
 	background-size: 400px 400px
@@ -2381,7 +2381,7 @@ hr {
 
 .spr_green_ticket {
 	background-image:
-		url('.../img/spr_green_ticket.73feec583d697621ed02757442ae3009.png');
+		url('../img/spr_green_ticket.73feec583d697621ed02757442ae3009.png');
 	background-size: 230px 70px
 }
 
@@ -5103,7 +5103,7 @@ select {
 	display: inline-block;
 	color: transparent;
 	background-image:
-		url(.../img/spr_book.ada46c4e031284d4b513fda5c38b5187.png);
+		url(../img/spr_book.ada46c4e031284d4b513fda5c38b5187.png);
 	vertical-align: top
 }
 
@@ -14220,7 +14220,7 @@ select {
 	height: 14px;
 	margin-right: 5px;
 	background-image:
-		url(../img/spr_comment.ff5a8d338b14ea0341f85205cde86b81.png);
+		url(../img/spr_comment.png);
 	background-repeat: no-repeat;
 	background-size: 90px 130px;
 	background-position: 0 -61px;
@@ -14235,7 +14235,7 @@ select {
 	vertical-align: top;
 	float: left;
 	background-image:
-		url(../img/spr_comment.ff5a8d338b14ea0341f85205cde86b81.png);
+		url(../img/spr_comment.png);
 	background-repeat: no-repeat;
 	background-size: 90px 130px;
 	background-position: 0 -76px
@@ -14310,7 +14310,7 @@ select {
 	height: 32px;
 	margin-left: -38px;
 	background-image:
-		url(../img/spr_comment.ff5a8d338b14ea0341f85205cde86b81.png);
+		url(../img/spr_comment.png);
 	background-repeat: no-repeat;
 	background-size: 90px 130px;
 	background-position: 0 -92px;
@@ -14810,7 +14810,7 @@ select {
 .section_review_list .grade_area .graph_mask, .section_review_list .grade_area .graph_value,
 	.section_review_list .short_review_area .review_info .grade:before {
 	background-image:
-		url(../img/spr_comment.ff5a8d338b14ea0341f85205cde86b81.png);
+		url(../img/spr_comment.png);
 	background-repeat: no-repeat;
 	background-size: 90px 130px
 }
@@ -16057,10 +16057,7 @@ select {
 	text-align: center;
 	vertical-align: middle;
 	-webkit-tap-highlight-color: transparent;
-}
-
-.event .section_event_tab .event_tab_lst>.item .anchor {
-	display: inline-block;
+	cursor: pointer;
 	margin-right: 13px;
 	padding: 10px 4.5px 10px 4px;
 	color: #000;
@@ -16068,7 +16065,7 @@ select {
 	line-height: 20px
 }
 
-.event .section_event_tab .event_tab_lst>.item .anchor.active {
+.event .section_event_tab .event_tab_lst>.item.active {
 	padding: 10px 4.5px 8px 4px;
 	color: #0aba16;
 	border-bottom: 2px solid #0aba16;

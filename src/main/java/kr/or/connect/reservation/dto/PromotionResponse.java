@@ -14,10 +14,6 @@ public class PromotionResponse {
 		return items;
 	}
 
-	public void setItems(List<Promotion> items) {
-		this.items = items;
-	}
-
 	@Override
 	public String toString() {
 		return "PromotionResponse [items=" + items + "]";

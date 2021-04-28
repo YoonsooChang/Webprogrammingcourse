@@ -1,8 +1,11 @@
 package kr.or.connect.reservation.dao;
 
+import static kr.or.connect.reservation.dao.sqls.ProductDaoSqls.SELECT_ALL;
 import static kr.or.connect.reservation.dao.sqls.ProductDaoSqls.SELECT_BY_CATEGORY;
+import static kr.or.connect.reservation.dao.sqls.ProductDaoSqls.SELECT_COUNT_ALL;
 import static kr.or.connect.reservation.dao.sqls.ProductDaoSqls.SELECT_COUNT_BY_CATEGORY;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +28,7 @@ public class ProductDao {
 		this.jdbc = new NamedParameterJdbcTemplate(dataSource);
 	}
 
-	public List<Product> selectByCategory(Integer categoryId, Integer start, Integer limit) {
+	public List<Product> selectByCategory(int categoryId, int start, int limit) {
 		Map<String, Integer> params = new HashMap<>();
 		params.put("start", start);
 		params.put("limit", limit);
@@ -35,11 +38,23 @@ public class ProductDao {
 		return productList;
 	}
 
-	public Integer selectCountByCategory(Integer categoryId) {
+	public List<Product> selectAll(int start, int limit) {
+		Map<String, Integer> params = new HashMap<>();
+		params.put("start", start);
+		params.put("limit", limit);
+
+		List<Product> productList = jdbc.query(SELECT_ALL, params, rowMapper);
+		return productList;
+	}
+
+	public int selectCountByCategory(int categoryId) {
 		Map<String, Integer> params = new HashMap<>();
 		params.put("categoryid", categoryId);
 
 		return jdbc.queryForObject(SELECT_COUNT_BY_CATEGORY, params, Integer.class);
 	}
 
+	public int selectCountAll() {
+		return jdbc.queryForObject(SELECT_COUNT_ALL, Collections.emptyMap(), Integer.class);
+	}
 }

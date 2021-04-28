@@ -3,7 +3,7 @@ package kr.or.connect.reservation.dto;
 public class Promotion {
 	private int id;
 	private int productId;
-	private int productImageId;
+	private String productImageUrl;
 
 	public int getId() {
 		return id;
@@ -21,17 +21,17 @@ public class Promotion {
 		this.productId = productId;
 	}
 
-	public int getProductImageId() {
-		return productImageId;
+	public String getProductImageUrl() {
+		return productImageUrl;
 	}
 
-	public void setProductImageId(int productImageId) {
-		this.productImageId = productImageId;
+	public void setProductImageUrl(String productImageUrl) {
+		this.productImageUrl = productImageUrl;
 	}
 
 	@Override
 	public String toString() {
-		return "Promotion [id=" + id + ", productId=" + productId + ", productImageId=" + productImageId + "]";
+		return "Promotion [id=" + id + ", productId=" + productId + ", productImageUrl=" + productImageUrl + "]";
 	}
 
 }
