@@ -1,6 +1,7 @@
 package kr.or.connect.reservation.dao;
 
 import static kr.or.connect.reservation.dao.sqls.CommentDaoSqls.SELECT_BY_DISPLAY_ID_AND_PRODUCT_ID_EXCEPT_IMAGE;
+import static kr.or.connect.reservation.dao.sqls.CommentDaoSqls.SELECT_BY_DISPLAY_ID_AND_PRODUCT_ID_EXCEPT_IMAGE_LIMIT;
 import static kr.or.connect.reservation.dao.sqls.CommentDaoSqls.SELECT_IMAGES_BY_COMMENT_ID;
 
 import java.util.HashMap;
@@ -27,22 +28,42 @@ public class CommentDao {
 		this.jdbc = new NamedParameterJdbcTemplate(dataSource);
 	}
 
-	public List<Comment> selectByDisplayInfoIdAndProductId(int productId, int displayInfoId, int limit) {
+	public List<Comment> selectByDisplayInfoIdAndProductId(int productId, int displayInfoId) {
+		Map<String, Integer> params = new HashMap<>();
+		params.put("productId", productId);
+		params.put("displayInfoId", displayInfoId);
+
+		List<Comment> comments = jdbc.query(SELECT_BY_DISPLAY_ID_AND_PRODUCT_ID_EXCEPT_IMAGE, params, itemMapper);
+
+		comments.forEach(comment -> {
+			List<CommentImage> commentImages = selectImagesByReservationIdAndCommentId(comment);
+			comment.setCommentImages(commentImages);
+		});
+
+		return comments;
+	}
+
+	public List<Comment> selectByDisplayInfoIdAndProductIdLimit(int productId, int displayInfoId, int limit) {
 		Map<String, Integer> params = new HashMap<>();
 		params.put("productId", productId);
 		params.put("displayInfoId", displayInfoId);
 		params.put("limit", limit);
 
-		List<Comment> comments = jdbc.query(SELECT_BY_DISPLAY_ID_AND_PRODUCT_ID_EXCEPT_IMAGE, params, itemMapper);
+		List<Comment> comments = jdbc.query(SELECT_BY_DISPLAY_ID_AND_PRODUCT_ID_EXCEPT_IMAGE_LIMIT, params, itemMapper);
 
 		comments.forEach(comment -> {
-			Map<String, Integer> paramsForImage = Map.of(
-				"reservationInfoId", comment.getReservationInfoId(),
-				"commentId", comment.getCommentId());
-			List<CommentImage> commentImages = jdbc.query(SELECT_IMAGES_BY_COMMENT_ID, paramsForImage, imageMapper);
+			List<CommentImage> commentImages = selectImagesByReservationIdAndCommentId(comment);
 			comment.setCommentImages(commentImages);
 		});
 
 		return comments;
+	}
+
+	public List<CommentImage> selectImagesByReservationIdAndCommentId(Comment comment) {
+		Map<String, Integer> paramsForImage = Map.of(
+			"reservationInfoId", comment.getReservationInfoId(),
+			"commentId", comment.getCommentId());
+
+		return jdbc.query(SELECT_IMAGES_BY_COMMENT_ID, paramsForImage, imageMapper);
 	}
 }

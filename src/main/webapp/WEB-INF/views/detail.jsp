@@ -146,8 +146,9 @@
 								이용자가 남긴 평가입니다.</span>
 						</p>
 					</div>
-					<a class="btn_review_more" href="./review.html"> <span>예매자
-							한줄평 더보기</span> <i class="fn fn-forward1"></i>
+					<a id="btn-review-more" class="btn_review_more"
+						href="review?id={displayInfoId}"> <span>예매자 한줄평 더보기</span> <i
+						class="fn fn-forward1"></i>
 					</a>
 				</div>
 				<div class="section_info_tab">

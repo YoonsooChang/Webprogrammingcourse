@@ -25,6 +25,32 @@ public class CommentDaoSqls {
 		+ " AND "
 		+ "		reservation.product_id = :productId \n"
 		+ " ORDER BY "
+		+ "		comment_id DESC;";
+
+	public static final String SELECT_BY_DISPLAY_ID_AND_PRODUCT_ID_EXCEPT_IMAGE_LIMIT = ""
+		+ "SELECT "
+		+ "		commentitem.comment 	AS comment, "
+		+ "    	commentitem.id			AS comment_id, "
+		+ "		commentitem.create_date AS create_date, "
+		+ "    	commentitem.modify_date AS modify_date, "
+		+ "    	commentitem.product_id 	AS product_id, \n"
+
+		+ "    	reservation.reservation_date	 AS reservation_date, "
+		+ "    	reservation.reservation_email	 AS reservation_email, "
+		+ "    	reservation.id					 AS reservation_info_id, "
+		+ "    	reservation.reservation_name	 AS reservation_name, "
+		+ "    	reservation.reservation_tel		 AS reservation_telephone \n"
+		+ " FROM "
+		+ "		reservation_user_comment AS commentitem \n"
+		+ " JOIN "
+		+ "		reservation_info AS reservation \n"
+		+ " ON "
+		+ "		commentitem.reservation_info_id = reservation.id\r\n"
+		+ " WHERE "
+		+ "		reservation.display_info_id = :displayInfoId \n"
+		+ " AND "
+		+ "		reservation.product_id = :productId \n"
+		+ " ORDER BY "
 		+ "		comment_id DESC \n"
 		+ " LIMIT :limit;";
 
@@ -36,7 +62,7 @@ public class CommentDaoSqls {
 		+ "		file.id 			AS file_id,"
 		+ "		file.file_name		AS file_name,"
 		+ "		file.modify_date 	AS modify_date,"
-		+ "		file.save_file_name AS save_file_name \n"
+		+ "		file.save_file_name AS save_file_name, \n"
 
 		+ "		image.id 							AS image_id,"
 		+ "		image.reservation_info_id			AS reservation_info_id,"

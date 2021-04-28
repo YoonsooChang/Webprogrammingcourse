@@ -33,7 +33,7 @@ public class DisplayInfoServiceImpl implements DisplayInfoService {
 	public DisplayInfoResponse getDisplayInfoById(int displayInfoId) {
 		int productId = displayInfoDao.selectProductId(displayInfoId);
 
-		List<Comment> comments = commentDao.selectByDisplayInfoIdAndProductId(productId, displayInfoId,
+		List<Comment> comments = commentDao.selectByDisplayInfoIdAndProductIdLimit(productId, displayInfoId,
 			DisplayInfoService.COMMENT_LIMIT);
 
 		DisplayInfo displayInfo = displayInfoDao.selectById(displayInfoId);
@@ -48,6 +48,14 @@ public class DisplayInfoServiceImpl implements DisplayInfoService {
 			displayInfoImage, productImages, productPrices);
 
 		return displayInfoResponse;
+	}
+
+	@Override
+	public List<Comment> getCommentsById(int displayInfoId) {
+		int productId = displayInfoDao.selectProductId(displayInfoId);
+		List<Comment> comments = commentDao.selectByDisplayInfoIdAndProductId(productId, displayInfoId);
+
+		return comments;
 	}
 
 }

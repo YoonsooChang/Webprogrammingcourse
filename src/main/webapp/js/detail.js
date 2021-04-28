@@ -3,13 +3,15 @@ const startLoad = () => {
 };
 
 const appendDetails = (data) => {
-	console.log(data)
 	const { averageScore,
 		comments,
 		displayInfo,
 		displayInfoImage,
 		productImages,
 		productPrices } = JSON.parse(data);
+
+	const reviewMoreBtn = document.getElementById("btn-review-more");
+	reviewMoreBtn.setAttribute("href", reviewMoreBtn.getAttribute("href").replace("{displayInfoId}", urlGetParams.get("id")));
 
 	document.getElementById("average-score").innerHTML = parseFloat(averageScore).toFixed(1);
 	document.querySelectorAll(".product-description").forEach(item => item.innerText = displayInfo.productDescription);
