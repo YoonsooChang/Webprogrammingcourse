@@ -60,9 +60,9 @@ public class CommentDao {
 	}
 
 	public List<CommentImage> selectImagesByReservationIdAndCommentId(Comment comment) {
-		Map<String, Integer> paramsForImage = Map.of(
-			"reservationInfoId", comment.getReservationInfoId(),
-			"commentId", comment.getCommentId());
+		Map<String, Integer> paramsForImage = new HashMap<>();
+		paramsForImage.put("reservationInfoId", comment.getReservationInfoId());
+		paramsForImage.put("commentId", comment.getCommentId());
 
 		return jdbc.query(SELECT_IMAGES_BY_COMMENT_ID, paramsForImage, imageMapper);
 	}

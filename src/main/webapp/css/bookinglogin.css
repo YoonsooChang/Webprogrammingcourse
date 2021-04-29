@@ -1626,9 +1626,8 @@ hr {
 
 .spr_icons {
 	width: 30px;
-	height: 30px; 
-	background-image:
-		url(../img/spr_icons.629bfb7d82c6c1d00d86af55a6ead979.png);
+	height: 30px;
+	background-image: url(../img/spr_icons.png);
 	background-size: 200px 320px;
 	font-size: 0
 }
@@ -1855,7 +1854,7 @@ hr {
 
 .spr_book {
 	background-image:
-		url(../img/spr_book.ada46c4e031284d4b513fda5c38b5187.png);
+		url(../img/spr_book.png);
 	background-size: 400px 400px
 }
 
@@ -2039,8 +2038,7 @@ hr {
 }
 
 .spr_book2 {
-	background-image:
-		url(../img/spr_book2.9951b6760ed19190feefaf8e9c5bed2e.png);
+	background-image: url(../img/spr_book2.png);
 	background-size: 330px 400px;
 	font-size: 0
 }
@@ -2463,8 +2461,7 @@ input[type=checkbox].chk_agree+.label:before, input[type=checkbox].chk_custom+.l
 	overflow: hidden;
 	display: inline-block;
 	color: transparent;
-	background-image:
-		url(../img/spr_book2.9951b6760ed19190feefaf8e9c5bed2e.png);
+	background-image: url(../img/spr_book2.png);
 	background-size: 330px 400px;
 	vertical-align: top
 }
@@ -2479,7 +2476,7 @@ input[type=checkbox].chk_agree+.label:before, input[type=checkbox].chk_custom+.l
 
 input[type=checkbox].chk_custom+.label:before {
 	background-image:
-		url(../img/spr_book.ada46c4e031284d4b513fda5c38b5187.png);
+		url(../img/spr_book.png);
 	background-size: 400px 400px;
 	margin-right: 6px;
 	width: 21px !important;
@@ -2501,7 +2498,7 @@ input[type=checkbox].chk_agree+.label:before, input[type=radio].chk_agree+.label
 
 input[type=checkbox].chk_custom:checked+.label:before {
 	background-image:
-		url(../img/spr_book.ada46c4e031284d4b513fda5c38b5187.png);
+		url(../img/spr_book.png);
 	background-size: 400px 400px;
 	background-position: -68px -372px;
 	background-color: transparent
@@ -3284,8 +3281,7 @@ select {
 	left: 0;
 	width: 9px;
 	height: 11px;
-	background-image:
-		url(../img/spr_book2.9951b6760ed19190feefaf8e9c5bed2e.png);
+	background-image: url(../img/spr_book2.png);
 	background-size: 330px 400px;
 	background-repeat: no-repeat;
 	background-position: -299px -26px;
@@ -4867,7 +4863,7 @@ select {
 	display: inline-block;
 	color: transparent;
 	background-image:
-		url(../img/spr_book.ada46c4e031284d4b513fda5c38b5187.png);
+		url(../img/spr_book.png);
 	vertical-align: top;
 	pointer-events: none
 }
@@ -5103,7 +5099,7 @@ select {
 	display: inline-block;
 	color: transparent;
 	background-image:
-		url(../img/spr_book.ada46c4e031284d4b513fda5c38b5187.png);
+		url(../img/spr_book.png);
 	vertical-align: top
 }
 
@@ -5693,8 +5689,7 @@ select {
 	overflow: hidden;
 	display: inline-block;
 	color: transparent;
-	background-image:
-		url(../img/spr_book2.9951b6760ed19190feefaf8e9c5bed2e.png);
+	background-image: url(../img/spr_book2.png);
 	background-size: 330px 400px;
 	vertical-align: top;
 	width: 11px;
@@ -8753,8 +8748,7 @@ select {
 	width: 26px !important;
 	height: 26px !important;
 	background-position: -75px -273px;
-	background-image:
-		url(../img/spr_book2.9951b6760ed19190feefaf8e9c5bed2e.png);
+	background-image: url(../img/spr_book2.png);
 	background-size: 330px 400px;
 	vertical-align: -8.5px
 }
@@ -13598,7 +13592,7 @@ select {
 	width: 200px;
 	height: 37px;
 	background-image:
-		url(../img/spr_book.ada46c4e031284d4b513fda5c38b5187.png);
+		url(../img/spr_book.png);
 	background-size: 400px 400px;
 	background-position: -46px -334px
 }
@@ -14219,8 +14213,7 @@ select {
 	width: 78px;
 	height: 14px;
 	margin-right: 5px;
-	background-image:
-		url(../img/spr_comment.png);
+	background-image: url(../img/spr_comment.png);
 	background-repeat: no-repeat;
 	background-size: 90px 130px;
 	background-position: 0 -61px;
@@ -14234,8 +14227,7 @@ select {
 	color: transparent;
 	vertical-align: top;
 	float: left;
-	background-image:
-		url(../img/spr_comment.png);
+	background-image: url(../img/spr_comment.png);
 	background-repeat: no-repeat;
 	background-size: 90px 130px;
 	background-position: 0 -76px
@@ -14309,8 +14301,7 @@ select {
 	width: 35px;
 	height: 32px;
 	margin-left: -38px;
-	background-image:
-		url(../img/spr_comment.png);
+	background-image: url(../img/spr_comment.png);
 	background-repeat: no-repeat;
 	background-size: 90px 130px;
 	background-position: 0 -92px;
@@ -14688,7 +14679,7 @@ select {
 	display: inline-block;
 	color: transparent;
 	background-image:
-		url(../img/spr_book.ada46c4e031284d4b513fda5c38b5187.png);
+		url(../img/spr_book.png);
 	background-size: 400px 400px;
 	vertical-align: top;
 	width: 10px;
@@ -14809,8 +14800,7 @@ select {
 
 .section_review_list .grade_area .graph_mask, .section_review_list .grade_area .graph_value,
 	.section_review_list .short_review_area .review_info .grade:before {
-	background-image:
-		url(../img/spr_comment.png);
+	background-image: url(../img/spr_comment.png);
 	background-repeat: no-repeat;
 	background-size: 90px 130px
 }
@@ -15079,7 +15069,7 @@ select {
 	width: 10px;
 	height: 10px;
 	background-image:
-		url(../img/spr_book.ada46c4e031284d4b513fda5c38b5187.png);
+		url(../img/spr_book.png);
 	background-position: -378px -187px;
 	background-repeat: no-repeat;
 	background-size: 400px auto;
@@ -15178,8 +15168,7 @@ select {
 	overflow: hidden;
 	display: inline-block;
 	color: transparent;
-	background-image:
-		url(../img/spr_book2.9951b6760ed19190feefaf8e9c5bed2e.png);
+	background-image: url(../img/spr_book2.png);
 	background-size: 330px 400px;
 	vertical-align: top;
 	text-indent: 100%;
@@ -16207,7 +16196,7 @@ select {
 	display: inline-block;
 	color: transparent;
 	background-image:
-		url(../img/spr_book_event.a4add0e02c732ddee9d67e9a95622239.png);
+		url(../img/spr_book_event.png);
 	background-size: 150px 50px;
 	-webkit-background-size: 150px 50px;
 	vertical-align: top;
@@ -16838,7 +16827,7 @@ select {
 	width: 25px !important;
 	height: 25px !important;
 	background-image:
-		url(../img/spr_book.ada46c4e031284d4b513fda5c38b5187.png);
+		url(../img/spr_book.png);
 	background-size: 400px 400px;
 	background-position: -80px -302px
 }
@@ -16846,7 +16835,7 @@ select {
 .adminbooking_login .login_form .agreement input[type=checkbox].chk_agree:checked+.label:before
 	{
 	background-image:
-		url(../img/spr_book.ada46c4e031284d4b513fda5c38b5187.png);
+		url(../img/spr_book.png);
 	background-size: 400px 400px;
 	background-position: -107px -302px
 }
@@ -17769,7 +17758,7 @@ body.en .subscribe_banner .subscribe_strapline {
 	overflow: hidden;
 	position: relative;
 	background:
-		url(../img/spr_book_talk.6e4db4cf24d358808e7ca10001b01f5f.png)
+		url(../img/spr_book_talk.png)
 		no-repeat;
 	background-size: 150px 100px;
 	line-height: 999px !important;

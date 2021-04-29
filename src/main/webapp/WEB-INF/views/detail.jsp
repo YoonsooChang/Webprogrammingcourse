@@ -52,27 +52,28 @@
 					<div class="pagination">
 						<div class="bg_pagination"></div>
 						<div class="figure_pagination">
-							<span class="num">1</span> <span class="num off">/ <span>2</span></span>
+							<span id="current-figure" class="num"></span> <span
+								class="num off">/ <span id="total-figure">2</span></span>
 						</div>
 					</div>
 					<div class="group_visual">
 						<div>
 							<div class="container_visual" style="width: 414px;">
-								<ul class="visual_img detail_swipe">
+								<ul id="product-image-slide" class="visual_img detail_swipe">
 									<!-- productImages(상품 이미지들) -->
 								</ul>
 							</div>
 							<div class="prev">
 								<div class="prev_inn">
-									<a href="#" class="btn_prev" title="이전"> <!-- [D] 첫 이미지 이면 off 클래스 추가 -->
-										<i class="spr_book2 ico_arr6_lt off"></i>
+									<a href="#" id="product-image-prev" class="btn_prev" title="이전">
+										<i class="spr_book2 ico_arr6_lt"></i>
 									</a>
 								</div>
 							</div>
 							<div class="nxt">
 								<div class="nxt_inn">
-									<a href="#" class="btn_nxt" title="다음"> <i
-										class="spr_book2 ico_arr6_rt"></i>
+									<a href="#" id="product-image-nxt" class="btn_nxt" title="다음">
+										<i class="spr_book2 ico_arr6_rt"></i>
 									</a>
 								</div>
 							</div>
@@ -93,9 +94,9 @@
 				</div>
 				<div class="section_store_details">
 					<!-- [D] 펼쳐보기 클릭 시 store_details에 close3 제거 -->
-					<div class="store_details close3">
-						<p class="dsc product-description">
-							<!-- 상품 설명 productDescription -->
+					<div id="product-content-section" class="store_details close3">
+						<p class="dsc product_content">
+							<!-- 상품 설명 productContent -->
 						</p>
 					</div>
 					<!-- [D] 토글 상황에 따라 bk_more에 display:none 추가 -->
@@ -130,12 +131,13 @@
 						<div class="short_review_area">
 							<div class="grade_area">
 								<!-- [D] 별점 graph_value는 퍼센트 환산하여 width 값을 넣어줌 -->
-								<span class="graph_mask"> <em id="star-score"
-									class="graph_value" style="width: 84%;"></em> <strong
+								<span class="graph_mask"> </span><em id="star-score"
+									class="graph_value" style="width: 0%;"></em> <strong
 									class="text_value"> <span id="average-score">4.2</span>
-										<em class="total">5.0</em>
-								</strong> </strong> <span class="join_count"><em id="comment-counts"
-										class="green">52건</em> 등록</span>
+									<em class="total">5.0</em>
+								</strong> <span class="join_count"> <em id="comment-counts"
+									class="green"></em> 등록
+								</span>
 							</div>
 							<ul class="list_short_review">
 								<!-- 댓글(Comment) -->
@@ -167,8 +169,8 @@
 								<h3 class="blind">상세정보</h3>
 								<ul class="detail_info_group">
 									<li class="detail_info_lst"><strong class="in_tit">[소개]</strong>
-										<p class="in_dsc product-description">
-											<!-- 상품설명2 (productDescription) -->
+										<p class="in_dsc product_content">
+											<!-- 상품설명2 (productContent) -->
 										</p></li>
 									<li class="detail_info_lst"><strong class="in_tit">[공지사항]</strong>
 										<ul class="in_img_group">
@@ -243,12 +245,12 @@
 
 	<script type="rv-template" id="productImagesItem">
 			<li class="item" style="width: 414px;">
-				<img alt="${productDescription}" class="img_thumb" src="{productImageUrl}">
+				<img alt= {{fileName}} class="img_thumb" src= {{saveFileName}}>
 				 <span class="img_bg"></span>
 				<div class="visual_txt">
 					<div class="visual_txt_inn">
 						<h2 class="visual_txt_tit">
-							<span></span>
+							<span>{{productTitle}}</span>
 							</h2>
 							<p class="visual_txt_dsc"></p>
 					</div>
@@ -262,13 +264,14 @@
 											<div class="review_area no_img">
 												<h4 class="resoc_name"></h4>
 												<p class="review">
-													{comment}
+													{{comment}}
 												</p>
 											</div>
 											<div class="info_area">
 												<div class="review_info">
-													<span class="grade">{score}</span> <span class="name">{reservationInfoId}</span>
-													<span class="date">{modifyDate}</span>
+													<span class="grade">{{score}}</span> 
+													<span class="name">{{reservationInfoId}}</span>
+													<span class="date">{{modifyDate}}</span>
 												</div>
 											</div>
 										</div>
@@ -282,23 +285,29 @@
 												<div class="thumb_area">
 													<a href="#" class="thumb" title="이미지 크게 보기"> <img
 														width="90" height="90" class="img_vertical_top"
-														src="{saveFileName}"
+														src={{saveFileName}}
 														alt="리뷰이미지">
 													</a> <span class="img_count" style="display: none;">1</span>
 												</div>
 												<h4 class="resoc_name"></h4>
-												<p class="review">{comment}</p>
+												<p class="review">{{comment}}</p>
 											</div>
 											<div class="info_area">
 												<div class="review_info">
-													<span class="grade">{score}</span> <span class="name">{reservationInfoId}</span>
-													<span class="date">{modifyDate}</span>
+													<span class="grade">{{score}}</span>
+													<span class="name">{{reservationInfoId}}</span>
+													<span class="date">{{modifyDate}}</span>
 												</div>
 											</div>
 										</div>
 									</li>
     </script>
-
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"
+		integrity="sha512-RNLkV3d+aLtfcpEyFG8jRbnWHxUqVZozacROI4J2F1sTaDqo1dPQYs01OMi1t1w9Y2FdbSCDSQ2ZVdAC8bzgAg=="
+		crossorigin="anonymous">
+		
+	</script>
 	<script src="js/RequestHandler.js">
 		
 	</script>
