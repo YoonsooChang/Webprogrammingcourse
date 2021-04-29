@@ -1,16 +1,16 @@
 package kr.or.connect.reservation.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 public class Comment {
 	private String comment;
 	private int commentId;
 	private List<CommentImage> commentImages;
-	private LocalDateTime createDate;
-	private LocalDateTime modifyDate;
+	private LocalDate createDate;
+	private LocalDate modifyDate;
 	private int productId;
-	private LocalDateTime reservationDate;
+	private LocalDate reservationDate;
 	private String reservationEmail;
 	private int reservationInfoId;
 	private String reservationName;
@@ -41,19 +41,19 @@ public class Comment {
 		this.commentImages = commentImages;
 	}
 
-	public LocalDateTime getCreateDate() {
+	public LocalDate getCreateDate() {
 		return createDate;
 	}
 
-	public void setCreateDate(LocalDateTime createDate) {
+	public void setCreateDate(LocalDate createDate) {
 		this.createDate = createDate;
 	}
 
-	public LocalDateTime getModifyDate() {
+	public LocalDate getModifyDate() {
 		return modifyDate;
 	}
 
-	public void setModifyDate(LocalDateTime modifyDate) {
+	public void setModifyDate(LocalDate modifyDate) {
 		this.modifyDate = modifyDate;
 	}
 
@@ -65,11 +65,11 @@ public class Comment {
 		this.productId = productId;
 	}
 
-	public LocalDateTime getReservationDate() {
+	public LocalDate getReservationDate() {
 		return reservationDate;
 	}
 
-	public void setReservationDate(LocalDateTime reservationDate) {
+	public void setReservationDate(LocalDate reservationDate) {
 		this.reservationDate = reservationDate;
 	}
 

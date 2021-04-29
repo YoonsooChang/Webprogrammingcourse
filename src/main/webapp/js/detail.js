@@ -13,10 +13,16 @@ const appendDetails = (data) => {
 	const { averageScore,
 		comments,
 		displayInfo: {
+			placeLot,
+			placeName,
+			placeStreet,
+			telephone,
 			productDescription,
 			productContent,
 		},
-		displayInfoImage,
+		displayInfoImage: {
+			saveFileName,
+		},
 		productImages,
 		productPrices
 	} = JSON.parse(data);
@@ -41,23 +47,27 @@ const appendDetails = (data) => {
 	setUpImageSlide();
 
 	//<2> 펼쳐보기 
-	const detailOpener = document.querySelector("._open ");
-	const detailCloser = document.querySelector("._close");
-	const detailSection = document.getElementById("product-content-section");
+	const contentOpener = document.querySelector("._open ");
+	const contentCloser = document.querySelector("._close");
+	const contentSection = document.getElementById("product-content-section");
 
-	detailOpener.onclick = () => {
-		detailOpener.style.display = "none";
-		detailCloser.style.display = "block";
-		detailSection.classList.remove("close3");
+	contentOpener.onclick = (e) => {
+		e.preventDefault();
+
+		contentOpener.style.display = "none";
+		contentCloser.style.display = "block";
+		contentSection.classList.remove("close3");
 	}
 
-	detailCloser.onclick = () => {
-		detailCloser.style.display = "none";
-		detailOpener.style.display = "block";
-		detailSection.classList.add("close3");
+	contentCloser.onclick = (e) => {
+		e.preventDefault();
+
+		contentCloser.style.display = "none";
+		contentOpener.style.display = "block";
+		contentSection.classList.add("close3");
 	}
 
-	//<3> 한줄평 스타일, 페이지
+	//<3> 한줄평
 	document.getElementById("average-score").innerHTML = parseFloat(averageScore).toFixed(1);
 	document.getElementById("star-score").style.width = parseFloat(averageScore) / 5.0 * 100 + "%";
 	document.getElementById("comment-counts").innerHTML = comments.length + "건";
@@ -66,9 +76,45 @@ const appendDetails = (data) => {
 	const reviewMoreBtn = document.getElementById("btn-review-more");
 	reviewMoreBtn.setAttribute("href", `review?id=${urlGetParams.get("id")}`);
 
-	//<4> 오시는길
+	const shortReviewContainer = document.getElementById("review-short");
 
-	//<5> 한줄평페이지 (새페이지)
+	Handlebars.registerHelper("formatDate", function(date) {
+		return `${date.year}.${date.monthValue}.${date.dayOfMonth} 방문`;
+	});
+
+	const bindComment = Handlebars.compile(document.getElementById("commentsItem").innerText);
+	comments.forEach((comment) => shortReviewContainer.innerHTML += bindComment(comment));
+
+
+	//<4> 오시는길
+	const detailTab = document.getElementById("to-detail");
+	const locationTab = document.getElementById("to-location");
+
+	detailTab.onclick = (e) => {
+		e.preventDefault();
+
+		detailTab.classList.add("active");
+		locationTab.classList.remove("active");
+		document.getElementById("tab-detail").classList.remove("hide");
+		document.getElementById("tab-location").classList.add("hide");
+	}
+
+	locationTab.onclick = (e) => {
+		e.preventDefault();
+
+		locationTab.classList.add("active");
+		detailTab.classList.remove("active");
+		document.getElementById("tab-detail").classList.add("hide");
+		document.getElementById("tab-location").classList.remove("hide");
+	}
+
+	document.getElementById("map-image").setAttribute("src", saveFileName);
+	document.getElementById("store-street").innerHTML = placeStreet;
+	document.getElementById("store-lot").innerHTML = placeLot;
+	document.getElementById("store-name").innerHTML = placeName;
+	document.getElementById("store-telephone").innerHTML = telephone;
+	document.getElementById("store-telephone").setAttribute("href", `tel:${telephone}`);
+
 }
 
 const setUpImageSlide = () => {
@@ -108,18 +154,21 @@ const blinkTo = (destination) => {
 	productImageContainer.style.left = -destination * 100 + "%";
 }
 
-const slideToLeft = (event) => {
+const slideToLeft = (e) => {
+	e.preventDefault();
+
 	currentImageNumNode.innerHTML = (imagePos === 1 ? imageEnd : imagePos - 1);
 	imagePos--;
 	moveForASecond();
-
 
 	if (imagePos === imageStart - 1) {
 		setTimeout(() => blinkTo(imageEnd), 1000);
 	}
 }
 
-const slideToRight = (event) => {
+const slideToRight = (e) => {
+	e.preventDefault();
+
 	currentImageNumNode.innerHTML = (imagePos === imageEnd ? imageStart : imagePos + 1);
 	imagePos++;
 	moveForASecond();

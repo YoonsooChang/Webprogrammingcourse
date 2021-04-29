@@ -1,16 +1,16 @@
 package kr.or.connect.reservation.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class DisplayInfoImage {
 	private String contentType;
-	private LocalDateTime createDate;
+	private LocalDate createDate;
 	private boolean deleteFlag;
 	private int displayInfoId;
 	private int displayInfoImageId;
 	private int fileId;
 	private String fileName;
-	private LocalDateTime modifyDate;
+	private LocalDate modifyDate;
 	private String saveFileName;
 
 	public String getContentType() {
@@ -21,11 +21,11 @@ public class DisplayInfoImage {
 		this.contentType = contentType;
 	}
 
-	public LocalDateTime getCreateDate() {
+	public LocalDate getCreateDate() {
 		return createDate;
 	}
 
-	public void setCreateDate(LocalDateTime createDate) {
+	public void setCreateDate(LocalDate createDate) {
 		this.createDate = createDate;
 	}
 
@@ -69,11 +69,11 @@ public class DisplayInfoImage {
 		this.fileName = fileName;
 	}
 
-	public LocalDateTime getModifyDate() {
+	public LocalDate getModifyDate() {
 		return modifyDate;
 	}
 
-	public void setModifyDate(LocalDateTime modifyDate) {
+	public void setModifyDate(LocalDate modifyDate) {
 		this.modifyDate = modifyDate;
 	}
 

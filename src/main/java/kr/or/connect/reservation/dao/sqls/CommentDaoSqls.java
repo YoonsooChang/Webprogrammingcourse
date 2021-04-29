@@ -7,6 +7,7 @@ public class CommentDaoSqls {
 		+ "    	commentitem.id			AS comment_id, "
 		+ "		commentitem.create_date AS create_date, "
 		+ "    	commentitem.modify_date AS modify_date, "
+		+ "		commentitem.score 		AS score, "
 		+ "    	commentitem.product_id 	AS product_id, \n"
 
 		+ "    	reservation.reservation_date	 AS reservation_date, "
@@ -33,6 +34,7 @@ public class CommentDaoSqls {
 		+ "    	commentitem.id			AS comment_id, "
 		+ "		commentitem.create_date AS create_date, "
 		+ "    	commentitem.modify_date AS modify_date, "
+		+ "		commentitem.score 		AS score, "
 		+ "    	commentitem.product_id 	AS product_id, \n"
 
 		+ "    	reservation.reservation_date	 AS reservation_date, "
