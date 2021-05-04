@@ -3,26 +3,20 @@ package kr.or.connect.reservation.dto;
 import java.util.List;
 
 public class DisplayInfoResponse {
-	private double averageScore;
 	private List<Comment> comments;
 	private DisplayInfo displayInfo;
 	private DisplayInfoImage displayInfoImage;
 	private List<ProductImage> productImages;
 	private List<ProductPrice> productPrices;
 
-	public DisplayInfoResponse(double averageScore, List<Comment> comments, DisplayInfo displayInfo,
+	public DisplayInfoResponse(List<Comment> comments, DisplayInfo displayInfo,
 		DisplayInfoImage displayInfoImage, List<ProductImage> productImages, List<ProductPrice> productPrices) {
 		super();
-		this.averageScore = averageScore;
 		this.comments = comments;
 		this.displayInfo = displayInfo;
 		this.displayInfoImage = displayInfoImage;
 		this.productImages = productImages;
 		this.productPrices = productPrices;
-	}
-
-	public double getAverageScore() {
-		return averageScore;
 	}
 
 	public List<Comment> getComments() {
@@ -47,7 +41,7 @@ public class DisplayInfoResponse {
 
 	@Override
 	public String toString() {
-		return "DisplayInfoResponse [averageScore=" + averageScore + ", comments=" + comments + ", displayInfo="
+		return "DisplayInfoResponse [comments=" + comments + ", displayInfo="
 			+ displayInfo + ", displayInfoImage=" + displayInfoImage + ", productImage=" + productImages
 			+ ", productPrice=" + productPrices + "]";
 	}

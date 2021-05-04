@@ -5,14 +5,14 @@ const startLoad = () => {
 }
 
 const appendCategories = (data) => {
-	const { items } = JSON.parse(data);
+	const { items } = data;
 
 	const htmls = renderHTMLByTemplate(items, "category")
 	document.getElementById("category_tab").innerHTML += htmls.join("");
 }
 
 const appendPromotions = (data) => {
-	const { items } = JSON.parse(data);
+	const { items } = data;
 
 	const htmls = renderHTMLByTemplate(items, "promotion")
 	document.getElementById("promotion-slide").innerHTML = htmls.join("");
@@ -21,7 +21,7 @@ const appendPromotions = (data) => {
 }
 
 const appendProducts = (data) => {
-	const { items, totalCount } = JSON.parse(data);
+	const { items, totalCount } = data;
 
 	const htmls = renderHTMLByTemplate(items, "product")
 
@@ -164,16 +164,7 @@ const slideLeftInfinite = (timestamp) => {
 
 const printReqErr = () => console.log("응답 형식이 잘못되었습니다.");
 
-const hasItem = (data) => {
-	try {
-		data = JSON.parse(data);
-		return (data && data.items) ? true : false;
-	} catch (parseErr) {
-		alert("응답 형식이 잘못되었습니다.\n" + parseErr);
-	}
-
-	return false;
-}
+const hasItem = (data) => (data && data.items);
 
 const categoryReqHandler = new RequestHandler("api/category", appendCategories, printReqErr, hasItem);
 const promotionReqHandler = new RequestHandler("api/promotion", appendPromotions, printReqErr, hasItem);

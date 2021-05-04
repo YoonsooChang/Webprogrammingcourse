@@ -2,30 +2,32 @@ const startLoad = () => {
 	reqHandler.getRequest();
 };
 
-const appendReviews = (data) => {
+const appendReviews = (comments) => {
 	document.getElementById("btn-backward").onclick = (e) => {
 		e.preventDefault();
 		window.history.back();
 	}
 
-	const comments = JSON.parse(data);
-	let scoreSum = 0;
 
-	const shortReviewContainer = document.getElementById("review-all");
+	let averageScore = 0.0;
 
-	Handlebars.registerHelper("formatDate", function(date) {
-		return `${date.year}.${date.monthValue}.${date.dayOfMonth} 방문`;
-	});
+	if (comments.length > 0) {
+		const shortReviewContainer = document.getElementById("review-all");
 
-	const bindComment = Handlebars.compile(document.getElementById("commentsItem").innerText);
-	comments.forEach((comment) => {
-		scoreSum += comment.score;
-		shortReviewContainer.innerHTML += bindComment(comment);
-	});
+		Handlebars.registerHelper("formatDate", function(date) {
+			return `${date.year}.${date.monthValue}.${date.dayOfMonth} 방문`;
+		});
 
-	const averageScore = (parseFloat(scoreSum) / comments.length).toFixed(1);
+		const bindComment = Handlebars.compile(document.getElementById("commentsItem").innerText);
+		comments.forEach((comment) => {
+			averageScore += parseFloat(comment.score);
+			shortReviewContainer.innerHTML += bindComment(comment);
+		});
 
-	document.getElementById("average-score").innerHTML = averageScore;
+		averageScore /= comments.length;
+	}
+
+	document.getElementById("average-score").innerHTML = parseFloat(averageScore).toFixed(1);
 	document.getElementById("star-score").style.width = averageScore / 5.0 * 100 + "%";
 	document.getElementById("comment-counts").innerHTML = comments.length + "건";
 

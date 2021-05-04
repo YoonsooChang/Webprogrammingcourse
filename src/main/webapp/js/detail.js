@@ -1,38 +1,66 @@
+const A_SECOND = 1000;
+
 let productImageContainer;
 let productImageCount;
 
 let imagePos = 1;
 let imageStart, imageEnd;
 let currentImageNumNode;
+let averageScore = 0.0;
 
-const startLoad = () => {
-	reqHandler.getRequest();
-};
+document.addEventListener("DOMContentLoaded", () => reqHandler.getRequest());
+
 
 const appendDetails = (data) => {
-	const { averageScore,
+	const {
 		comments,
-		displayInfo: {
-			placeLot,
-			placeName,
-			placeStreet,
-			telephone,
-			productDescription,
-			productContent,
-		},
+		displayInfo,
 		displayInfoImage: {
 			saveFileName,
 		},
 		productImages,
+	} = data;
+
+	const { productDescription, productContent } = displayInfo;
+
+	setUpImageSlide(productImages, productDescription);
+
+	setUpContentToggler();
+
+	setUpComments(comments);
+	fillUpCommentSectionNodes(averageScore, productContent, comments.length);
+
+	setUpInnerTabs();
+	fillUpLocationSectionNodes(displayInfo, saveFileName);
+
+}
+
+const printReqErr = () => console.log("응답 형식이 잘못되었습니다.");
+
+const isValid = (data) => {
+	const {
+		comments,
+		displayInfo,
+		displayInfoImage,
+		productImages,
 		productPrices
-	} = JSON.parse(data);
+	} = data;
+
+	return (data
+		&& displayInfo && displayInfoImage
+		&& Array.isArray(comments)
+		&& Array.isArray(productImages)
+		&& Array.isArray(productPrices)
+	);
+}
 
 
-	// <1> 이미지 슬라이드
-	productImageContainer = document.getElementById("product-image-slide");
-	productImageCount = productImages.length;
+const setUpImageSlide = (productImages, productDescription) => {
+	const bindProductImage
+		= Handlebars.compile(document.getElementById("productImagesItem").innerText);
 
-	const bindProductImage = Handlebars.compile(document.getElementById("productImagesItem").innerText);
+	productImageContainer
+		= document.getElementById("product-image-slide");
 
 	productImages.forEach(image => {
 		image.productTitle = productDescription;
@@ -42,84 +70,14 @@ const appendDetails = (data) => {
 	currentImageNumNode = document.getElementById("current-figure");
 	currentImageNumNode.innerHTML = 1;
 
+	productImageCount = productImages.length;
 	document.getElementById("total-figure").innerHTML = productImageCount;
 
-	setUpImageSlide();
+	const prevImageLink
+		= document.getElementById("product-image-prev");
 
-	//<2> 펼쳐보기 
-	const contentOpener = document.querySelector("._open ");
-	const contentCloser = document.querySelector("._close");
-	const contentSection = document.getElementById("product-content-section");
-
-	contentOpener.onclick = (e) => {
-		e.preventDefault();
-
-		contentOpener.style.display = "none";
-		contentCloser.style.display = "block";
-		contentSection.classList.remove("close3");
-	}
-
-	contentCloser.onclick = (e) => {
-		e.preventDefault();
-
-		contentCloser.style.display = "none";
-		contentOpener.style.display = "block";
-		contentSection.classList.add("close3");
-	}
-
-	//<3> 한줄평
-	document.getElementById("average-score").innerHTML = parseFloat(averageScore).toFixed(1);
-	document.getElementById("star-score").style.width = parseFloat(averageScore) / 5.0 * 100 + "%";
-	document.getElementById("comment-counts").innerHTML = comments.length + "건";
-
-	document.querySelectorAll(".product_content").forEach(item => item.innerText = productContent);
-	const reviewMoreBtn = document.getElementById("btn-review-more");
-	reviewMoreBtn.setAttribute("href", `review?id=${urlGetParams.get("id")}`);
-
-	const shortReviewContainer = document.getElementById("review-short");
-
-	Handlebars.registerHelper("formatDate", function(date) {
-		return `${date.year}.${date.monthValue}.${date.dayOfMonth} 방문`;
-	});
-
-	const bindComment = Handlebars.compile(document.getElementById("commentsItem").innerText);
-	comments.forEach((comment) => shortReviewContainer.innerHTML += bindComment(comment));
-
-
-	//<4> 오시는길
-	const detailTab = document.getElementById("to-detail");
-	const locationTab = document.getElementById("to-location");
-
-	detailTab.onclick = (e) => {
-		e.preventDefault();
-
-		detailTab.classList.add("active");
-		locationTab.classList.remove("active");
-		document.getElementById("tab-detail").classList.remove("hide");
-		document.getElementById("tab-location").classList.add("hide");
-	}
-
-	locationTab.onclick = (e) => {
-		e.preventDefault();
-
-		locationTab.classList.add("active");
-		detailTab.classList.remove("active");
-		document.getElementById("tab-detail").classList.add("hide");
-		document.getElementById("tab-location").classList.remove("hide");
-	}
-
-	document.getElementById("map-image").setAttribute("src", saveFileName);
-	document.getElementById("store-street").innerHTML = placeStreet;
-	document.getElementById("store-lot").innerHTML = placeLot;
-	document.getElementById("store-name").innerHTML = placeName;
-	document.getElementById("store-telephone").innerHTML = telephone;
-	document.getElementById("store-telephone").setAttribute("href", `tel:${telephone}`);
-
-}
-
-const setUpImageSlide = () => {
-	const prevImageLink = document.getElementById("product-image-prev");
-	const nextImageLink = document.getElementById("product-image-nxt");
+	const nextImageLink
+		= document.getElementById("product-image-nxt");
 
 	if (productImageCount === 1) {
 		prevImageLink.style.display = "none";
@@ -127,8 +85,19 @@ const setUpImageSlide = () => {
 		return;
 	}
 
-	const firstChildClone = productImageContainer.firstElementChild.cloneNode(true);
-	const lastChildClone = productImageContainer.lastElementChild.cloneNode(true);
+	setImagePaddingSides();
+
+	prevImageLink.onclick = slideToLeft;
+	nextImageLink.onclick = slideToRight;
+
+}
+
+const setImagePaddingSides = () => {
+	const firstChildClone
+		= productImageContainer.firstElementChild.cloneNode(true);
+
+	const lastChildClone
+		= productImageContainer.lastElementChild.cloneNode(true);
 
 	productImageContainer.appendChild(firstChildClone);
 	productImageContainer.insertBefore(lastChildClone, productImageContainer.firstElementChild);
@@ -137,10 +106,6 @@ const setUpImageSlide = () => {
 	imageEnd = productImageCount;
 
 	productImageContainer.style.left = "-100%";
-
-	prevImageLink.onclick = slideToLeft;
-	nextImageLink.onclick = slideToRight;
-
 }
 
 const moveForASecond = () => {
@@ -157,28 +122,133 @@ const blinkTo = (destination) => {
 const slideToLeft = (e) => {
 	e.preventDefault();
 
-	currentImageNumNode.innerHTML = (imagePos === 1 ? imageEnd : imagePos - 1);
+	currentImageNumNode.innerHTML
+		= (imagePos === 1
+			? imageEnd
+			: imagePos - 1);
+
 	imagePos--;
 	moveForASecond();
 
 	if (imagePos === imageStart - 1) {
-		setTimeout(() => blinkTo(imageEnd), 1000);
+		setTimeout(() => blinkTo(imageEnd), A_SECOND);
 	}
 }
 
 const slideToRight = (e) => {
 	e.preventDefault();
 
-	currentImageNumNode.innerHTML = (imagePos === imageEnd ? imageStart : imagePos + 1);
+	currentImageNumNode.innerHTML
+		= (imagePos === imageEnd
+			? imageStart
+			: imagePos + 1);
+
 	imagePos++;
 	moveForASecond();
 
 	if (imagePos === imageEnd + 1) {
-		setTimeout(() => blinkTo(imageStart), 1000);
+		setTimeout(() => blinkTo(imageStart), A_SECOND);
 	}
 }
 
-const urlGetParams = new URL(window.location.href).searchParams;
-const reqHandler = new RequestHandler(`api/display/${urlGetParams.get("id")}`, appendDetails, () => console.log('error'), () => true)
 
-document.addEventListener("DOMContentLoaded", startLoad);
+const setUpContentToggler = () => {
+	const contentOpener
+		= document.querySelector("._open ");
+
+	const contentCloser
+		= document.querySelector("._close");
+
+	const contentSection
+		= document.getElementById("product-content-section");
+
+	contentOpener.onclick = (e) => {
+		e.preventDefault();
+
+		contentOpener.style.display = "none";
+		contentCloser.style.display = "block";
+		contentSection.classList.remove("close3");
+	}
+
+	contentCloser.onclick = (e) => {
+		e.preventDefault();
+
+		contentCloser.style.display = "none";
+		contentOpener.style.display = "block";
+		contentSection.classList.add("close3");
+	}
+}
+
+
+const setUpComments = (comments) => {
+	const reviewMoreBtn = document.getElementById("btn-review-more");
+	reviewMoreBtn.setAttribute("href", `review?id=${urlGetParams.get("id")}`);
+
+	if (comments.length === 0) {
+		return;
+	}
+
+	Handlebars.registerHelper("formatDate", (date) =>
+		`${date.year}.${date.monthValue}.${date.dayOfMonth} 방문`
+	);
+
+	const bindComment = Handlebars.compile(document.getElementById("commentsItem").innerText);
+	const shortReviewContainer = document.getElementById("review-short");
+
+	comments.forEach((comment) => {
+		averageScore += parseFloat(comment.score);
+		shortReviewContainer.innerHTML += bindComment(comment)
+	});
+
+	averageScore /= comments.length;
+
+}
+
+const fillUpCommentSectionNodes = (averageScore, productContent, commentCounts) => {
+	document.getElementById("average-score").innerHTML
+		= parseFloat(averageScore).toFixed(1);
+
+	document.getElementById("star-score").style.width
+		= parseFloat(averageScore) / 5.0 * 100 + "%";
+
+	document.getElementById("comment-counts").innerHTML
+		= commentCounts + "건";
+
+	document.querySelectorAll(".product_content")
+		.forEach(item => item.innerText = productContent);
+}
+
+const setUpInnerTabs = () => {
+	const tabAnchors
+		= document.querySelectorAll(".info_tab_lst > .item > .anchor");
+
+	const tabSections
+		= document.querySelectorAll(".section_info_tab > .section");
+
+	tabAnchors.forEach((tab) => {
+		tab.onclick = (e) => {
+			e.preventDefault();
+			tabSections.forEach(section => section.classList.toggle("hide"));
+			tabAnchors.forEach(anchor => anchor.classList.toggle("active"));
+		}
+	});
+
+}
+
+
+const fillUpLocationSectionNodes = (displayInfo, saveFileName) => {
+	const { placeStreet, placeLot, placeName, telephone } = displayInfo;
+
+	document.getElementById("map-image").setAttribute("src", saveFileName);
+	document.getElementById("store-street").innerHTML = placeStreet;
+	document.getElementById("store-lot").innerHTML = placeLot;
+	document.getElementById("store-name").innerHTML = placeName;
+	document.getElementById("store-telephone").innerHTML = telephone;
+	document.getElementById("store-telephone").setAttribute("href", `tel:${telephone}`);
+}
+
+
+const urlGetParams = new URL(window.location.href).searchParams;
+const reqHandler = new RequestHandler(`api/display/${urlGetParams.get("id")}`, appendDetails,
+	printReqErr,
+	isValid);

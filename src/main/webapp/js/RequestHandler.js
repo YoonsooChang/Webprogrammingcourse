@@ -21,6 +21,7 @@ class RequestHandler {
 
 		const url = this.path + this.makeQueryString(paramObject);
 
+		oReq.responseType = "json";
 		oReq.open("GET", url);
 		oReq.send();
 	}

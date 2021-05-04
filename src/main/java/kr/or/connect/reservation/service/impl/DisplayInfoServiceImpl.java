@@ -31,20 +31,19 @@ public class DisplayInfoServiceImpl implements DisplayInfoService {
 	@Override
 	@Transactional
 	public DisplayInfoResponse getDisplayInfoById(int displayInfoId) {
-		int productId = displayInfoDao.selectProductId(displayInfoId);
-
-		List<Comment> comments = commentDao.selectByDisplayInfoIdAndProductIdLimit(productId, displayInfoId,
-			DisplayInfoService.COMMENT_LIMIT);
 
 		DisplayInfo displayInfo = displayInfoDao.selectById(displayInfoId);
 		DisplayInfoImage displayInfoImage = displayInfoDao.selectImageById(displayInfoId);
 
+		List<Comment> comments = commentDao.selectByDisplayInfoIdLimit(displayInfoId,
+			DisplayInfoService.COMMENT_LIMIT);
+
+		int productId = displayInfo.getProductId();
+
 		List<ProductImage> productImages = productDao.selectProductImagesById(productId);
 		List<ProductPrice> productPrices = productDao.selectProductPricesById(productId);
 
-		double averageScore = comments.stream().mapToDouble(Comment::getScore).average().orElse(0.0);
-
-		DisplayInfoResponse displayInfoResponse = new DisplayInfoResponse(averageScore, comments, displayInfo,
+		DisplayInfoResponse displayInfoResponse = new DisplayInfoResponse(comments, displayInfo,
 			displayInfoImage, productImages, productPrices);
 
 		return displayInfoResponse;
@@ -52,8 +51,7 @@ public class DisplayInfoServiceImpl implements DisplayInfoService {
 
 	@Override
 	public List<Comment> getCommentsById(int displayInfoId) {
-		int productId = displayInfoDao.selectProductId(displayInfoId);
-		List<Comment> comments = commentDao.selectByDisplayInfoIdAndProductId(productId, displayInfoId);
+		List<Comment> comments = commentDao.selectByDisplayInfoId(displayInfoId);
 
 		return comments;
 	}
