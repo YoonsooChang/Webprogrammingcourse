@@ -3,7 +3,9 @@ package kr.or.connect.reservation.dao.sqls;
 public class CategoryDaoSqls {
 	public static final String SELECT_ALL = ""
 		+ "SELECT "
-		+ "		category.id as id, category.name as name, COUNT(*) as count\n"
+		+ "		category.id 	AS id, "
+		+ "		category.name 	AS name, "
+		+ "		COUNT(*) 		AS count\n"
 		+ "FROM "
 		+ "		category \n"
 		+ "LEFT OUTER JOIN "

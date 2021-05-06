@@ -12,15 +12,18 @@ import kr.or.connect.reservation.service.ProductService;
 @RequestMapping(path = "/api/product")
 public class ProductApiController {
 	private final ProductService productService;
+	private final String ID_ALL = "0";
+	private final String BEGIN = "0";
 
 	public ProductApiController(ProductService productService) {
 		this.productService = productService;
 	}
 
 	@GetMapping
-	public ProductResponse getProductResponse(@RequestParam(name = "categoryId", required = false, defaultValue = "0")
-	int categoryId,
-		@RequestParam(name = "start", required = false, defaultValue = "0")
+	public ProductResponse getProductResponseByCategoryId(
+		@RequestParam(name = "categoryId", required = false, defaultValue = ID_ALL)
+		int categoryId,
+		@RequestParam(name = "start", required = false, defaultValue = BEGIN)
 		int start) {
 		return productService.getProductsByCategoryId(categoryId, start);
 	}

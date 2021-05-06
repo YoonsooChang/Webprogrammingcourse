@@ -1,11 +1,11 @@
 package kr.or.connect.reservation.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class ProductPrice {
-	private LocalDateTime createDate;
+	private LocalDate createDate;
 	private double discountRate;
-	private LocalDateTime modifyDate;
+	private LocalDate modifyDate;
 	private int price;
 	private String priceTypeName;
 	private int productId;
@@ -18,11 +18,11 @@ public class ProductPrice {
 			+ ", productPriceId=" + productPriceId + "]";
 	}
 
-	public LocalDateTime getCreateDate() {
+	public LocalDate getCreateDate() {
 		return createDate;
 	}
 
-	public void setCreateDate(LocalDateTime createDate) {
+	public void setCreateDate(LocalDate createDate) {
 		this.createDate = createDate;
 	}
 
@@ -34,11 +34,11 @@ public class ProductPrice {
 		this.discountRate = discountRate;
 	}
 
-	public LocalDateTime getModifyDate() {
+	public LocalDate getModifyDate() {
 		return modifyDate;
 	}
 
-	public void setModifyDate(LocalDateTime modifyDate) {
+	public void setModifyDate(LocalDate modifyDate) {
 		this.modifyDate = modifyDate;
 	}
 
