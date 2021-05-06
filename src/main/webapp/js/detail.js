@@ -23,6 +23,9 @@ const appendDetails = (data) => {
 
 	const { productDescription, productContent } = displayInfo;
 
+	document.getElementById("book-btn").onclick
+		= (() => window.location.href = `reserve?id=${urlGetParams.get("id")}`);
+
 	setUpImageSlide(productImages, productDescription);
 
 	setUpContentToggler();

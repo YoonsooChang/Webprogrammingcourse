@@ -24,9 +24,9 @@
 		<div class="header fade">
 			<header class="header_tit">
 				<h1 class="logo">
-					<a href="./mainpage.html" class="lnk_logo" title="네이버"> <span
+					<a href="." class="lnk_logo" title="네이버"> <span
 						class="spr_bi ico_n_logo">네이버</span>
-					</a> <a href="./mainpage.html" class="lnk_logo" title="예약"> <span
+					</a> <a href="." class="lnk_logo" title="예약"> <span
 						class="spr_bi ico_bk_logo">예약</span>
 					</a>
 				</h1>
@@ -45,7 +45,7 @@
 								class="spr_bi ico_bk_logo">예약</span>
 							</a>
 						</h1>
-						<a href="./myreservation.html" class="btn_my"> <span
+						<a href="myreservation" class="btn_my"> <span
 							class="viewReservation" title="예약확인">예약확인</span>
 						</a>
 					</header>
@@ -121,7 +121,7 @@
 					</div>
 				</div>
 				<div class="section_btn">
-					<button type="button" class="bk_btn">
+					<button type="button" id="book-btn" class="bk_btn">
 						<i class="fn fn-nbooking-calender2"></i> <span>예매하기</span>
 					</button>
 				</div>
