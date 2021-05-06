@@ -6,13 +6,14 @@ let productImageCount;
 let imagePos = 1;
 let imageStart, imageEnd;
 let currentImageNumNode;
-let averageScore = 0.0;
 
 document.addEventListener("DOMContentLoaded", () => reqHandler.getRequest());
 
 
 const appendDetails = (data) => {
 	const {
+		commentTotalCount,
+		averageScore,
 		comments,
 		displayInfo,
 		displayInfoImage: {
@@ -25,10 +26,11 @@ const appendDetails = (data) => {
 
 	setUpImageSlide(productImages, productDescription);
 
-	setUpContentToggler();
+	setUpContentToggler(productContent);
 
-	setUpComments(comments);
-	fillUpCommentSectionNodes(averageScore, productContent, comments.length);
+	setUpReviewMoreBtn();
+
+	setUpComments(comments, averageScore, commentTotalCount);
 
 	setUpInnerTabs();
 	fillUpLocationSectionNodes(displayInfo, saveFileName);
@@ -39,6 +41,7 @@ const printReqErr = () => console.log("응답 형식이 잘못되었습니다.")
 
 const isValid = (data) => {
 	const {
+		averageScore,
 		comments,
 		displayInfo,
 		displayInfoImage,
@@ -47,6 +50,7 @@ const isValid = (data) => {
 	} = data;
 
 	return (data
+		&& averageScore != null
 		&& displayInfo && displayInfoImage
 		&& Array.isArray(comments)
 		&& Array.isArray(productImages)
@@ -152,12 +156,15 @@ const slideToRight = (e) => {
 }
 
 
-const setUpContentToggler = () => {
+const setUpContentToggler = (productContent) => {
+	document.querySelectorAll(".product_content")
+		.forEach(item => item.innerText = productContent);
+
 	const contentOpener
-		= document.querySelector("._open ");
+		= document.getElementById("detail-opener");
 
 	const contentCloser
-		= document.querySelector("._close");
+		= document.getElementById("detail-closer");
 
 	const contentSection
 		= document.getElementById("product-content-section");
@@ -179,43 +186,9 @@ const setUpContentToggler = () => {
 	}
 }
 
-
-const setUpComments = (comments) => {
+const setUpReviewMoreBtn = () => {
 	const reviewMoreBtn = document.getElementById("btn-review-more");
 	reviewMoreBtn.setAttribute("href", `review?id=${urlGetParams.get("id")}`);
-
-	if (comments.length === 0) {
-		return;
-	}
-
-	Handlebars.registerHelper("formatDate", (date) =>
-		`${date.year}.${date.monthValue}.${date.dayOfMonth} 방문`
-	);
-
-	const bindComment = Handlebars.compile(document.getElementById("commentsItem").innerText);
-	const shortReviewContainer = document.getElementById("review-short");
-
-	comments.forEach((comment) => {
-		averageScore += parseFloat(comment.score);
-		shortReviewContainer.innerHTML += bindComment(comment)
-	});
-
-	averageScore /= comments.length;
-
-}
-
-const fillUpCommentSectionNodes = (averageScore, productContent, commentCounts) => {
-	document.getElementById("average-score").innerHTML
-		= parseFloat(averageScore).toFixed(1);
-
-	document.getElementById("star-score").style.width
-		= parseFloat(averageScore) / 5.0 * 100 + "%";
-
-	document.getElementById("comment-counts").innerHTML
-		= commentCounts + "건";
-
-	document.querySelectorAll(".product_content")
-		.forEach(item => item.innerText = productContent);
 }
 
 const setUpInnerTabs = () => {
@@ -228,6 +201,7 @@ const setUpInnerTabs = () => {
 	tabAnchors.forEach((tab) => {
 		tab.onclick = (e) => {
 			e.preventDefault();
+
 			tabSections.forEach(section => section.classList.toggle("hide"));
 			tabAnchors.forEach(anchor => anchor.classList.toggle("active"));
 		}

@@ -1,6 +1,7 @@
 package kr.or.connect.reservation.dto;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Comment {
@@ -16,6 +17,24 @@ public class Comment {
 	private String reservationName;
 	private String reservationTelephone;
 	private double score;
+
+	public Comment(String comment, int commentId, LocalDate createDate, LocalDate modifyDate, int productId,
+		LocalDate reservationDate, String reservationEmail, int reservationInfoId, String reservationName,
+		String reservationTelephone, double score) {
+		super();
+		this.comment = comment;
+		this.commentId = commentId;
+		this.commentImages = new ArrayList<CommentImage>();
+		this.createDate = createDate;
+		this.modifyDate = modifyDate;
+		this.productId = productId;
+		this.reservationDate = reservationDate;
+		this.reservationEmail = reservationEmail;
+		this.reservationInfoId = reservationInfoId;
+		this.reservationName = reservationName;
+		this.reservationTelephone = reservationTelephone;
+		this.score = score;
+	}
 
 	public String getComment() {
 		return comment;

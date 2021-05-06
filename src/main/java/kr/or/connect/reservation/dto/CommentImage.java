@@ -14,6 +14,21 @@ public class CommentImage {
 	private int reservationUserCommentId;
 	private String saveFileName;
 
+	public CommentImage(String contentType, LocalDate createDate, boolean deleteFlag, int fileId, String fileName,
+		int imageId, LocalDate modifyDate, int reservationInfoId, int reservationUserCommentId, String saveFileName) {
+		super();
+		this.contentType = contentType;
+		this.createDate = createDate;
+		this.deleteFlag = deleteFlag;
+		this.fileId = fileId;
+		this.fileName = fileName;
+		this.imageId = imageId;
+		this.modifyDate = modifyDate;
+		this.reservationInfoId = reservationInfoId;
+		this.reservationUserCommentId = reservationUserCommentId;
+		this.saveFileName = saveFileName;
+	}
+
 	public String getContentType() {
 		return contentType;
 	}

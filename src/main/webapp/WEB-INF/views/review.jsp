@@ -55,7 +55,7 @@
 								</strong> <span class="join_count"><em id="comment-counts"
 									class="green"></em> 등록</span>
 							</div>
-							<ul id="review-all" class="list_short_review">
+							<ul id="review-list" class="list_short_review">
 
 							</ul>
 						</div>
@@ -128,6 +128,9 @@
 	</script>
 
 	<script src="js/RequestHandler.js">
+		
+	</script>
+	<script src="js/comment.js">
 		
 	</script>
 	<script src="js/review.js">
