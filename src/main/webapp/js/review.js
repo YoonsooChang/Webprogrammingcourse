@@ -1,6 +1,17 @@
-const startLoad = () => {
+document.addEventListener("DOMContentLoaded", () => {
+	const pathVar = document.getElementById("display-info-id").value;
+	const url = `api/display/comment/${pathVar}`;
+
+	const reqHandler
+		= new RequestHandler(url,
+			appendComments,
+			() => console.log('error'),
+			(data) => (data && data.item && data.averageScore != null),
+		);
+
 	reqHandler.getRequest();
-};
+});
+
 
 const appendComments = (data) => {
 	const { item: comments, averageScore } = data;
@@ -11,14 +22,3 @@ const appendComments = (data) => {
 
 	setUpComments(comments, averageScore, comments.length);
 }
-
-const getParams = new URL(window.location.href).searchParams;
-const url = `api/display/comment/${getParams.get("id")}`;
-
-const reqHandler = new RequestHandler(url,
-	appendComments,
-	() => console.log('error'),
-	(data) => (data && data.item && data.averageScore != null),
-);
-
-document.addEventListener("DOMContentLoaded", startLoad);

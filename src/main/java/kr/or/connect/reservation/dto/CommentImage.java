@@ -14,19 +14,80 @@ public class CommentImage {
 	private int reservationUserCommentId;
 	private String saveFileName;
 
-	public CommentImage(String contentType, LocalDate createDate, boolean deleteFlag, int fileId, String fileName,
-		int imageId, LocalDate modifyDate, int reservationInfoId, int reservationUserCommentId, String saveFileName) {
-		super();
-		this.contentType = contentType;
-		this.createDate = createDate;
-		this.deleteFlag = deleteFlag;
-		this.fileId = fileId;
-		this.fileName = fileName;
-		this.imageId = imageId;
-		this.modifyDate = modifyDate;
-		this.reservationInfoId = reservationInfoId;
-		this.reservationUserCommentId = reservationUserCommentId;
-		this.saveFileName = saveFileName;
+	public static class Builder {
+		private final int fileId;
+		private final int imageId;
+
+		private String contentType = "";
+		private LocalDate createDate = null;
+		private boolean deleteFlag = false;
+		private String fileName = "";
+		private LocalDate modifyDate = null;
+		private int reservationInfoId = 0;
+		private int reservationUserCommentId = 0;
+		private String saveFileName = "";
+
+		public Builder(int imageid, int fileId) {
+			this.imageId = imageid;
+			this.fileId = fileId;
+		}
+
+		public Builder createDate(LocalDate val) {
+			createDate = val;
+			return this;
+		}
+
+		public Builder deleteFlag(boolean val) {
+			deleteFlag = val;
+			return this;
+		}
+
+		public Builder modifyDate(LocalDate val) {
+			modifyDate = val;
+			return this;
+		}
+
+		public Builder fileName(String val) {
+			fileName = val;
+			return this;
+		}
+
+		public Builder contentType(String val) {
+			contentType = val;
+			return this;
+		}
+
+		public Builder reservationInfoId(int val) {
+			reservationInfoId = val;
+			return this;
+		}
+
+		public Builder reservationUserCommentId(int val) {
+			reservationUserCommentId = val;
+			return this;
+		}
+
+		public Builder saveFileName(String val) {
+			saveFileName = val;
+			return this;
+		}
+
+		public CommentImage build() {
+			return new CommentImage(this);
+		}
+	}
+
+	public CommentImage(Builder builder) {
+		contentType = builder.contentType;
+		createDate = builder.createDate;
+		deleteFlag = builder.deleteFlag;
+		fileId = builder.fileId;
+		fileName = builder.fileName;
+		imageId = builder.imageId;
+		modifyDate = builder.modifyDate;
+		reservationInfoId = builder.reservationInfoId;
+		reservationUserCommentId = builder.reservationUserCommentId;
+		saveFileName = builder.saveFileName;
 	}
 
 	public String getContentType() {

@@ -15,32 +15,32 @@ public class CommentMapper implements ResultSetExtractor<List<Comment>> {
 	private final int NONE_ASSIGNED = 0;
 
 	private Comment extractComment(ResultSet rs) throws SQLException {
-		return new Comment(
-			rs.getString("comment"),
+		return new Comment.Builder(
 			rs.getInt("comment_id"),
-			rs.getDate("create_date").toLocalDate(),
-			rs.getDate("modify_date").toLocalDate(),
 			rs.getInt("product_id"),
-			rs.getDate("reservation_date").toLocalDate(),
-			rs.getString("reservation_email"),
-			rs.getInt("reservation_info_id"),
-			rs.getString("reservation_name"),
-			rs.getString("reservation_telephone"),
-			rs.getDouble("score"));
+			rs.getInt("reservation_info_id"))
+				.comment(rs.getString("comment"))
+				.createDate(rs.getDate("create_date").toLocalDate())
+				.modifyDate(rs.getDate("modify_date").toLocalDate())
+				.reservationDate(rs.getDate("reservation_date").toLocalDate())
+				.reservationEmail(rs.getString("reservation_email"))
+				.reservationName(rs.getString("reservation_name"))
+				.reservationTelephone(rs.getString("reservation_telephone"))
+				.score(rs.getDouble("score"))
+				.build();
 	}
 
 	private CommentImage extractCommentImage(ResultSet rs) throws SQLException {
-		return new CommentImage(
-			rs.getString("content_type"),
-			rs.getDate("file_create_date").toLocalDate(),
-			rs.getBoolean("delete_flag"),
-			rs.getInt("file_id"),
-			rs.getString("file_name"),
-			rs.getInt("image_id"),
-			rs.getDate("file_modify_date").toLocalDate(),
-			rs.getInt("image_reservation_info_id"),
-			rs.getInt("reservation_comment_id"),
-			rs.getString("save_file_name"));
+		return new CommentImage.Builder(rs.getInt("image_id"), rs.getInt("file_id"))
+			.contentType(rs.getString("content_type"))
+			.createDate(rs.getDate("file_create_date").toLocalDate())
+			.modifyDate(rs.getDate("file_modify_date").toLocalDate())
+			.fileName(rs.getString("file_name"))
+			.deleteFlag(rs.getBoolean("delete_flag"))
+			.reservationInfoId(rs.getInt("image_reservation_info_id"))
+			.reservationUserCommentId(rs.getInt("reservation_comment_id"))
+			.saveFileName(rs.getString("save_file_name"))
+			.build();
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class CommentMapper implements ResultSetExtractor<List<Comment>> {
 
 			int imageId = rs.getInt("image_id");
 			if (imageId != 0) {
-				currentCommentInstance.getCommentImages().add(extractCommentImage(rs));
+				currentCommentInstance.addImage(extractCommentImage(rs));
 			}
 
 			if (rs.isLast()) {

@@ -17,6 +17,8 @@
 
 <body>
 	<div id="container">
+		<input type="hidden" id="display-info-id"
+			value=<%=request.getParameter("id")%>>
 		<!-- [D] 예약하기로 들어오면 header에 fade 클래스 추가로 숨김 -->
 		<div class="header fade">
 			<header class="header_tit">

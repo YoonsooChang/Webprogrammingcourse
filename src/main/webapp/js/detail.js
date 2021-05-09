@@ -7,8 +7,17 @@ let imagePos = 1;
 let imageStart, imageEnd;
 let currentImageNumNode;
 
-document.addEventListener("DOMContentLoaded", () => reqHandler.getRequest());
+let pathVar;
 
+document.addEventListener("DOMContentLoaded", () => {
+	pathVar = document.getElementById("display-info-id").value;
+	const url = `api/display/${pathVar}`;
+
+	const reqHandler
+		= new RequestHandler(url, appendDetails, printReqErr, isValid);
+
+	reqHandler.getRequest()
+});
 
 const appendDetails = (data) => {
 	const {
@@ -188,7 +197,7 @@ const setUpContentToggler = (productContent) => {
 
 const setUpReviewMoreBtn = () => {
 	const reviewMoreBtn = document.getElementById("btn-review-more");
-	reviewMoreBtn.setAttribute("href", `review?id=${urlGetParams.get("id")}`);
+	reviewMoreBtn.setAttribute("href", `review?id=${pathVar}`);
 }
 
 const setUpInnerTabs = () => {
@@ -220,9 +229,3 @@ const fillUpLocationSectionNodes = (displayInfo, saveFileName) => {
 	document.getElementById("store-telephone").innerHTML = telephone;
 	document.getElementById("store-telephone").setAttribute("href", `tel:${telephone}`);
 }
-
-
-const urlGetParams = new URL(window.location.href).searchParams;
-const reqHandler = new RequestHandler(`api/display/${urlGetParams.get("id")}`, appendDetails,
-	printReqErr,
-	isValid);

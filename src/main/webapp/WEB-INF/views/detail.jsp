@@ -127,6 +127,8 @@
 					</button>
 				</div>
 				<div class="section_review_list">
+					<input type="hidden" id="display-info-id"
+						value=<%=request.getParameter("id")%>>
 					<div class="review_box">
 						<h3 class="title_h3">예매자 한줄평</h3>
 						<div class="short_review_area">

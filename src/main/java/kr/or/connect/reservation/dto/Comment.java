@@ -18,22 +18,88 @@ public class Comment {
 	private String reservationTelephone;
 	private double score;
 
-	public Comment(String comment, int commentId, LocalDate createDate, LocalDate modifyDate, int productId,
-		LocalDate reservationDate, String reservationEmail, int reservationInfoId, String reservationName,
-		String reservationTelephone, double score) {
-		super();
-		this.comment = comment;
-		this.commentId = commentId;
-		this.commentImages = new ArrayList<CommentImage>();
-		this.createDate = createDate;
-		this.modifyDate = modifyDate;
-		this.productId = productId;
-		this.reservationDate = reservationDate;
-		this.reservationEmail = reservationEmail;
-		this.reservationInfoId = reservationInfoId;
-		this.reservationName = reservationName;
-		this.reservationTelephone = reservationTelephone;
-		this.score = score;
+	public static class Builder {
+		private final int commentId;
+		private final int productId;
+		private final int reservationInfoId;
+
+		private String comment = "";
+		private LocalDate createDate = null;
+		private LocalDate modifyDate = null;
+		private LocalDate reservationDate = null;
+		private String reservationEmail = "";
+		private String reservationName = "";
+		private String reservationTelephone = "";
+		private double score = 0.0;
+
+		public Builder(int commentId, int productId, int reservationInfoId) {
+			this.commentId = commentId;
+			this.productId = productId;
+			this.reservationInfoId = reservationInfoId;
+		}
+
+		public Builder comment(String val) {
+			this.comment = val;
+			return this;
+		}
+
+		public Builder createDate(LocalDate val) {
+			this.createDate = val;
+			return this;
+		}
+
+		public Builder modifyDate(LocalDate val) {
+			this.modifyDate = val;
+			return this;
+		}
+
+		public Builder reservationDate(LocalDate val) {
+			this.reservationDate = val;
+			return this;
+		}
+
+		public Builder reservationEmail(String val) {
+			this.reservationEmail = val;
+			return this;
+		}
+
+		public Builder reservationName(String val) {
+			this.reservationName = val;
+			return this;
+		}
+
+		public Builder reservationTelephone(String val) {
+			this.reservationTelephone = val;
+			return this;
+		}
+
+		public Builder score(double val) {
+			this.score = val;
+			return this;
+		}
+
+		public Comment build() {
+			return new Comment(this);
+		}
+	}
+
+	private Comment(Builder builder) {
+		comment = builder.comment;
+		commentId = builder.commentId;
+		commentImages = new ArrayList<CommentImage>();
+		createDate = builder.createDate;
+		modifyDate = builder.modifyDate;
+		productId = builder.productId;
+		reservationDate = builder.reservationDate;
+		reservationEmail = builder.reservationEmail;
+		reservationInfoId = builder.reservationInfoId;
+		reservationName = builder.reservationName;
+		reservationTelephone = builder.reservationTelephone;
+		score = builder.score;
+	}
+
+	public void addImage(CommentImage image) {
+		commentImages.add(image);
 	}
 
 	public String getComment() {
