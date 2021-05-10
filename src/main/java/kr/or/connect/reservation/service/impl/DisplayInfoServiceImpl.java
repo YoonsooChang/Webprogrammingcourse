@@ -43,8 +43,11 @@ public class DisplayInfoServiceImpl implements DisplayInfoService {
 		List<ProductImage> productImages = productDao.selectProductImagesById(productId);
 		List<ProductPrice> productPrices = productDao.selectProductPricesById(productId);
 
-		DisplayInfoResponse displayInfoResponse = new DisplayInfoResponse(comments, displayInfo,
-			displayInfoImage, productImages, productPrices);
+		DisplayInfoResponse displayInfoResponse = new DisplayInfoResponse.Builder(displayInfo, productImages,
+			productPrices)
+				.commentList(comments)
+				.displayInfoImage(displayInfoImage)
+				.build();
 
 		return displayInfoResponse;
 	}
@@ -54,6 +57,22 @@ public class DisplayInfoServiceImpl implements DisplayInfoService {
 		List<Comment> comments = commentDao.selectByDisplayInfoId(displayInfoId);
 
 		return comments;
+	}
+
+	@Override
+	public DisplayInfoResponse getDisplayInfoReservationById(int displayInfoId) {
+
+		DisplayInfo displayInfo = displayInfoDao.selectById(displayInfoId);
+
+		int productId = displayInfo.getProductId();
+
+		List<ProductImage> productImages = productDao.selectProductImagesById(productId);
+		List<ProductPrice> productPrices = productDao.selectProductPricesById(productId);
+
+		DisplayInfoResponse displayInfoResponse = new DisplayInfoResponse.Builder(displayInfo, productImages,
+			productPrices).build();
+
+		return displayInfoResponse;
 	}
 
 }

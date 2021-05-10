@@ -31,4 +31,10 @@ public class DisplayInfoApiController {
 	int displayInfoId) {
 		return displayInfoService.getCommentsById(displayInfoId);
 	}
+
+	@GetMapping("/reservation/{id}")
+	public DisplayInfoResponse getDisplayInfoReservationResponseById(@PathVariable(name = "id")
+	int displayInfoId) {
+		return displayInfoService.getDisplayInfoReservationById(displayInfoId);
+	}
 }

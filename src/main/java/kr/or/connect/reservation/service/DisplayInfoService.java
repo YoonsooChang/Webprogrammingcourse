@@ -10,5 +10,7 @@ public interface DisplayInfoService {
 
 	DisplayInfoResponse getDisplayInfoById(int displayInfoId);
 
+	DisplayInfoResponse getDisplayInfoReservationById(int displayInfoId);
+
 	List<Comment> getCommentsById(int displayInfoId);
 }

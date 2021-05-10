@@ -1,5 +1,6 @@
 package kr.or.connect.reservation.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DisplayInfoResponse {
@@ -9,14 +10,40 @@ public class DisplayInfoResponse {
 	private List<ProductImage> productImages;
 	private List<ProductPrice> productPrices;
 
-	public DisplayInfoResponse(List<Comment> comments, DisplayInfo displayInfo,
-		DisplayInfoImage displayInfoImage, List<ProductImage> productImages, List<ProductPrice> productPrices) {
-		super();
-		this.comments = comments;
-		this.displayInfo = displayInfo;
-		this.displayInfoImage = displayInfoImage;
-		this.productImages = productImages;
-		this.productPrices = productPrices;
+	public static class Builder {
+		private List<Comment> comments = new ArrayList<>();
+		private final DisplayInfo displayInfo;
+		private DisplayInfoImage displayInfoImage = new DisplayInfoImage();
+		private final List<ProductImage> productImages;
+		private final List<ProductPrice> productPrices;
+
+		public Builder(DisplayInfo displayInfo, List<ProductImage> productImages, List<ProductPrice> productPrices) {
+			this.displayInfo = displayInfo;
+			this.productImages = productImages;
+			this.productPrices = productPrices;
+		}
+
+		public Builder commentList(List<Comment> list) {
+			comments = list;
+			return this;
+		}
+
+		public Builder displayInfoImage(DisplayInfoImage image) {
+			displayInfoImage = image;
+			return this;
+		}
+
+		public DisplayInfoResponse build() {
+			return new DisplayInfoResponse(this);
+		}
+	}
+
+	public DisplayInfoResponse(Builder builder) {
+		comments = builder.comments;
+		displayInfo = builder.displayInfo;
+		displayInfoImage = builder.displayInfoImage;
+		productImages = builder.productImages;
+		productPrices = builder.productPrices;
 	}
 
 	public List<Comment> getComments() {
