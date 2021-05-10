@@ -2,7 +2,6 @@ package kr.or.connect.reservation.dao;
 
 import static kr.or.connect.reservation.dao.sqls.DisplayInfoDaoSqls.SELECT_BY_ID;
 import static kr.or.connect.reservation.dao.sqls.DisplayInfoDaoSqls.SELECT_IMAGE_BY_ID;
-import static kr.or.connect.reservation.dao.sqls.DisplayInfoDaoSqls.SELECT_PRODUCT_ID;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,13 +24,6 @@ public class DisplayInfoDao {
 
 	public DisplayInfoDao(DataSource dataSource) {
 		this.jdbc = new NamedParameterJdbcTemplate(dataSource);
-	}
-
-	public int selectProductId(int displayInfoId) {
-		Map<String, Integer> params = new HashMap<>();
-		params.put("id", displayInfoId);
-
-		return jdbc.queryForObject(SELECT_PRODUCT_ID, params, Integer.class);
 	}
 
 	public DisplayInfo selectById(int displayInfoId) {
