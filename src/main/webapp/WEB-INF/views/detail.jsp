@@ -100,10 +100,11 @@
 						</p>
 					</div>
 					<!-- [D] 토글 상황에 따라 bk_more에 display:none 추가 -->
-					<a href="#" class="bk_more _open"> <span class="bk_more_txt">펼쳐보기</span>
-						<i class="fn fn-down2"></i>
-					</a> <a href="#" class="bk_more _close" style="display: none;"> <span
-						class="bk_more_txt">접기</span> <i class="fn fn-up2"></i>
+					<a href="#" id="detail-opener" class="bk_more _open"> <span
+						class="bk_more_txt">펼쳐보기</span> <i class="fn fn-down2"></i>
+					</a> <a href="#" id="detail-closer" class="bk_more _close"
+						style="display: none;"> <span class="bk_more_txt">접기</span> <i
+						class="fn fn-up2"></i>
 					</a>
 				</div>
 				<div class="section_event">
@@ -126,6 +127,8 @@
 					</button>
 				</div>
 				<div class="section_review_list">
+					<input type="hidden" id="display-info-id"
+						value=<%=request.getParameter("id")%>>
 					<div class="review_box">
 						<h3 class="title_h3">예매자 한줄평</h3>
 						<div class="short_review_area">
@@ -138,7 +141,7 @@
 								</strong> <span class="join_count"> <em id="comment-counts"
 									class="green"></em> 등록 
 							</div>
-							<ul id="review-short" class="list_short_review">
+							<ul id="review-list" class="list_short_review">
 								<!-- 댓글(Comment) -->
 							</ul>
 						</div>
@@ -302,6 +305,9 @@
 		
 	</script>
 	<script src="js/RequestHandler.js">
+		
+	</script>
+	<script src="js/comment.js">
 		
 	</script>
 	<script src="js/detail.js">
