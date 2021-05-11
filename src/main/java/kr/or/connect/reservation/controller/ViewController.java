@@ -27,4 +27,13 @@ public class ViewController {
 		return "review";
 	}
 
+	@GetMapping("/bookinglogin")
+	public String setViewLoginPage() {
+		return "bookinglogin";
+	}
+
+	@GetMapping("/myreservation")
+	public String setViewMyReservationPage() {
+		return "myreservation";
+	}
 }

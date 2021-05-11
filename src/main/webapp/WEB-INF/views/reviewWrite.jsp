@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+Object sessionUserNullable = session.getAttribute("user");
+String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString() : "";
+%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -24,8 +28,21 @@
 						class="spr_bi ico_bk_logo">예약</span>
 					</a>
 				</h1>
-				<a href="#" class="btn_my"> <span title="예약확인">예약확인</span>
+				<%
+				if (userEmail.equals("")) {
+				%>
+				<a href="bookinglogin" class="btn_my"> <span
+					class="viewReservation" title="예약확인">예약확인</span>
 				</a>
+				<%
+				} else {
+				%>
+				<a href="myreservation" class="btn_my"> <span
+					class="viewReservation"><%=userEmail%></span>
+				</a>
+				<%
+				}
+				%>
 			</header>
 		</div>
 		<div class="ct">

@@ -1,5 +1,7 @@
 package kr.or.connect.reservation.dto;
 
+import java.util.List;
+
 public class ReservationInfoResponse {
 	private List<ReservationInfo> reservations;
 	private int size;

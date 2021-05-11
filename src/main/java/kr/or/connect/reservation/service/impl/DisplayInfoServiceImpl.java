@@ -46,7 +46,7 @@ public class DisplayInfoServiceImpl implements DisplayInfoService {
 
 		DisplayInfoResponse displayInfoResponse = new DisplayInfoResponse.Builder(displayInfo, productImages,
 			productPrices)
-				.averageScore(productId)
+				.averageScore(computeAverageScore(comments))
 				.commentTotalCount(comments.size())
 				.commentList(comments.subList(0, commentCountToSend))
 				.displayInfoImage(displayInfoImage)
