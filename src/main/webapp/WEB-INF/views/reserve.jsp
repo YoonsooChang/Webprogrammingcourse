@@ -14,11 +14,13 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 <meta name="viewport"
 	content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
 <title>네이버 예약</title>
-<link href="css/reservation.css" rel="stylesheet">
-<link href="css/bookinglogin.css" rel="stylesheet">
+<link href="../css/reservation.css" rel="stylesheet">
+<link href="../css/bookinglogin.css" rel="stylesheet">
 </head>
 
 <body>
+	<input type="hidden" id="display-info-id"
+		value=<%=request.getAttribute("id")%>>
 	<div id="container">
 		<!-- [D] 예약하기로 들어오면 header에 fade 클래스 추가로 숨김 -->
 		<div class="header fade">
@@ -58,8 +60,8 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 				</div>
 				<div class="group_visual">
 					<div class="container_visual" style="width: 414px;">
-						<ul id="product-image-slide" class="visual_img">
-							<!-- productImages(상품 이미지들) -->
+						<ul id="product-image-container" class="visual_img">
+							<!-- productImage(상품 이미지) -->
 						</ul>
 					</div>
 				</div>
@@ -67,20 +69,17 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 					<div class="store_details">
 						<h3 class="in_tit"></h3>
 						<p class="dsc">
-							장소 : <span id="detail-lot"></span> <br> 기간 : <span
+							장소 : <span id="detail-lot"></span> <br> <span
 								id="detail-term"></span>
 						</p>
 						<h3 class="in_tit">관람시간</h3>
 						<p id="detail-time" class="dsc"></p>
 						<h3 class="in_tit">요금</h3>
-						<p id="detail-fee" class="dsc">
-							성인(만 19~64세) 5,000원 / 청소년(만 13~18세) 4,000원<br> 어린이(만 4~12세)
-							3,000원 / 20인 이상 단체 20% 할인<br> 국가유공자, 장애인, 65세 이상 4,000원
-						</p>
+						<p id="detail-fee" class="dsc"></p>
 					</div>
 				</div>
 				<div class="section_booking_ticket">
-					<div class="ticket_body">
+					<div id="counter-container" class="ticket_body">
 						<!-- count controller templates -->
 					</div>
 				</div>
@@ -91,7 +90,8 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 							<div class="agreement_nessasary help_txt">
 								<span class="spr_book ico_nessasary"></span> <span>필수입력</span>
 							</div>
-							<form class="form_horizontal">
+							<form action="/reservation/api/reservation/add" method="post"
+								id="reservation-form" class="form_horizontal">
 								<div class="inline_form">
 									<label class="label" for="name"> <span
 										class="spr_book ico_nessasary">필수</span> <span>예매자</span>
@@ -99,6 +99,9 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 									<div class="inline_control">
 										<input type="text" name="name" id="name" class="text"
 											placeholder="네이버" maxlength="17">
+										<div id="name-warning" class="warning_msg"
+											style="color: red; visibility: hidden;">예매자를 입력해주세요</div>
+
 									</div>
 								</div>
 								<div class="inline_form">
@@ -108,7 +111,8 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 									<div class="inline_control tel_wrap">
 										<input type="tel" name="tel" id="tel" class="tel" value=""
 											placeholder="휴대폰 입력 시 예매내역 문자발송">
-										<div class="warning_msg">형식이 틀렸거나 너무 짧아요</div>
+										<div id="tel-warning" class="warning_msg"
+											style="color: red; visibility: hidden;">형식이 틀렸거나 너무 짧아요</div>
 									</div>
 								</div>
 								<div class="inline_form">
@@ -118,13 +122,16 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 									<div class="inline_control">
 										<input type="email" name="email" id="email" class="email"
 											value="" placeholder="aaa@naver.com" maxlength="50">
+										<div id="email-warning" class="warning_msg"
+											style="color: red; visibility: hidden;">형식이 틀렸거나 너무 짧아요</div>
+
 									</div>
 								</div>
 								<div class="inline_form last">
 									<label class="label" for="message">예매내용</label>
 									<div class="inline_control">
 										<p class="inline_txt selected">
-											<span id="date-now">2017.2.17</span>, 총 <span id="totalCount">16</span>매
+											<span id="date-now"></span> 총 <span id="total-count">0</span>매
 										</p>
 									</div>
 								</div>
@@ -183,8 +190,8 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 				</div>
 				<div class="box_bk_btn">
 					<!-- [D] 약관 전체 동의가 되면 disable 제거 -->
-					<div class="bk_btn_wrap disable">
-						<button type="button" class="bk_btn">
+					<div id="book-btn-wrapper" class="bk_btn_wrap disable">
+						<button type="button" id="book-btn" class="bk_btn">
 							<i class="spr_book ico_naver_s"></i> <span>예약하기</span>
 						</button>
 					</div>
@@ -204,28 +211,29 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 		</div>
 	</footer>
 
-	<script type="rv-template" id="productImagesItem">
+	<script type="rv-template" id="productImageItem">
   				<li class="item" style="width: 414px;">
 					 <img alt="{{fileName}}"
 						 class="img_thumb" 
-						 src={{saveFileName}}>
+						 src=/reservation/{{saveFileName}}>
 					 <span class="img_bg"></span>
                 	<div class="preview_txt">
                     	<h2 class="preview_txt_tit"></h2> 
-						<em class="preview_txt_dsc">{{lowestPrice}}</em>
-						<em class="preview_txt_dsc">{{openingHours}}</em> 
+						<em class="preview_txt_dsc">&#8361;{{lowestPrice}}~</em>
+						<em class="preview_txt_dsc">{{openingDays}}</em> 
 					</div>
                 </li>
     </script>
 
 	<script type="rv-template" id="countControllerItem">
 	<div class="qty">
-		<div class="count_control">
+		<div id={{controllerId}} class="count_control">
 			<!-- [D] 수량이 최소 값이 일때 ico_minus3, count_control_input에 disabled 각각 추가, 수량이 최대 값일 때는 ico_plus3에 disabled 추가 -->
 			<div class="clearfix">
 				<a href="#"
 					class="btn_plus_minus spr_book2 ico_minus3 disabled"
-					title="빼기"> </a> <input type="tel"
+					title="빼기"
+					style="pointer-events:none;"> </a> <input type="tel"
 					class="count_control_input disabled" value="0" readonly
 					title="수량"> <a href="#"
 					class="btn_plus_minus spr_book2 ico_plus3" title="더하기"> </a>
@@ -236,18 +244,22 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 			</div>
 		</div>
 		<div class="qty_info_icon">
-			<strong class="product_amount"> <span>{{priceType}}</span>
-			</strong> <strong class="product_price"> <span class="price">{{price}]</span>
-				<span class="price_type">원</span>
+			<strong class="product_amount"> <span>{{priceTypeName}}</span>
+			</strong> <strong class="product_price"> <span class="price">{{price}} 원</span>
 			</strong> <em class="product_dsc">{{price}} ({{discountRate}}% 할인가)</em>
 		</div>
 	</div>
 	</script>
-
-	<script src="js/RequestHandler.js">
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"
+		integrity="sha512-RNLkV3d+aLtfcpEyFG8jRbnWHxUqVZozacROI4J2F1sTaDqo1dPQYs01OMi1t1w9Y2FdbSCDSQ2ZVdAC8bzgAg=="
+		crossorigin="anonymous">
 		
 	</script>
-	<script src="js/reserve.js">
+	<script src="../js/RequestHandler.js">
+		
+	</script>
+	<script src="../js/reserve.js">
 		
 	</script>
 

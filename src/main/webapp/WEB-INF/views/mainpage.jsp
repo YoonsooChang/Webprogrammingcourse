@@ -25,7 +25,7 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 				<h1 class="logo">
 					<a href="https://m.naver.com/" class="lnk_logo" title="네이버"> <span
 						class="spr_bi ico_n_logo">네이버</span>
-					</a> <a href="" class="lnk_logo" title="예약"> <span
+					</a> <a href="." class="lnk_logo" title="예약"> <span
 						class="spr_bi ico_bk_logo">예약</span>
 					</a>
 				</h1>
@@ -174,7 +174,7 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 
 	<script type="rv-template" id="productItem">
         <li class="item">
-            <a href="detail?id={displayInfoId}" class="item_book">
+            <a href="detail/{displayInfoId}" class="item_book">
                 <div class="item_preview">
                     <img alt="{productDescription}" class="img_thumb" src="{productImageUrl}">
                     <span class="img_border"></span>

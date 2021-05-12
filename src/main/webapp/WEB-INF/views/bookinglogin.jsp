@@ -1,12 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+Object displayIdNullable = request.getAttribute("id");
+int displayId = (displayIdNullable != null) ? (Integer)displayIdNullable : 0;
+%>
 <!DOCTYPE html>
 <!-- saved from url=(0042)https://m.booking.naver.com/booked/confirm -->
 <html lang="ko" class="no-js">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <style type="text/css">
-@charset "UTF-8"; 
+@charset "UTF-8";
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak,
 	.x-ng-cloak, .ng-hide:not(.ng-hide-animate) {
@@ -47,7 +51,8 @@ ng\:form {
 <meta name="format-detection"
 	content="telephone=no, address=no, email=no">
 <title translate="CM-NBOOKING">네이버 예약</title>
-<link rel="stylesheet" href="../css/bookinglogin.css">
+<link href="/reservation/css/reservation.css" rel="stylesheet">
+<link href="/reservation/css/bookinglogin.css" rel="stylesheet">
 </head>
 <body class="biz  ko">
 
@@ -70,17 +75,18 @@ ng\:form {
 			</h1>
 			<!---->
 			<div>
-				<form name="confirm_form" class="ng-pristine ng-valid" id="form1"
-					action="./myreservation.html">
+				<form name="confirm_form" method="post" class="ng-pristine ng-valid"
+					id="form1" action="api/login">
 					<h2 class="login_header_sub border_bottom">
 						<span translate="CM-NON_MEMBER_BK_CONFIRMATION">비회원 예약확인</span>
 					</h2>
+					<input type="hidden" name="displayInfoId" value=<%=displayId%>>
 					<div class="login_form">
 						<label class="label_form" for="resrv_id"
 							translate="CM-BOOKING_NUMBER">예약자 이메일 입력</label> <input
 							type="text"
 							class="login_input ng-pristine ng-untouched ng-valid ng-empty"
-							id="resrv_id" name="resrv_email" aria-invalid="false"
+							id="resrv_id" name="email" aria-invalid="false"
 							placeholder="crong@naver.com" title="예매자이메일">
 					</div>
 					<button type="submit" form="form1" class="login_btn confirm">

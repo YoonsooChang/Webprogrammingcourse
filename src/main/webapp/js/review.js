@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 	const pathVar = document.getElementById("display-info-id").value;
-	const url = `api/display/comment/${pathVar}`;
+	const url = `/reservation/api/display/comment/${pathVar}`;
 
 	const reqHandler
 		= new RequestHandler(url,

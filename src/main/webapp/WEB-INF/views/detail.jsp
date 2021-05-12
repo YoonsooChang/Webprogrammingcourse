@@ -14,8 +14,8 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 <meta name="viewport"
 	content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
 <title>네이버 예약</title>
-<link href="css/reservation.css" rel="stylesheet">
-<link href="css/bookinglogin.css" rel="stylesheet">
+<link href="../css/reservation.css" rel="stylesheet">
+<link href="../css/bookinglogin.css" rel="stylesheet">
 <style>
 .container_visual {
 	height: 414px;
@@ -24,6 +24,8 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 </head>
 
 <body>
+	<input type="hidden" id="display-info-id"
+		value=<%=request.getAttribute("id")%>>
 	<div id="container">
 		<div class="header fade">
 			<header class="header_tit">
@@ -144,8 +146,6 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 					</button>
 				</div>
 				<div class="section_review_list">
-					<input type="hidden" id="display-info-id"
-						value=<%=request.getParameter("id")%>>
 					<div class="review_box">
 						<h3 class="title_h3">예매자 한줄평</h3>
 						<div class="short_review_area">
@@ -263,7 +263,7 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 
 	<script type="rv-template" id="productImagesItem">
 			<li class="item" style="width: 414px;">
-				<img alt= {{fileName}} class="img_thumb" src= {{saveFileName}}>
+				<img alt= {{fileName}} class="img_thumb" src= /reservation/{{saveFileName}}>
 				 <span class="img_bg"></span>
 				<div class="visual_txt">
 					<div class="visual_txt_inn">
@@ -285,7 +285,7 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 						<div class="thumb_area">
 							<a href="#" class="thumb" title="이미지 크게 보기"> <img
 								width="90" height="90" class="img_vertical_top"
-								src={{saveFileName}}
+								src=/reservation/{{saveFileName}}
 								alt="리뷰이미지">
 							</a> <span class="img_count" style="display: none;">1</span>
 						</div>
@@ -321,13 +321,13 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 		crossorigin="anonymous">
 		
 	</script>
-	<script src="js/RequestHandler.js">
+	<script src="../js/RequestHandler.js">
 		
 	</script>
-	<script src="js/comment.js">
+	<script src="../js/comment.js">
 		
 	</script>
-	<script src="js/detail.js">
+	<script src="../js/detail.js">
 		
 	</script>
 </body>

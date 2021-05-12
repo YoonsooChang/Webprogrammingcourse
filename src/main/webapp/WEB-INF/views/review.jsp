@@ -14,15 +14,15 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 <meta name="viewport"
 	content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
 <title>네이버 예약</title>
-<link href="css/reservation.css" rel="stylesheet">
-<link href="css/bookinglogin.css" rel="stylesheet">
+<link href="../css/reservation.css" rel="stylesheet">
+<link href="../css/bookinglogin.css" rel="stylesheet">
 
 </head>
 
 <body>
 	<div id="container">
 		<input type="hidden" id="display-info-id"
-			value=<%=request.getParameter("id")%>>
+			value=<%=request.getAttribute("id")%>>
 		<!-- [D] 예약하기로 들어오면 header에 fade 클래스 추가로 숨김 -->
 		<div class="header fade">
 			<header class="header_tit">
@@ -109,7 +109,7 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 						<div class="thumb_area">
 							<a href="#" class="thumb" title="이미지 크게 보기"> <img
 								width="90" height="90" class="img_vertical_top"
-								src={{saveFileName}}
+								src=/reservation/{{saveFileName}}
 								alt="리뷰이미지">
 							</a> <span class="img_count">1</span>
 						</div>
@@ -146,13 +146,13 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 		
 	</script>
 
-	<script src="js/RequestHandler.js">
+	<script src="../js/RequestHandler.js">
 		
 	</script>
-	<script src="js/comment.js">
+	<script src="../js/comment.js">
 		
 	</script>
-	<script src="js/review.js">
+	<script src="../js/review.js">
 		
 	</script>
 </body>

@@ -4,10 +4,12 @@ class RequestHandler {
 		this.onSuccess = successHandler;
 		this.onFailure = failureHandler;
 		this.isValid = validator;
+		this.setRequestObject();
+
 	};
 
-	getRequest = (paramObject) => {
-		let oReq = new XMLHttpRequest;
+	setRequestObject = () => {
+		const oReq = new XMLHttpRequest;
 
 		oReq.onload = () => {
 			if (oReq.readyState === XMLHttpRequest.DONE && oReq.status === 200) {
@@ -19,13 +21,28 @@ class RequestHandler {
 			}
 		}
 
+		return oReq;
+	}
+
+	getRequest = (paramObject) => {
 		const url = this.path + this.makeQueryString(paramObject);
 
+		const oReq = this.setRequestObject();
 		oReq.responseType = "json";
 		oReq.open("GET", url);
 		oReq.send();
 	}
 
-	makeQueryString = (paramObj) => (paramObj ? ("?" + new URLSearchParams(paramObj)) : "");
+	postRequest = (paramObject) => {
+		const oReq = this.setRequestObject();
+		oReq.responseType = "json";
+		oReq.open("POST", url);
+		oReq.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		oReq.send(makeParameterStr(paramObject));
+	}
 
+	makeQueryString = (paramObject) => (paramObject ? ("?" + new URLSearchParams(paramObject)) : "");
+	makeParameterStr = (paramObject) => Object.entries(paramObject)
+		.map((kv) => `${kv[0]}=${kv[1]}`)
+		.reduce((acc, cur) => `${acc}&${cur}}`);
 }

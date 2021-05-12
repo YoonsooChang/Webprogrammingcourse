@@ -14,7 +14,8 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 <meta name="viewport"
 	content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
 <title>네이버 예약</title>
-<link href="../css/style.css" rel="stylesheet">
+<link href="../css/reservation.css" rel="stylesheet">
+<link href="../css/bookinglogin.css" rel="stylesheet">
 </head>
 
 <body>

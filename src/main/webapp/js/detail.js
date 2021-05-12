@@ -11,7 +11,7 @@ let pathVar;
 
 document.addEventListener("DOMContentLoaded", () => {
 	pathVar = document.getElementById("display-info-id").value;
-	const url = `api/display/${pathVar}`;
+	const url = `/reservation/api/display/${pathVar}`;
 
 	const reqHandler
 		= new RequestHandler(url, appendDetails, printReqErr, isValid);
@@ -34,13 +34,13 @@ const appendDetails = (data) => {
 	const { productDescription, productContent } = displayInfo;
 
 	document.getElementById("book-btn").onclick
-		= (() => window.location.href = `reserve?id=${urlGetParams.get("id")}`);
+		= (() => window.location.href = `/reservation/reserve/${pathVar}`);
 
 	setUpImageSlide(productImages, productDescription);
 
 	setUpContentToggler(productContent);
 
-	setUpReviewMoreBtn();
+	setUpReviewMoreBtn(pathVar);
 
 	setUpComments(comments, averageScore, commentTotalCount);
 
@@ -200,7 +200,7 @@ const setUpContentToggler = (productContent) => {
 
 const setUpReviewMoreBtn = () => {
 	const reviewMoreBtn = document.getElementById("btn-review-more");
-	reviewMoreBtn.setAttribute("href", `review?id=${pathVar}`);
+	reviewMoreBtn.setAttribute("href", `/reservation/review/${pathVar}`);
 }
 
 const setUpInnerTabs = () => {
@@ -225,7 +225,7 @@ const setUpInnerTabs = () => {
 const fillUpLocationSectionNodes = (displayInfo, saveFileName) => {
 	const { placeStreet, placeLot, placeName, telephone } = displayInfo;
 
-	document.getElementById("map-image").setAttribute("src", saveFileName);
+	document.getElementById("map-image").setAttribute("src", `/reservation/${saveFileName}`);
 	document.getElementById("store-street").innerHTML = placeStreet;
 	document.getElementById("store-lot").innerHTML = placeLot;
 	document.getElementById("store-name").innerHTML = placeName;

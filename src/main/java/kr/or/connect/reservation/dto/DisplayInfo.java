@@ -116,6 +116,10 @@ public class DisplayInfo {
 		}
 	}
 
+	public DisplayInfo() {
+		super();
+	}
+
 	public DisplayInfo(Builder builder) {
 		categoryId = builder.categoryId;
 		categoryName = builder.categoryName;
