@@ -14,8 +14,8 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 <meta name="viewport"
 	content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
 <title>네이버 예약</title>
-<link href="../css/reservation.css" rel="stylesheet">
-<link href="../css/bookinglogin.css" rel="stylesheet">
+<link href="/reservation/css/reservation.css" rel="stylesheet">
+<link href="/reservation/css/bookinglogin.css" rel="stylesheet">
 </head>
 
 <body>
@@ -55,20 +55,20 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 						<li class="item">
 							<!--[D] 선택 후 .on 추가 link_summary_board --> <a href="#"
 							class="link_summary_board on"> <i class="spr_book2 ico_book2"></i>
-								<em class="tit">전체</em> <span class="figure">6</span>
+								<em class="tit">전체</em> <span id="count-all" class="figure"></span>
 						</a>
 						</li>
 						<li class="item"><a href="#" class="link_summary_board">
 								<i class="spr_book2 ico_book_ss"></i> <em class="tit">이용예정</em>
-								<span class="figure">2</span>
+								<span id="count-todo" class="figure"></span>
 						</a></li>
 						<li class="item"><a href="#" class="link_summary_board">
 								<i class="spr_book2 ico_check"></i> <em class="tit">이용완료</em> <span
-								class="figure">2</span>
+								id="count-done" class="figure"></span>
 						</a></li>
 						<li class="item"><a href="#" class="link_summary_board">
 								<i class="spr_book2 ico_back"></i> <em class="tit">취소·환불</em> <span
-								class="figure">2</span>
+								id="count-canceled" class="figure"></span>
 						</a></li>
 					</ul>
 				</div>
@@ -175,7 +175,7 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 									title="공유하기"></a>
 							</article>
 						</li>
-						<li class="card confirmed">
+						<li id="confirmed-section" class="card confirmed">
 							<div class="link_booking_details">
 								<div class="card_header">
 									<div class="left"></div>
@@ -186,95 +186,9 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 									</div>
 									<div class="right"></div>
 								</div>
-							</div>
-							<article class="card_item">
-								<a href="#" class="link_booking_details">
-									<div class="card_body">
-										<div class="left"></div>
-										<div class="middle">
-											<div class="card_detail">
-												<em class="booking_number">No.0000000</em>
-												<h4 class="tit">서비스명/상품명</h4>
-												<ul class="detail">
-													<li class="item"><span class="item_tit">일정</span> <em
-														class="item_dsc"> 2000.0.00.(월)2000.0.00.(일) </em></li>
-													<li class="item"><span class="item_tit">내역</span> <em
-														class="item_dsc"> 내역이 없습니다. </em></li>
-													<li class="item"><span class="item_tit">장소</span> <em
-														class="item_dsc"> 내역이 없습니다. </em></li>
-													<li class="item"><span class="item_tit">업체</span> <em
-														class="item_dsc"> 업체명이 없습니다. </em></li>
-												</ul>
-												<div class="price_summary">
-													<span class="price_tit">결제 예정금액</span> <em
-														class="price_amount"> <span>000,000,000</span> <span
-														class="unit">원</span>
-													</em>
-												</div>
-												<!-- [D] 예약 신청중, 예약 확정 만 취소가능, 취소 버튼 클릭 시 취소 팝업 활성화 -->
-												<div class="booking_cancel">
-													<button class="btn">
-														<span>취소</span>
-													</button>
-												</div>
-
-											</div>
-										</div>
-										<div class="right"></div>
-									</div>
-									<div class="card_footer">
-										<div class="left"></div>
-										<div class="middle"></div>
-										<div class="right"></div>
-									</div>
-								</a> <a href="#" class="fn fn-share1 naver-splugin btn_goto_share"
-									title="공유하기"></a>
-							</article>
-							<article class="card_item">
-								<a href="#" class="link_booking_details">
-									<div class="card_body">
-										<div class="left"></div>
-										<div class="middle">
-											<div class="card_detail">
-												<em class="booking_number">No.0000000</em>
-												<h4 class="tit">서비스명/상품명</h4>
-												<ul class="detail">
-													<li class="item"><span class="item_tit">일정</span> <em
-														class="item_dsc"> 2000.0.00.(월)2000.0.00.(일) </em></li>
-													<li class="item"><span class="item_tit">내역</span> <em
-														class="item_dsc"> 내역이 없습니다. </em></li>
-													<li class="item"><span class="item_tit">장소</span> <em
-														class="item_dsc"> 내역이 없습니다. </em></li>
-													<li class="item"><span class="item_tit">업체</span> <em
-														class="item_dsc"> 업체명이 없습니다. </em></li>
-												</ul>
-												<div class="price_summary">
-													<span class="price_tit">결제 예정금액</span> <em
-														class="price_amount"> <span>000,000,000</span> <span
-														class="unit">원</span>
-													</em>
-												</div>
-												<!-- [D] 예약 신청중, 예약 확정 만 취소가능, 취소 버튼 클릭 시 취소 팝업 활성화 -->
-												<div class="booking_cancel">
-													<button class="btn">
-														<span>취소</span>
-													</button>
-												</div>
-
-											</div>
-										</div>
-										<div class="right"></div>
-									</div>
-									<div class="card_footer">
-										<div class="left"></div>
-										<div class="middle"></div>
-										<div class="right"></div>
-									</div>
-								</a> <a href="#" class="fn fn-share1 naver-splugin btn_goto_share"
-									title="공유하기"></a>
-							</article>
+							</div> <!-- 예정된 예약 -->
 						</li>
-						<li class="card used">
+						<li id="used-section" class="card used">
 							<div class="link_booking_details">
 								<div class="card_header">
 									<div class="left"></div>
@@ -285,89 +199,9 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 									</div>
 									<div class="right"></div>
 								</div>
-							</div>
-							<article class="card_item">
-								<a href="#" class="link_booking_details">
-									<div class="card_body">
-										<div class="left"></div>
-										<div class="middle">
-											<div class="card_detail">
-												<em class="booking_number">No.0000000</em>
-												<h4 class="tit">서비스명/상품명</h4>
-												<ul class="detail">
-													<li class="item"><span class="item_tit">일정</span> <em
-														class="item_dsc"> 2000.0.00.(월)2000.0.00.(일) </em></li>
-													<li class="item"><span class="item_tit">내역</span> <em
-														class="item_dsc"> 내역이 없습니다. </em></li>
-													<li class="item"><span class="item_tit">장소</span> <em
-														class="item_dsc"> 내역이 없습니다. </em></li>
-													<li class="item"><span class="item_tit">업체</span> <em
-														class="item_dsc"> 업체명이 없습니다. </em></li>
-												</ul>
-												<div class="price_summary">
-													<span class="price_tit">결제 예정금액</span> <em
-														class="price_amount"> <span>000,000,000</span> <span
-														class="unit">원</span>
-													</em>
-												</div>
-												<div class="booking_cancel">
-													<a href="./reviewWrite.html"><button class="btn">
-															<span>예매자 리뷰 남기기</span>
-														</button></a>
-												</div>
-											</div>
-										</div>
-										<div class="right"></div>
-									</div>
-									<div class="card_footer">
-										<div class="left"></div>
-										<div class="middle"></div>
-										<div class="right"></div>
-									</div>
-								</a>
-							</article>
-							<article class="card_item">
-								<a href="#" class="link_booking_details">
-									<div class="card_body">
-										<div class="left"></div>
-										<div class="middle">
-											<div class="card_detail">
-												<em class="booking_number">No.0000000</em>
-												<h4 class="tit">서비스명/상품명</h4>
-												<ul class="detail">
-													<li class="item"><span class="item_tit">일정</span> <em
-														class="item_dsc"> 2000.0.00.(월)2000.0.00.(일) </em></li>
-													<li class="item"><span class="item_tit">내역</span> <em
-														class="item_dsc"> 내역이 없습니다. </em></li>
-													<li class="item"><span class="item_tit">장소</span> <em
-														class="item_dsc"> 내역이 없습니다. </em></li>
-													<li class="item"><span class="item_tit">업체</span> <em
-														class="item_dsc"> 업체명이 없습니다. </em></li>
-												</ul>
-												<div class="price_summary">
-													<span class="price_tit">결제 예정금액</span> <em
-														class="price_amount"> <span>000,000,000</span> <span
-														class="unit">원</span>
-													</em>
-												</div>
-												<div class="booking_cancel">
-													<a href="./reviewWrite.html"><button class="btn">
-															<span>예매자 리뷰 남기기</span>
-														</button></a>
-												</div>
-											</div>
-										</div>
-										<div class="right"></div>
-									</div>
-									<div class="card_footer">
-										<div class="left"></div>
-										<div class="middle"></div>
-										<div class="right"></div>
-									</div>
-								</a>
-							</article>
+							</div> <!-- 완료된 예약 -->
 						</li>
-						<li class="card used cancel">
+						<li id="canceled-section" class="card used cancel">
 							<div class="link_booking_details">
 								<div class="card_header">
 									<div class="left"></div>
@@ -378,77 +212,7 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 									</div>
 									<div class="right"></div>
 								</div>
-							</div>
-							<article class="card_item">
-								<a href="#" class="link_booking_details">
-									<div class="card_body">
-										<div class="left"></div>
-										<div class="middle">
-											<div class="card_detail">
-												<em class="booking_number">No.0000000</em>
-												<h4 class="tit">서비스명/상품명</h4>
-												<ul class="detail">
-													<li class="item"><span class="item_tit">일정</span> <em
-														class="item_dsc"> 2000.0.00.(월)2000.0.00.(일) </em></li>
-													<li class="item"><span class="item_tit">내역</span> <em
-														class="item_dsc"> 내역이 없습니다. </em></li>
-													<li class="item"><span class="item_tit">장소</span> <em
-														class="item_dsc"> 내역이 없습니다. </em></li>
-													<li class="item"><span class="item_tit">업체</span> <em
-														class="item_dsc"> 업체명이 없습니다. </em></li>
-												</ul>
-												<div class="price_summary">
-													<span class="price_tit">결제 예정금액</span> <em
-														class="price_amount"> <span>000,000,000</span> <span
-														class="unit">원</span>
-													</em>
-												</div>
-											</div>
-										</div>
-										<div class="right"></div>
-									</div>
-									<div class="card_footer">
-										<div class="left"></div>
-										<div class="middle"></div>
-										<div class="right"></div>
-									</div>
-								</a>
-							</article>
-							<article class="card_item">
-								<a href="#" class="link_booking_details">
-									<div class="card_body">
-										<div class="left"></div>
-										<div class="middle">
-											<div class="card_detail">
-												<em class="booking_number">No.0000000</em>
-												<h4 class="tit">서비스명/상품명</h4>
-												<ul class="detail">
-													<li class="item"><span class="item_tit">일정</span> <em
-														class="item_dsc"> 2000.0.00.(월)2000.0.00.(일) </em></li>
-													<li class="item"><span class="item_tit">내역</span> <em
-														class="item_dsc"> 내역이 없습니다. </em></li>
-													<li class="item"><span class="item_tit">장소</span> <em
-														class="item_dsc"> 내역이 없습니다. </em></li>
-													<li class="item"><span class="item_tit">업체</span> <em
-														class="item_dsc"> 업체명이 없습니다. </em></li>
-												</ul>
-												<div class="price_summary">
-													<span class="price_tit">결제 예정금액</span> <em
-														class="price_amount"> <span>000,000,000</span> <span
-														class="unit">원</span>
-													</em>
-												</div>
-											</div>
-										</div>
-										<div class="right"></div>
-									</div>
-									<div class="card_footer">
-										<div class="left"></div>
-										<div class="middle"></div>
-										<div class="right"></div>
-									</div>
-								</a>
-							</article>
+							</div> <!-- 취소된 예약 -->
 						</li>
 					</ul>
 				</div>
@@ -503,7 +267,64 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 		</div>
 	</div>
 	<!--// 취소 팝업 -->
+	<script type="rv-template" id="reservationItem">
+		<article id="reservation-{{reservationInfoId}}" class="card_item">
+		<a href="#" class="link_booking_details">
+			<div class="card_body">
+				<div class="left"></div>
+				<div class="middle">
+					<div class="card_detail">
+						<em class="booking_number">No.0000000</em>
+						<h4 class="tit">{{productDescription}}</h4>
+						<ul class="detail">
+							<li class="item"><span class="item_tit">일정</span> <em
+								class="item_dsc">{{openingDays}} </em></li>
+							<li class="item"><span class="item_tit">내역</span> <em
+								class="item_dsc"> 내역이 없습니다. </em></li>
+							<li class="item"><span class="item_tit">장소</span> <em
+								class="item_dsc"> 내역이 없습니다. </em></li>
+							<li class="item"><span class="item_tit">업체</span> <em
+								class="item_dsc"> 업체명이 없습니다. </em></li>
+						</ul>
+						<div class="price_summary">
+							<span class="price_tit">결제 예정금액</span> <em
+								class="price_amount"> <span>{{totalPrice}}</span> <span
+								class="unit">원</span>
+							</em>
+						</div>
+						<!-- [D] 예약 신청중, 예약 확정 만 취소가능, 취소 버튼 클릭 시 취소 팝업 활성화 -->
+						<div class="booking_cancel">
+							<button id="cancelbtn-{{reservationInfoId}}" class="btn">
+								<span>취소</span>
+							</button>
+						</div>
 
+					</div>
+				</div>
+				<div class="right"></div>
+			</div>
+			<div class="card_footer">
+				<div class="left"></div>
+				<div class="middle"></div>
+				<div class="right"></div>
+			</div>
+		</a> <a href="#" class="fn fn-share1 naver-splugin btn_goto_share"
+			title="공유하기"></a>
+	</article>
+
+	</script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"
+		integrity="sha512-RNLkV3d+aLtfcpEyFG8jRbnWHxUqVZozacROI4J2F1sTaDqo1dPQYs01OMi1t1w9Y2FdbSCDSQ2ZVdAC8bzgAg=="
+		crossorigin="anonymous">
+		
+	</script>
+	<script src="/reservation/js/RequestHandler.js">
+		
+	</script>
+	<script src="/reservation/js/myreservation.js">
+		
+	</script>
 </body>
 
 </html>

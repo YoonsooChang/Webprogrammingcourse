@@ -1,5 +1,7 @@
 package kr.or.connect.reservation.service;
 
+import java.util.Map;
+
 import kr.or.connect.reservation.dto.ReservationInfoResponse;
 
 public interface ReservationService {
@@ -7,5 +9,7 @@ public interface ReservationService {
 
 	ReservationInfoResponse getReservationInfo(String userEmail);
 
-	boolean cancelReservation(int reservationId, String userEmail);
+	String cancelReservation(int reservationId, String userEmail);
+
+	String addReservation(Map<String, Object> params);
 }

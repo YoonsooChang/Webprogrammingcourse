@@ -188,15 +188,23 @@ const checkValid = () => {
 }
 
 
-const sendReservationParams = (productPriceIds) => {
+const sendReservationParams = (productPriceIds, productId) => {
 	const formData = document.getElementById("reservation-form");
 
-	const displayInfoId = document.createElement("input");
-	displayInfoId.setAttribute("type", "hidden");
-	displayInfoId.setAttribute("name", "displayInfoId");
-	displayInfoId.setAttribute("value", document.getElementById("display-info-id").value);
+	const displayInfoIdAttr = document.createElement("input");
+	displayInfoIdAttr.setAttribute("type", "hidden");
+	displayInfoIdAttr.setAttribute("name", "displayInfoId");
+	displayInfoIdAttr.setAttribute("value", document.getElementById("display-info-id").value);
 
-	formData.appendChild(displayInfoId);
+	formData.appendChild(displayInfoIdAttr);
+
+	const productIdAttr = document.createElement("input");
+	productIdAttr.setAttribute("type", "hidden");
+	productIdAttr.setAttribute("name", "productId");
+	productIdAttr.setAttribute("value", productId);
+
+	formData.appendChild(productIdAttr);
+
 
 	const ticketCounts = countController.getTicketCounts();
 
@@ -259,10 +267,13 @@ const setUpReservationForm = (productPrices) => {
 			: "none"
 	};
 
-
+	const productId = productPrices[0].productId;
 	submitBtn.onclick = () => {
 		if (checkValid() === true) {
-			sendReservationParams(productPrices.map(price => price.productPriceId));
+			sendReservationParams(
+				productPrices.map(price => price.productPriceId),
+				productId
+			);
 		}
 	}
 

@@ -6,6 +6,10 @@ public class ReservationInfoResponse {
 	private List<ReservationInfo> reservations;
 	private int size;
 
+	public ReservationInfoResponse() {
+		super();
+	}
+
 	public ReservationInfoResponse(List<ReservationInfo> reservations, int size) {
 		super();
 		this.reservations = reservations;
@@ -22,7 +26,7 @@ public class ReservationInfoResponse {
 
 	@Override
 	public String toString() {
-		return "ReservationInfoResponse [size=" + size + "]";
+		return "ReservationInfoResponse [reservations=" + reservations + ", size=" + size + "]";
 	}
 
 }

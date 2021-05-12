@@ -16,6 +16,58 @@ public class ReservationInfo {
 	private String reservationTelephone;
 	private int totalPrice;
 
+	public ReservationInfo() {
+		super();
+	}
+
+	public boolean isCancelYn() {
+		return cancelYn;
+	}
+
+	public LocalDate getCreateDate() {
+		return createDate;
+	}
+
+	public DisplayInfo getDisplayInfo() {
+		return displayInfo;
+	}
+
+	public int getDisplayInfoId() {
+		return displayInfoId;
+	}
+
+	public LocalDate getModifyDate() {
+		return modifyDate;
+	}
+
+	public int getProductId() {
+		return productId;
+	}
+
+	public LocalDate getReservationDate() {
+		return reservationDate;
+	}
+
+	public String getReservationEmail() {
+		return reservationEmail;
+	}
+
+	public int getReservationInfoId() {
+		return reservationInfoId;
+	}
+
+	public String getReservationName() {
+		return reservationName;
+	}
+
+	public String getReservationTelephone() {
+		return reservationTelephone;
+	}
+
+	public int getTotalPrice() {
+		return totalPrice;
+	}
+
 	public static class Builder {
 		private final int displayInfoId;
 		private final DisplayInfo displayInfo;
