@@ -1,8 +1,21 @@
-const startLoad = () => {
+let categoryReqHandler;
+let promotionReqHandler;
+let productReqHandler;
+
+document.addEventListener("DOMContentLoaded", () => {
+	categoryReqHandler
+		= new RequestHandler("api/category", appendCategories, printReqErr, hasItem);
+
+	promotionReqHandler
+		= new RequestHandler("api/promotion", appendPromotions, printReqErr, hasItem);
+
+	productReqHandler
+		= new RequestHandler("api/product", appendProducts, printReqErr, hasItem);
+
 	categoryReqHandler.getRequest();
 	promotionReqHandler.getRequest();
 	productReqHandler.getRequest();
-}
+});
 
 const appendCategories = (data) => {
 	const { items } = data;
@@ -165,9 +178,3 @@ const slideLeftInfinite = (timestamp) => {
 const printReqErr = () => console.log("응답 형식이 잘못되었습니다.");
 
 const hasItem = (data) => (data && data.items);
-
-const categoryReqHandler = new RequestHandler("api/category", appendCategories, printReqErr, hasItem);
-const promotionReqHandler = new RequestHandler("api/promotion", appendPromotions, printReqErr, hasItem);
-const productReqHandler = new RequestHandler("api/product", appendProducts, printReqErr, hasItem);
-
-document.addEventListener("DOMContentLoaded", startLoad);

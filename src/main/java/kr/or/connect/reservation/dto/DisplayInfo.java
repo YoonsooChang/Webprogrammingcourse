@@ -20,6 +20,125 @@ public class DisplayInfo {
 	private int productId;
 	private String telephone;
 
+	public static class Builder {
+		private final int categoryId;
+		private final int displayInfoId;
+		private final int productId;
+
+		private LocalDate createDate;
+		private LocalDate modifyDate;
+
+		private String categoryName;
+		private String email;
+		private String homepage;
+		private String openingHours;
+		private String placeLot;
+		private String placeName;
+		private String placeStreet;
+		private String productContent;
+		private String productDescription;
+		private String productEvent;
+		private String telephone;
+
+		public Builder(int categoryId, int displayInfoId, int productId) {
+			this.categoryId = categoryId;
+			this.displayInfoId = displayInfoId;
+			this.productId = productId;
+		}
+
+		public Builder createDate(LocalDate date) {
+			createDate = date;
+			return this;
+		}
+
+		public Builder modifyDate(LocalDate date) {
+			modifyDate = date;
+			return this;
+		}
+
+		public Builder categoryName(String name) {
+			categoryName = name;
+			return this;
+		}
+
+		public Builder email(String email) {
+			this.email = email;
+			return this;
+		}
+
+		public Builder homepage(String homepage) {
+			this.homepage = homepage;
+			return this;
+		}
+
+		public Builder openingHours(String openingHours) {
+			this.openingHours = openingHours;
+			return this;
+		}
+
+		public Builder placeLot(String placeLot) {
+			this.placeLot = placeLot;
+			return this;
+		}
+
+		public Builder placeName(String placeName) {
+			this.placeName = placeName;
+			return this;
+		}
+
+		public Builder placeStreet(String placeStreet) {
+			this.placeStreet = placeStreet;
+			return this;
+		}
+
+		public Builder productContent(String productContent) {
+			this.productContent = productContent;
+			return this;
+		}
+
+		public Builder productDescription(String productDescription) {
+			this.productDescription = productDescription;
+			return this;
+		}
+
+		public Builder productEvent(String productEvent) {
+			this.productEvent = productEvent;
+			return this;
+		}
+
+		public Builder telephone(String telephone) {
+			this.telephone = telephone;
+			return this;
+		}
+
+		public DisplayInfo build() {
+			return new DisplayInfo(this);
+		}
+	}
+
+	public DisplayInfo() {
+		super();
+	}
+
+	public DisplayInfo(Builder builder) {
+		categoryId = builder.categoryId;
+		categoryName = builder.categoryName;
+		createDate = builder.createDate;
+		displayInfoId = builder.displayInfoId;
+		email = builder.email;
+		homepage = builder.homepage;
+		modifyDate = builder.modifyDate;
+		openingHours = builder.openingHours;
+		placeLot = builder.placeLot;
+		placeName = builder.placeName;
+		placeStreet = builder.placeStreet;
+		productContent = builder.productContent;
+		productDescription = builder.productDescription;
+		productEvent = builder.productEvent;
+		productId = builder.productId;
+		telephone = builder.telephone;
+	}
+
 	public int getCategoryId() {
 		return categoryId;
 	}

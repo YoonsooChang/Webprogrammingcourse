@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+Object sessionUserNullable = session.getAttribute("user");
+String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString() : "";
+%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -21,13 +25,25 @@
 				<h1 class="logo">
 					<a href="https://m.naver.com/" class="lnk_logo" title="네이버"> <span
 						class="spr_bi ico_n_logo">네이버</span>
-					</a> <a href="" class="lnk_logo" title="예약"> <span
+					</a> <a href="." class="lnk_logo" title="예약"> <span
 						class="spr_bi ico_bk_logo">예약</span>
 					</a>
 				</h1>
+				<%
+				if (userEmail.equals("")) {
+				%>
 				<a href="bookinglogin" class="btn_my"> <span
 					class="viewReservation" title="예약확인">예약확인</span>
 				</a>
+				<%
+				} else {
+				%>
+				<a href="myreservation" class="btn_my"> <span
+					class="viewReservation"><%=userEmail%></span>
+				</a>
+				<%
+				}
+				%>
 			</header>
 		</div>
 		<hr>
@@ -158,7 +174,7 @@
 
 	<script type="rv-template" id="productItem">
         <li class="item">
-            <a href="detail?id={displayInfoId}" class="item_book">
+            <a href="detail/{displayInfoId}" class="item_book">
                 <div class="item_preview">
                     <img alt="{productDescription}" class="img_thumb" src="{productImageUrl}">
                     <span class="img_border"></span>

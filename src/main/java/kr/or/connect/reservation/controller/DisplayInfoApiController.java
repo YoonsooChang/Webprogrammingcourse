@@ -1,13 +1,11 @@
 package kr.or.connect.reservation.controller;
 
-import java.util.List;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import kr.or.connect.reservation.dto.Comment;
+import kr.or.connect.reservation.dto.CommentResponse;
 import kr.or.connect.reservation.dto.DisplayInfoResponse;
 import kr.or.connect.reservation.service.DisplayInfoService;
 
@@ -27,8 +25,14 @@ public class DisplayInfoApiController {
 	}
 
 	@GetMapping("/comment/{id}")
-	public List<Comment> getCommentsById(@PathVariable(name = "id")
+	public CommentResponse getCommentsById(@PathVariable(name = "id")
 	int displayInfoId) {
 		return displayInfoService.getCommentsById(displayInfoId);
+	}
+
+	@GetMapping("/reservation/{id}")
+	public DisplayInfoResponse getDisplayInfoReservationResponseById(@PathVariable(name = "id")
+	int displayInfoId) {
+		return displayInfoService.getDisplayInfoReservationById(displayInfoId);
 	}
 }

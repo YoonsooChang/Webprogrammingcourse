@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+Object sessionUserNullable = session.getAttribute("user");
+String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString() : "";
+%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -10,8 +14,8 @@
 <meta name="viewport"
 	content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
 <title>네이버 예약</title>
-<link href="css/reservation.css" rel="stylesheet">
-<link href="css/bookinglogin.css" rel="stylesheet">
+<link href="../css/reservation.css" rel="stylesheet">
+<link href="../css/bookinglogin.css" rel="stylesheet">
 <style>
 .container_visual {
 	height: 414px;
@@ -20,18 +24,33 @@
 </head>
 
 <body>
+	<input type="hidden" id="display-info-id"
+		value=<%=request.getAttribute("id")%>>
 	<div id="container">
 		<div class="header fade">
 			<header class="header_tit">
 				<h1 class="logo">
-					<a href="./mainpage.html" class="lnk_logo" title="네이버"> <span
+					<a href="." class="lnk_logo" title="네이버"> <span
 						class="spr_bi ico_n_logo">네이버</span>
-					</a> <a href="./mainpage.html" class="lnk_logo" title="예약"> <span
+					</a> <a href="." class="lnk_logo" title="예약"> <span
 						class="spr_bi ico_bk_logo">예약</span>
 					</a>
 				</h1>
-				<a href="#" class="btn_my"> <span title="예약확인">예약확인</span>
+				<%
+				if (userEmail.equals("")) {
+				%>
+				<a href="bookinglogin" class="btn_my"> <span
+					class="viewReservation" title="예약확인">예약확인</span>
 				</a>
+				<%
+				} else {
+				%>
+				<a href="myreservation" class="btn_my"> <span
+					class="viewReservation"><%=userEmail%></span>
+				</a>
+				<%
+				}
+				%>
 			</header>
 		</div>
 		<div class="ct main">
@@ -45,7 +64,7 @@
 								class="spr_bi ico_bk_logo">예약</span>
 							</a>
 						</h1>
-						<a href="./myreservation.html" class="btn_my"> <span
+						<a href="myreservation" class="btn_my"> <span
 							class="viewReservation" title="예약확인">예약확인</span>
 						</a>
 					</header>
@@ -100,10 +119,11 @@
 						</p>
 					</div>
 					<!-- [D] 토글 상황에 따라 bk_more에 display:none 추가 -->
-					<a href="#" class="bk_more _open"> <span class="bk_more_txt">펼쳐보기</span>
-						<i class="fn fn-down2"></i>
-					</a> <a href="#" class="bk_more _close" style="display: none;"> <span
-						class="bk_more_txt">접기</span> <i class="fn fn-up2"></i>
+					<a href="#" id="detail-opener" class="bk_more _open"> <span
+						class="bk_more_txt">펼쳐보기</span> <i class="fn fn-down2"></i>
+					</a> <a href="#" id="detail-closer" class="bk_more _close"
+						style="display: none;"> <span class="bk_more_txt">접기</span> <i
+						class="fn fn-up2"></i>
 					</a>
 				</div>
 				<div class="section_event">
@@ -121,7 +141,7 @@
 					</div>
 				</div>
 				<div class="section_btn">
-					<button type="button" class="bk_btn">
+					<button type="button" id="book-btn" class="bk_btn">
 						<i class="fn fn-nbooking-calender2"></i> <span>예매하기</span>
 					</button>
 				</div>
@@ -138,7 +158,7 @@
 								</strong> <span class="join_count"> <em id="comment-counts"
 									class="green"></em> 등록 
 							</div>
-							<ul id="review-short" class="list_short_review">
+							<ul id="review-list" class="list_short_review">
 								<!-- 댓글(Comment) -->
 							</ul>
 						</div>
@@ -243,7 +263,7 @@
 
 	<script type="rv-template" id="productImagesItem">
 			<li class="item" style="width: 414px;">
-				<img alt= {{fileName}} class="img_thumb" src= {{saveFileName}}>
+				<img alt= {{fileName}} class="img_thumb" src= /reservation/{{saveFileName}}>
 				 <span class="img_bg"></span>
 				<div class="visual_txt">
 					<div class="visual_txt_inn">
@@ -265,7 +285,7 @@
 						<div class="thumb_area">
 							<a href="#" class="thumb" title="이미지 크게 보기"> <img
 								width="90" height="90" class="img_vertical_top"
-								src={{saveFileName}}
+								src=/reservation/{{saveFileName}}
 								alt="리뷰이미지">
 							</a> <span class="img_count" style="display: none;">1</span>
 						</div>
@@ -301,10 +321,13 @@
 		crossorigin="anonymous">
 		
 	</script>
-	<script src="js/RequestHandler.js">
+	<script src="../js/RequestHandler.js">
 		
 	</script>
-	<script src="js/detail.js">
+	<script src="../js/comment.js">
+		
+	</script>
+	<script src="../js/detail.js">
 		
 	</script>
 </body>
