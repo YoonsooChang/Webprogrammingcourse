@@ -14,6 +14,7 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 <meta name="viewport"
 	content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
 <title>네이버 예약</title>
+<link href="../css/style.css" rel="stylesheet">
 <link href="../css/reservation.css" rel="stylesheet">
 <link href="../css/bookinglogin.css" rel="stylesheet">
 <style>
@@ -24,33 +25,20 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 </head>
 
 <body>
+	<input type="hidden" id="user-email" value=<%=userEmail%>>
 	<input type="hidden" id="display-info-id"
 		value=<%=request.getAttribute("id")%>>
+
 	<div id="container">
 		<div class="header fade">
 			<header class="header_tit">
 				<h1 class="logo">
-					<a href="." class="lnk_logo" title="네이버"> <span
+					<a href=".." class="lnk_logo" title="네이버"> <span
 						class="spr_bi ico_n_logo">네이버</span>
-					</a> <a href="." class="lnk_logo" title="예약"> <span
+					</a> <a href=".." class="lnk_logo" title="예약"> <span
 						class="spr_bi ico_bk_logo">예약</span>
 					</a>
 				</h1>
-				<%
-				if (userEmail.equals("")) {
-				%>
-				<a href="bookinglogin" class="btn_my"> <span
-					class="viewReservation" title="예약확인">예약확인</span>
-				</a>
-				<%
-				} else {
-				%>
-				<a href="myreservation" class="btn_my"> <span
-					class="viewReservation"><%=userEmail%></span>
-				</a>
-				<%
-				}
-				%>
 			</header>
 		</div>
 		<div class="ct main">
@@ -58,14 +46,16 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 				<div class="section_visual">
 					<header>
 						<h1 class="logo">
-							<a href="." class="lnk_logo" title="네이버"> <span
+							<a href=".." class="lnk_logo" title="네이버"> <span
 								class="spr_bi ico_n_logo">네이버</span>
-							</a> <a href="." class="lnk_logo" title="예약"> <span
+							</a> <a href=".." class="lnk_logo" title="예약"> <span
 								class="spr_bi ico_bk_logo">예약</span>
 							</a>
 						</h1>
-						<a href="myreservation" class="btn_my"> <span
-							class="viewReservation" title="예약확인">예약확인</span>
+						<a href="/reservation/bookinglogin" id="btn-my-session-off"
+							class="btn_my"> <span class="viewReservation" title="예약확인">예약확인</span>
+						</a> <a href="/reservation/myreservation" id="btn-my-session-on"
+							class="btn_my"> <span class="viewReservation"><%=userEmail%></span>
 						</a>
 					</header>
 					<div class="pagination">
@@ -167,9 +157,8 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 								이용자가 남긴 평가입니다.</span>
 						</p>
 					</div>
-					<a id="btn-review-more" class="btn_review_more"
-						href="review?id={displayInfoId}"> <span>예매자 한줄평 더보기</span> <i
-						class="fn fn-forward1"></i>
+					<a id="btn-review-more" class="btn_review_more" href="#"> <span>예매자
+							한줄평 더보기</span> <i class="fn fn-forward1"></i>
 					</a>
 				</div>
 				<div class="section_info_tab">
@@ -321,7 +310,7 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 		crossorigin="anonymous">
 		
 	</script>
-	<script src="../js/RequestHandler.js">
+	<script src="../js/common.js">
 		
 	</script>
 	<script src="../js/comment.js">

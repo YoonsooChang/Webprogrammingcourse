@@ -1,18 +1,3 @@
-document.addEventListener("DOMContentLoaded", () => {
-	const pathVar = document.getElementById("display-info-id").value;
-	const url = `/reservation/api/display/comment/${pathVar}`;
-
-	const reqHandler
-		= new RequestHandler(url,
-			appendComments,
-			() => console.log('error'),
-			(data) => (data && data.item && data.averageScore != null),
-		);
-
-	reqHandler.getRequest();
-});
-
-
 const appendComments = (data) => {
 	const { item: comments, averageScore } = data;
 	document.getElementById("btn-backward").onclick = (e) => {
@@ -22,3 +7,15 @@ const appendComments = (data) => {
 
 	setUpComments(comments, averageScore, comments.length);
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+	setMyReservationLink();
+
+	fetchData(
+		"/reservation/api/display/comment/",
+		appendComments,
+		() => console.log('error'),
+		(data) => (data && data.item && data.averageScore != null),
+		"display-info-id",
+	);
+})

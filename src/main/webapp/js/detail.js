@@ -7,18 +7,6 @@ let imagePos = 1;
 let imageStart, imageEnd;
 let currentImageNumNode;
 
-let pathVar;
-
-document.addEventListener("DOMContentLoaded", () => {
-	pathVar = document.getElementById("display-info-id").value;
-	const url = `/reservation/api/display/${pathVar}`;
-
-	const reqHandler
-		= new RequestHandler(url, appendDetails, printReqErr, isValid);
-
-	reqHandler.getRequest()
-});
-
 const appendDetails = (data) => {
 	const {
 		commentTotalCount,
@@ -32,6 +20,7 @@ const appendDetails = (data) => {
 	} = data;
 
 	const { productDescription, productContent } = displayInfo;
+	const pathVar = document.getElementById("display-info-id").value;
 
 	document.getElementById("book-btn").onclick
 		= (() => window.location.href = `/reservation/reserve/${pathVar}`);
@@ -199,8 +188,9 @@ const setUpContentToggler = (productContent) => {
 }
 
 const setUpReviewMoreBtn = () => {
+	const displayInfoId = document.getElementById("display-info-id").value;
 	const reviewMoreBtn = document.getElementById("btn-review-more");
-	reviewMoreBtn.setAttribute("href", `/reservation/review/${pathVar}`);
+	reviewMoreBtn.setAttribute("href", `/reservation/review/${displayInfoId}`);
 }
 
 const setUpInnerTabs = () => {
@@ -221,7 +211,6 @@ const setUpInnerTabs = () => {
 
 }
 
-
 const fillUpLocationSectionNodes = (displayInfo, saveFileName) => {
 	const { placeStreet, placeLot, placeName, telephone } = displayInfo;
 
@@ -232,3 +221,15 @@ const fillUpLocationSectionNodes = (displayInfo, saveFileName) => {
 	document.getElementById("store-telephone").innerHTML = telephone;
 	document.getElementById("store-telephone").setAttribute("href", `tel:${telephone}`);
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+	setMyReservationLink();
+
+	fetchData(
+		"/reservation/api/display/",
+		appendDetails,
+		printReqErr,
+		isValid,
+		"display-info-id",
+	);
+});

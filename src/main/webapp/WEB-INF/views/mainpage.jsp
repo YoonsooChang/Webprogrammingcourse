@@ -14,11 +14,14 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 <meta name="viewport"
 	content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
 <title>네이버 예약</title>
+<link href="css/style.css" rel="stylesheet">
 <link href="css/reservation.css" rel="stylesheet">
 <link href="css/bookinglogin.css" rel="stylesheet">
 </head>
 
 <body>
+	<input type="hidden" id="user-email" value=<%=userEmail%>>
+
 	<div id="container">
 		<div class="header">
 			<header class="header_tit">
@@ -29,21 +32,11 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 						class="spr_bi ico_bk_logo">예약</span>
 					</a>
 				</h1>
-				<%
-				if (userEmail.equals("")) {
-				%>
-				<a href="bookinglogin" class="btn_my"> <span
+				<a href="bookinglogin" id="btn-my-session-off" class="btn_my"> <span
 					class="viewReservation" title="예약확인">예약확인</span>
+				</a> <a href="myreservation" id="btn-my-session-on" class="btn_my">
+					<span class="viewReservation"><%=userEmail%></span>
 				</a>
-				<%
-				} else {
-				%>
-				<a href="myreservation" class="btn_my"> <span
-					class="viewReservation"><%=userEmail%></span>
-				</a>
-				<%
-				}
-				%>
 			</header>
 		</div>
 		<hr>
@@ -187,7 +180,7 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
         </li>
     </script>
 
-	<script src="js/RequestHandler.js">
+	<script src="js/common.js">
 		
 	</script>
 	<script src="js/mainpage.js">

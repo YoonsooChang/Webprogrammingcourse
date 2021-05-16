@@ -94,12 +94,12 @@ public class ReservationInfoDaoSqls {
 		+ "("
 		+ "		:productId,"
 		+ "		:displayInfoId,"
-		+ "		:name,"
-		+ "		:tel,"
-		+ "		:email, "
-		+ "		:reservation_date, "
-		+ "		:create_date, "
-		+ "		:modify_date "
+		+ "		:reservationName,"
+		+ "		:reservationTelephone,"
+		+ "		:reservationEmail, "
+		+ "		:reservationDate, "
+		+ "		:createDate, "
+		+ "		:modifyDate "
 		+ ");";
 
 	public static final String INSERT_PRICE = ""

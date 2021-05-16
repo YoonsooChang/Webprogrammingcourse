@@ -3,7 +3,6 @@ package kr.or.connect.reservation.service.impl;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import kr.or.connect.reservation.dao.CommentDao;
 import kr.or.connect.reservation.dao.DisplayInfoDao;
@@ -30,7 +29,6 @@ public class DisplayInfoServiceImpl implements DisplayInfoService {
 	}
 
 	@Override
-	@Transactional
 	public DisplayInfoResponse getDisplayInfoById(int displayInfoId) {
 
 		List<Comment> comments = commentDao.selectByDisplayInfoId(displayInfoId);
@@ -44,15 +42,12 @@ public class DisplayInfoServiceImpl implements DisplayInfoService {
 		List<ProductImage> productImages = productDao.selectProductImagesById(productId);
 		List<ProductPrice> productPrices = productDao.selectProductPricesById(productId);
 
-		DisplayInfoResponse displayInfoResponse = new DisplayInfoResponse.Builder(displayInfo, productImages,
-			productPrices)
-				.averageScore(computeAverageScore(comments))
-				.commentTotalCount(comments.size())
-				.commentList(comments.subList(0, commentCountToSend))
-				.displayInfoImage(displayInfoImage)
-				.build();
-
-		return displayInfoResponse;
+		return new DisplayInfoResponse.Builder(displayInfo, productImages, productPrices)
+			.averageScore(computeAverageScore(comments))
+			.commentTotalCount(comments.size())
+			.commentList(comments.subList(0, commentCountToSend))
+			.displayInfoImage(displayInfoImage)
+			.build();
 
 	}
 
@@ -78,10 +73,8 @@ public class DisplayInfoServiceImpl implements DisplayInfoService {
 		List<ProductImage> productImages = productDao.selectProductImagesById(productId);
 		List<ProductPrice> productPrices = productDao.selectProductPricesById(productId);
 
-		DisplayInfoResponse displayInfoResponse = new DisplayInfoResponse.Builder(displayInfo, productImages,
-			productPrices).build();
+		return new DisplayInfoResponse.Builder(displayInfo, productImages, productPrices).build();
 
-		return displayInfoResponse;
 	}
 
 }

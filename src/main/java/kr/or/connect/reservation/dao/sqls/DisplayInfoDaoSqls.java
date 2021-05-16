@@ -1,17 +1,9 @@
 package kr.or.connect.reservation.dao.sqls;
 
 public class DisplayInfoDaoSqls {
-	public static final String SELECT_PRODUCT_ID = ""
-		+ "SELECT "
-		+ "		product_id "
-		+ "FROM "
-		+ "		display_info "
-		+ "WHERE "
-		+ "		id = :id;";
-
 	public static final String SELECT_BY_ID = ""
 		+ "SELECT "
-		+ "		category.id 			AS id, "
+		+ "		category.id 			AS category_id, "
 		+ "		category.name			AS category_name, "
 
 		+ "     display.create_date 	AS create_date, "

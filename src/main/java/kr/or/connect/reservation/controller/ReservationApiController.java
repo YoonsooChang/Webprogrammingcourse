@@ -1,19 +1,22 @@
 package kr.or.connect.reservation.controller;
 
 import java.io.IOException;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
+import kr.or.connect.reservation.dto.ReservationAddStatus;
+import kr.or.connect.reservation.dto.ReservationCancelStatus;
 import kr.or.connect.reservation.dto.ReservationInfoResponse;
+import kr.or.connect.reservation.dto.ReservationParam;
 import kr.or.connect.reservation.service.ReservationService;
 
 @RestController
@@ -25,26 +28,29 @@ public class ReservationApiController {
 		this.reservationService = reservationService;
 	}
 
-	@GetMapping("/")
-	public ReservationInfoResponse getReservationInfoResponse(HttpSession session) {
-		return reservationService.getReservationInfo(session.getAttribute("user").toString());
-	}
-
-	@GetMapping("/cancel/{id}")
-	public String cancelReservation(@PathVariable(name = "id")
-	int reservationId, HttpSession session, HttpServletResponse response) {
-		return reservationService.cancelReservation(reservationId,
-			session.getAttribute("user").toString());
-	}
-
-	@PostMapping("/add")
-	public void addReservation(@RequestParam
-	Map<String, Object> reservationParameters, HttpServletResponse response) throws IOException {
-		if ("success".equals(reservationService.addReservation(reservationParameters))) {
-			response.sendRedirect("/reservation/myreservation");
-		} else {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+	@GetMapping
+	public ReservationInfoResponse getReservationInfoResponse(@SessionAttribute(name = "user", required = false)
+	String userEmail, HttpServletResponse response) throws IOException {
+		if (userEmail == null) {
+			response.sendError(400, "unconnected");
 		}
+		return reservationService.getReservationInfo(userEmail);
+	}
+
+	@PutMapping("/{id}")
+	public String cancelReservation(@PathVariable(name = "id")
+	int reservationId, @SessionAttribute("user")
+	String userEmail) {
+		ReservationCancelStatus cancelStatus = reservationService.cancelReservation(reservationId, userEmail);
+
+		return cancelStatus.getMessage();
+	}
+
+	@PostMapping
+	public String addReservation(@RequestBody
+	ReservationParam reservationParams) {
+		ReservationAddStatus addStatus = reservationService.addReservation(reservationParams);
+		return addStatus.getMessage();
 	}
 
 }

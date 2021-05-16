@@ -14,13 +14,16 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 <meta name="viewport"
 	content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
 <title>네이버 예약</title>
+<link href="../css/style.css" rel="stylesheet">
 <link href="../css/reservation.css" rel="stylesheet">
 <link href="../css/bookinglogin.css" rel="stylesheet">
 </head>
 
 <body>
+	<input type="hidden" id="user-email" value=<%=userEmail%>>
 	<input type="hidden" id="display-info-id"
 		value=<%=request.getAttribute("id")%>>
+
 	<div id="container">
 		<!-- [D] 예약하기로 들어오면 header에 fade 클래스 추가로 숨김 -->
 		<div class="header fade">
@@ -32,27 +35,19 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 						class="spr_bi ico_bk_logo">예약</span>
 					</a>
 				</h1>
-				<%
-				if (userEmail.equals("")) {
-				%>
-				<a href="bookinglogin" class="btn_my"> <span
+				<a href="bookinglogin" id="btn-my-session-off" class="btn_my"> <span
 					class="viewReservation" title="예약확인">예약확인</span>
+				</a> <a href="myreservation" id="btn-my-session-on" class="btn_my">
+					<span class="viewReservation"><%=userEmail%></span>
 				</a>
-				<%
-				} else {
-				%>
-				<a href="#" class="btn_my"> <span class="viewReservation"><%=userEmail%></span>
-				</a>
-				<%
-				}
-				%>
 			</header>
 		</div>
 		<div class="ct">
 			<div class="ct_wrap">
 				<div class="top_title">
-					<a href="detail?id={displayInfoId}" class="btn_back"
-						title="이전 화면으로 이동"> <i class="fn fn-backward1"></i>
+					<a href="/reservation/detail/<%=request.getAttribute("id")%>"
+						class="btn_back" title="이전 화면으로 이동"> <i
+						class="fn fn-backward1"></i>
 					</a>
 					<h2>
 						<span id="product-title" class="title"></span>
@@ -90,38 +85,44 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 							<div class="agreement_nessasary help_txt">
 								<span class="spr_book ico_nessasary"></span> <span>필수입력</span>
 							</div>
-							<form action="/reservation/api/reservation/add" method="post"
+							<form action="/reservation/api/reservation/" method="post"
 								id="reservation-form" class="form_horizontal">
+								<!-- 
+								<input type="hidden" id="display-id" name="displayInfoId">
+								<input type="hidden" id="product-id" name="productId"> <input
+									type="hidden" id="counts" name="counts"> <input
+									type="hidden" id="price-ids" name="priceIds"> -->
 								<div class="inline_form">
-									<label class="label" for="name"> <span
+									<label class="label" for="reservationName"> <span
 										class="spr_book ico_nessasary">필수</span> <span>예매자</span>
 									</label>
 									<div class="inline_control">
-										<input type="text" name="name" id="name" class="text"
-											placeholder="네이버" maxlength="17">
+										<input type="text" name="reservationName" id="name"
+											class="text" placeholder="네이버" maxlength="17">
 										<div id="name-warning" class="warning_msg"
 											style="color: red; visibility: hidden;">예매자를 입력해주세요</div>
 
 									</div>
 								</div>
 								<div class="inline_form">
-									<label class="label" for="tel"> <span
+									<label class="label" for="reservationTelephone"> <span
 										class="spr_book ico_nessasary">필수</span> <span>연락처</span>
 									</label>
 									<div class="inline_control tel_wrap">
-										<input type="tel" name="tel" id="tel" class="tel" value=""
-											placeholder="휴대폰 입력 시 예매내역 문자발송">
+										<input type="tel" name="reservationTelephone" id="tel"
+											class="tel" value="" placeholder="휴대폰 입력 시 예매내역 문자발송">
 										<div id="tel-warning" class="warning_msg"
 											style="color: red; visibility: hidden;">형식이 틀렸거나 너무 짧아요</div>
 									</div>
 								</div>
 								<div class="inline_form">
-									<label class="label" for="email"> <span
+									<label class="label" for="reservationEmail"> <span
 										class="spr_book ico_nessasary">필수</span> <span>이메일</span>
 									</label>
 									<div class="inline_control">
-										<input type="email" name="email" id="email" class="email"
-											value="" placeholder="aaa@naver.com" maxlength="50">
+										<input type="email" name="reservationEmail" id="email"
+											class="email" value="" placeholder="aaa@naver.com"
+											maxlength="50">
 										<div id="email-warning" class="warning_msg"
 											style="color: red; visibility: hidden;">형식이 틀렸거나 너무 짧아요</div>
 
@@ -256,7 +257,7 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 		crossorigin="anonymous">
 		
 	</script>
-	<script src="../js/RequestHandler.js">
+	<script src="../js/common.js">
 		
 	</script>
 	<script src="../js/reserve.js">

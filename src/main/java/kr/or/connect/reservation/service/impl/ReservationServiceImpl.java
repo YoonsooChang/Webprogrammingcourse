@@ -1,14 +1,14 @@
 package kr.or.connect.reservation.service.impl;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.or.connect.reservation.dao.ReservationInfoDao;
+import kr.or.connect.reservation.dto.ReservationAddStatus;
+import kr.or.connect.reservation.dto.ReservationCancelStatus;
 import kr.or.connect.reservation.dto.ReservationInfo;
 import kr.or.connect.reservation.dto.ReservationInfoResponse;
 import kr.or.connect.reservation.dto.ReservationParam;
@@ -25,43 +25,42 @@ public class ReservationServiceImpl implements ReservationService {
 
 	@Override
 	public ReservationInfoResponse getReservationInfo(String userEmail) {
-		List<ReservationInfo> reservations = reservationInfoDao.getReservationInfosByEmail(userEmail);
-		return new ReservationInfoResponse(reservations, reservations.size());
+		List<ReservationInfo> reservations = reservationInfoDao.selectByEmail(userEmail);
+		return new ReservationInfoResponse(reservations);
 	}
 
 	@Override
-	public String cancelReservation(int reservationId, String userEmail) {
-		return (reservationInfoDao.cancelReservation(reservationId, userEmail) == ReservationService.SUCCESS)
-			? "success"
-			: "failure";
+	public ReservationCancelStatus cancelReservation(int reservationId, String userEmail) {
+		int cancelResult = reservationInfoDao.updateCancelStateTrue(reservationId, userEmail);
+
+		if (cancelResult == ReservationCancelStatus.SUCCESS.getRowNum()) {
+			return ReservationCancelStatus.SUCCESS;
+		} else {
+			return ReservationCancelStatus.FAILURE;
+		}
 	}
 
 	@Override
-	public String addReservation(Map<String, Object> params) {
+	@Transactional
+	public ReservationAddStatus addReservation(ReservationParam reservationParam) {
+		int reservationId = reservationInfoDao.insert(reservationParam);
+		if (reservationId == 0) {
+			return ReservationAddStatus.INFO_FAILURE;
+		}
 
-		List<String> countIds = Arrays.asList(((String)params.get("counts")).split(","));
-		List<String> priceIds = Arrays.asList(((String)params.get("priceIds")).split(","));
+		List<ReservationPrice> prices = new ArrayList<>();
 
-		List<ReservationPrice> prices = IntStream.iterate(0, i -> i + 1)
-			.limit(countIds.size())
-			.mapToObj(i -> new ReservationPrice(
-				Integer.parseInt(countIds.get(i)),
-				Integer.parseInt(priceIds.get(i))))
-			.collect(Collectors.toList());
+		List<Integer> counts = reservationParam.getCounts();
+		List<Integer> productPriceIds = reservationParam.getProductPriceIds();
 
-		ReservationParam reservationParam = new ReservationParam.Builder(
-			Integer.parseInt((String)params.get("displayInfoId")),
-			Integer.parseInt((String)params.get("productId")))
-				.reservationEmail((String)params.get("email"))
-				.reservationName((String)params.get("name"))
-				.reservationTelephone((String)params.get("tel"))
-				.prices(prices)
-				.build();
+		for (int i = 0; i < counts.size(); i++) {
+			prices.add(new ReservationPrice(counts.get(i), productPriceIds.get(i), reservationId));
+		}
 
-		int addResult = reservationInfoDao.addReservation(reservationParam);
-		return (addResult == prices.size() + 1)
-			? "success"
-			: "failure";
+		int priceInsertResult = reservationInfoDao.insertReservationPrices(prices);
+		return (priceInsertResult == counts.size())
+			? ReservationAddStatus.SUCCESS
+			: ReservationAddStatus.PRICE_FAILURE;
 	}
 
 }

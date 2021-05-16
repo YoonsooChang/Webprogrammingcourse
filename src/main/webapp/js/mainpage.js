@@ -3,6 +3,8 @@ let promotionReqHandler;
 let productReqHandler;
 
 document.addEventListener("DOMContentLoaded", () => {
+	setMyReservationLink();
+
 	categoryReqHandler
 		= new RequestHandler("api/category", appendCategories, printReqErr, hasItem);
 
@@ -16,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	promotionReqHandler.getRequest();
 	productReqHandler.getRequest();
 });
+
 
 const appendCategories = (data) => {
 	const { items } = data;

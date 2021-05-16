@@ -6,10 +6,10 @@ public class ReservationPrice {
 	private int reservationInfoId;
 	private int reservationInfoPriceId;
 
-	public ReservationPrice(int count, int productPriceId) {
-		super();
+	public ReservationPrice(int count, int productPriceId, int reservationInfoId) {
 		this.count = count;
 		this.productPriceId = productPriceId;
+		this.reservationInfoId = reservationInfoId;
 	}
 
 	public int getCount() {

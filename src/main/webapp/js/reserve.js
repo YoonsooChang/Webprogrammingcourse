@@ -1,24 +1,9 @@
-document.addEventListener("DOMContentLoaded", () => {
-	const pathVar = document.getElementById("display-info-id").value;
-	const url = `/reservation/api/display/reservation/${pathVar}`;
-
-	const reqHandler
-		= new RequestHandler(url,
-			renderDOMs,
-			() => console.log('error'),
-			() => true,
-		);
-
-	reqHandler.getRequest();
-});
-
-const currencyRegex = /\B(?=(\d{3})+(?!\d))/g;
-
 const renderDOMs = (data) => {
 	const {
 		displayInfo: {
 			openingHours,
 			placeLot,
+			categoryId,
 		},
 		productImages,
 		productPrices,
@@ -26,16 +11,15 @@ const renderDOMs = (data) => {
 
 	const lowestPrice = productPrices.map((item) => parseInt(item.price))
 		.sort((priceA, priceB) => priceA - priceB)[0]
-		.toString()
-		.replace(currencyRegex, ",");
+		.toLocaleString('ko-KR');
 
 	const [openingDays, ...openingTime] = openingHours.split("\n");
 
 	setUpImage({ ...productImages[0], lowestPrice, openingDays });
 
-	fillUpDetailSectionNodes(placeLot, openingDays, openingTime, productPrices);
+	fillUpDetailSectionNodes(placeLot, openingDays, openingTime, productPrices, categoryId);
 
-	setUpReservationForm(productPrices);
+	setUpReservationForm(categoryId, productPrices);
 
 }
 
@@ -50,32 +34,40 @@ const setUpImage = (imageInfos) => {
 
 }
 
-const PRICE_TYPES = {
+const PRICE_TYPES_AGE = {
 	A: "성인",
 	Y: "청소년",
 	B: "유아",
 	S: "셋트",
 	D: "장애인",
 	C: "지역주민",
-	E: "어얼리버드",
+};
+
+const PRICE_TYPES_SEAT = {
 	V: "VIP",
 	R: "R석",
 	B: "B석",
 	S: "S석",
 	D: "평일",
+	E: "어얼리버드"
+};
+
+const getPriceTypeFullName = (typeId, typeName) => {
+	if (typeId === 1) {
+		return PRICE_TYPES_AGE[typeName];
+	}
+	return PRICE_TYPES_SEAT[typeName];
 }
 
-const fillUpDetailSectionNodes = (placeLot, openingDays, openingTime, productPrices) => {
+const fillUpDetailSectionNodes = (placeLot, openingDays, openingTime, productPrices, categoryId) => {
 	document.getElementById("detail-lot").innerHTML = placeLot;
 	document.getElementById("detail-term").innerHTML = openingDays;
 	document.getElementById("detail-time").innerHTML = openingTime;
-	document.getElementById("detail-fee").innerHTML =
-		productPrices
-			.map((item) => {
-				const priceType = PRICE_TYPES[item.priceTypeName];
-				const price = item.price.toString().replace(currencyRegex, ",");
-				return `${priceType} ${price}`;
-			}).join("<br>");
+	document.getElementById("detail-fee").innerHTML = productPrices.map((item) => {
+		const priceType = getPriceTypeFullName(categoryId, item.priceTypeName);
+		const price = item.price.toLocaleString('ko-KR');
+		return `${priceType} ${price}`;
+	}).join("<br>");
 
 }
 
@@ -87,6 +79,8 @@ function CountController(counters, prices) {
 }
 
 CountController.prototype = {
+	MINUS: -1,
+	PLUS: 1,
 
 	registerEvents: function() {
 		for (let index = 0; index < this.ticketCounters.length; index++) {
@@ -104,45 +98,73 @@ CountController.prototype = {
 				return;
 			}
 
-			const minusBtn = controller.querySelector(".ico_minus3");
-			const plusBtn = controller.querySelector(".ico_plus3");
-			const count = controller.querySelector(".count_control_input");
-			const totalPrice = controller.querySelector(".total_price");
+			this.handleBtnClick(controller, clicked, parseInt(price));
+		});
+	},
 
-			const totalTicketCounts = document.getElementById("total-count");
+	handleBtnClick: function(controller, clicked, price) {
+		const minusBtn = controller.querySelector(".ico_minus3");
+		const plusBtn = controller.querySelector(".ico_plus3");
+		const ticketCount = controller.querySelector(".count_control_input");
 
-			if (clicked === minusBtn) {
-				if (count.value === this.maxCount) {
-					plusBtn.classList.remove("disabled");
-					plusBtn.style.pointerEvents = "auto";
-				}
+		const totalTicketCount = document.getElementById("total-count");
 
-				count.value = parseInt(count.value) - 1;
-				totalTicketCounts.innerHTML = parseInt(totalTicketCounts.innerHTML) - 1;
-
-				if (count.value === "0") {
-					minusBtn.style.pointerEvents = "none";
-					minusBtn.classList.add("disabled");
-					count.classList.add("disabled");
-				}
-			} else {
-				if (count.value === "0") {
-					minusBtn.style.pointerEvents = "auto";
-					minusBtn.classList.remove("disabled");
-					count.classList.remove("disabled");
-				}
-
-				count.value = parseInt(count.value) + 1;
-				totalTicketCounts.innerHTML = parseInt(totalTicketCounts.innerHTML) + 1;
-
-				if (count.value === this.maxCount) {
-					plusBtn.style.pointerEvents = "none";
-					plusBtn.classList.add("disabled");
-				}
+		if (clicked === minusBtn) {
+			if (ticketCount.value === this.maxCount) {
+				this.setBtnStateOnMaxCount(plusBtn, this.MINUS);
 			}
 
-			totalPrice.innerHTML = (price * parseInt(count.value)).toString().replace(currencyRegex, ",");
-		});
+			this.renewTotalTicketCount(ticketCount, totalTicketCount, this.MINUS);
+
+			if (ticketCount.value === "0") {
+				this.setBtnStateOnMinCount(minusBtn, ticketCount, this.MINUS)
+			}
+		} else {
+			if (ticketCount.value === "0") {
+				this.setBtnStateOnMinCount(minusBtn, ticketCount, this.PLUS)
+			}
+
+			this.renewTotalTicketCount(ticketCount, totalTicketCount, this.PLUS);
+
+			if (ticketCount.value === this.maxCount) {
+				this.setBtnStateOnMaxCount(plusBtn, this.PLUS);
+			}
+		}
+
+		const totalPrice = controller.querySelector(".total_price");
+		totalPrice.innerHTML = (price * parseInt(ticketCount.value)).toLocaleString('ko-KR');
+	},
+
+
+	setBtnStateOnMaxCount: function(button, sign) {
+		let pointerEvent;
+		if (sign === this.MINUS) {
+			pointerEvent = "auto";
+		} else {
+			pointerEvent = "none";
+		}
+
+		button.style.pointerEvents = pointerEvent;
+		button.classList.toggle("disabled");
+	},
+
+	setBtnStateOnMinCount: function(button, ticketCount, sign) {
+		let pointerEvent;
+		if (sign === this.MINUS) {
+			pointerEvent = "none";
+		} else {
+			pointerEvent = "auto";
+		}
+
+		button.style.pointerEvents = pointerEvent;
+		button.classList.toggle("disabled");
+
+		ticketCount.classList.add("disabled");
+	},
+
+	renewTotalTicketCount: function(current, total, offset) {
+		current.value = parseInt(current.value) + offset;
+		total.innerHTML = parseInt(total.innerHTML) + offset;
 	},
 
 	getTicketCounts: function() {
@@ -152,108 +174,64 @@ CountController.prototype = {
 }
 
 
-const checkValid = () => {
-	let isValid = true;
-	const name = document.querySelector("input[name='name']").value;
-	const tel = document.querySelector("input[name='tel']").value;
-	const email = document.querySelector("input[name='email']").value;
+const isValid = () => {
+
+	const name = document.querySelector("input[name='reservationName']").value;
+	const tel = document.querySelector("input[name='reservationTelephone']").value;
+	const email = document.querySelector("input[name='reservationEmail']").value;
 
 	const nameWarning = document.getElementById("name-warning");
 	const telWarning = document.getElementById("tel-warning");
 	const emailWarning = document.getElementById("email-warning");
 
-	if (name.length === 0) {
-		nameWarning.style.visibility = "visible";
-		isValid = false;
-	} else {
-		nameWarning.style.visibility = "hidden";
-	}
+	const emailRegex = /^[\w+_]\w+@\w+\.\w+$/;
+	const telRegex = /^\d{3}-\d{3,4}-\d{4}$/;
 
-	if ((/^[\w+_]\w+@\w+\.\w+$/).test(email) === false) {
-		emailWarning.style.visibility = "visible";
-		isValid = false;
-	} else {
-		emailWarning.style.visibility = "hidden";
-	}
+	const nameValid = name.length !== 0;
+	const emailValid = emailRegex.test(email);
+	const telValid = telRegex.test(tel);
 
-	if ((/^\d{3}-\d{3,4}-\d{4}$/).test(tel) === false) {
-		telWarning.style.visibility = "visible";
-		isValid = false;
-	} else {
-		telWarning.style.visibility = "hidden";
-	}
+	nameWarning.style.visibility
+		= nameValid ? "hidden" : "visible";
 
+	emailWarning.style.visibility
+		= emailValid ? "hidden" : "visible";
 
-	return isValid;
+	telWarning.style.visibility
+		= telValid ? "hidden" : "visible";
+
+	return nameValid && emailValid && telValid;
 }
 
-
-const sendReservationParams = (productPriceIds, productId) => {
-	const formData = document.getElementById("reservation-form");
-
-	const displayInfoIdAttr = document.createElement("input");
-	displayInfoIdAttr.setAttribute("type", "hidden");
-	displayInfoIdAttr.setAttribute("name", "displayInfoId");
-	displayInfoIdAttr.setAttribute("value", document.getElementById("display-info-id").value);
-
-	formData.appendChild(displayInfoIdAttr);
-
-	const productIdAttr = document.createElement("input");
-	productIdAttr.setAttribute("type", "hidden");
-	productIdAttr.setAttribute("name", "productId");
-	productIdAttr.setAttribute("value", productId);
-
-	formData.appendChild(productIdAttr);
-
-
-	const ticketCounts = countController.getTicketCounts();
-
-	const counts = document.createElement("input");
-	counts.setAttribute("type", "hidden");
-	counts.setAttribute("name", "counts");
-	counts.setAttribute("value", ticketCounts);
-
-	formData.appendChild(counts);
-
-	const priceIds = document.createElement("input");
-	priceIds.setAttribute("type", "hidden");
-	priceIds.setAttribute("name", "priceIds");
-	priceIds.setAttribute("value", productPriceIds);
-
-	formData.appendChild(priceIds);
-
-	formData.submit();
-}
 
 let countController;
-let prices = [];
 
-const setUpReservationForm = (productPrices) => {
-	const counterTemplate = document.getElementById("countControllerItem");
-	const bindProductPrice = Handlebars.compile(counterTemplate.innerText);
-	const counterContainer = document.getElementById("counter-container");
+const sendReservationParams = (productPriceIds, productId) => {
+	let params = {};
 
-	productPrices.forEach((item, index) => {
-		prices.push(item.price);
+	const formData = new FormData(document.getElementById("reservation-form"));
+	formData.forEach((value, key) => params[key] = value);
 
-		item = {
-			...item,
-			priceTypeName: PRICE_TYPES[item.priceTypeName],
-			price: item.price.toString().replace(currencyRegex, ","),
-			controllerId: `ticket-${index}`,
-		};
-		counterContainer.innerHTML += bindProductPrice(item);
-	});
+	params.displayInfoId = document.getElementById("display-info-id").value;
+	params.productId = productId;
+	params.counts = countController.getTicketCounts();
+	params.productPriceIds = productPriceIds;
 
-	countController = new CountController(counterContainer.children, prices);
+	let jsonObj = JSON.stringify(params);
 
+	const reqHandler = new RequestHandler(
+		"/reservation/api/reservation/",
+		() => location.href = "/reservation/myreservation",
+		() => console.log("error"),
+		(msg) => msg === "success",
+	);
 
-	document.getElementById("date-now").innerHTML = new Date().toLocaleDateString();
+	reqHandler.postRequest(jsonObj, "application/json", "text");
+}
 
-	const submitBtn = document.getElementById("book-btn");
-	submitBtn.style.pointerEvents = "none";
-
-	document.querySelectorAll(".btn_agreement")
+const setUpFormButtons = (priceIds, productId) => {
+	const agreementBtns = document.querySelectorAll(".btn_agreement");
+	agreementBtns
 		.forEach((agreement) => agreement.onclick = (e) => {
 			e.preventDefault();
 			agreement.closest(".agreement").classList.toggle("open")
@@ -262,19 +240,64 @@ const setUpReservationForm = (productPrices) => {
 	const allCheckBtn = document.getElementById("chk3");
 	allCheckBtn.onclick = () => {
 		document.getElementById("book-btn-wrapper").classList.toggle("disable");
-		submitBtn.style.pointerEvents = (allCheckBtn.checked === true)
-			? "auto"
-			: "none"
-	};
+		
+		if (allCheckBtn.checked) {
+			submitBtn.style.pointerEvents = "auto";
+		} else {
+			submitBtn.style.pointerEvents = "true";
+		}
 
-	const productId = productPrices[0].productId;
+	};
+	const submitBtn = document.getElementById("book-btn");
+	submitBtn.style.pointerEvents = "none";
+
 	submitBtn.onclick = () => {
-		if (checkValid() === true) {
-			sendReservationParams(
-				productPrices.map(price => price.productPriceId),
-				productId
-			);
+		if (isValid() === true) {
+			sendReservationParams(priceIds, productId);
 		}
 	}
-
 }
+
+const setUpReservationForm = (categoryId, priceData) => {
+
+	const counterContainer = document.getElementById("counter-container");
+	const counterTemplate = document.getElementById("countControllerItem");
+	const bindProductPrice = Handlebars.compile(counterTemplate.innerText);
+
+	let priceValues = [];
+
+	priceData.forEach((item, index) => {
+		priceValues.push(item.price);
+
+		item = {
+			...item,
+			priceTypeName: getPriceTypeFullName(categoryId, item.priceTypeName),
+			price: item.price.toLocaleString('ko-KR'),
+			controllerId: `ticket-${index}`,
+		};
+
+		counterContainer.innerHTML += bindProductPrice(item);
+
+	});
+
+	countController = new CountController(counterContainer.children, priceValues);
+
+	document.getElementById("date-now").innerHTML = new Date().toLocaleDateString();
+
+	const productId = priceData[0].productId;
+	const priceIds = priceData.map(price => price.productPriceId);
+
+	setUpFormButtons(priceIds, productId);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+	setMyReservationLink();
+
+	fetchData(
+		"/reservation/api/display/reservation/",
+		renderDOMs,
+		() => console.log('error'),
+		() => true,
+		"display-info-id",
+	);
+})

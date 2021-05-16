@@ -3,11 +3,11 @@ package kr.or.connect.reservation.controller;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
@@ -33,23 +33,21 @@ public class ViewController {
 	}
 
 	@GetMapping("/reserve/{id}")
-	public String setViewReservePage(@PathVariable("id")
-	int displayInfoId, HttpServletRequest request, HttpSession session, RedirectAttributes redirectAttr) {
-		if (session.getAttribute("user") == null) {
+	public String setViewReservePage(@SessionAttribute(name = "user", required = false)
+	String user,
+		@PathVariable("id")
+		int displayInfoId, RedirectAttributes redirectAttr) {
+		if (user == null) {
 			redirectAttr.addFlashAttribute("id", displayInfoId);
 			return "redirect:/bookinglogin";
 		}
-
-		request.setAttribute("id", displayInfoId);
 		return "reserve";
 	}
 
 	@GetMapping("/bookinglogin")
 	public String setViewLoginPage(HttpServletRequest request) {
 		Map<String, ?> redirectMap = RequestContextUtils.getInputFlashMap(request);
-		if (redirectMap != null) {
-			request.setAttribute("id", (Integer)redirectMap.get("id"));
-		}
+		request.setAttribute("id", (Integer)redirectMap.get("id"));
 		return "bookinglogin";
 	}
 

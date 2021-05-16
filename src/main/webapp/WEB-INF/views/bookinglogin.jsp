@@ -51,6 +51,7 @@ ng\:form {
 <meta name="format-detection"
 	content="telephone=no, address=no, email=no">
 <title translate="CM-NBOOKING">네이버 예약</title>
+<link href="/reservation/css/style.css" rel="stylesheet">
 <link href="/reservation/css/reservation.css" rel="stylesheet">
 <link href="/reservation/css/bookinglogin.css" rel="stylesheet">
 </head>
@@ -86,7 +87,7 @@ ng\:form {
 							translate="CM-BOOKING_NUMBER">예약자 이메일 입력</label> <input
 							type="text"
 							class="login_input ng-pristine ng-untouched ng-valid ng-empty"
-							id="resrv_id" name="email" aria-invalid="false"
+							id="resrv_id" name="user" aria-invalid="false"
 							placeholder="crong@naver.com" title="예매자이메일">
 					</div>
 					<button type="submit" form="form1" class="login_btn confirm">

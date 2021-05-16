@@ -20,6 +20,10 @@ public class DisplayInfo {
 	private int productId;
 	private String telephone;
 
+	public static Builder createBuilder(int categoryId, int displayInfoId, int productId) {
+		return new Builder(categoryId, displayInfoId, productId);
+	}
+
 	public static class Builder {
 		private final int categoryId;
 		private final int displayInfoId;

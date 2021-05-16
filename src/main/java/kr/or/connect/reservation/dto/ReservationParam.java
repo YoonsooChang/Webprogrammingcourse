@@ -1,94 +1,112 @@
 package kr.or.connect.reservation.dto;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ReservationParam {
 	private String reservationName;
 	private String reservationTelephone;
 	private String reservationEmail;
-	private List<ReservationPrice> prices;
+	private List<Integer> counts;
+	private List<Integer> productPriceIds;
 	private int displayInfoId;
 	private int productId;
+	private LocalDateTime reservationDate;
+	private LocalDateTime createDate;
+	private LocalDateTime modifyDate;
 
-	public static class Builder {
-		private final int displayInfoId;
-		private final int productId;
-
-		private String reservationName = "";
-		private String reservationTelephone = "";
-		private String reservationEmail = "";
-		private List<ReservationPrice> prices = new ArrayList<>();
-
-		public Builder(int displayInfoId, int productId) {
-			this.displayInfoId = displayInfoId;
-			this.productId = productId;
-		}
-
-		public Builder reservationName(String name) {
-			reservationName = name;
-			return this;
-		}
-
-		public Builder reservationTelephone(String tel) {
-			reservationTelephone = tel;
-			return this;
-		}
-
-		public Builder reservationEmail(String email) {
-			reservationEmail = email;
-			return this;
-		}
-
-		public Builder prices(List<ReservationPrice> prices) {
-			this.prices = prices;
-			return this;
-		}
-
-		public ReservationParam build() {
-			return new ReservationParam(this);
-		}
-
-	}
-
-	public ReservationParam(Builder builder) {
-		reservationName = builder.reservationName;
-		reservationTelephone = builder.reservationTelephone;
-		reservationEmail = builder.reservationEmail;
-		prices = builder.prices;
-		displayInfoId = builder.displayInfoId;
-		productId = builder.productId;
+	public ReservationParam() {
+		LocalDateTime now = LocalDateTime.now();
+		reservationDate = now;
+		createDate = now;
+		modifyDate = now;
 	}
 
 	public String getReservationName() {
 		return reservationName;
 	}
 
+	public void setReservationName(String reservationName) {
+		this.reservationName = reservationName;
+	}
+
 	public String getReservationTelephone() {
 		return reservationTelephone;
+	}
+
+	public void setReservationTelephone(String reservationTelephone) {
+		this.reservationTelephone = reservationTelephone;
 	}
 
 	public String getReservationEmail() {
 		return reservationEmail;
 	}
 
-	public List<ReservationPrice> getPrices() {
-		return prices;
+	public void setReservationEmail(String reservationEmail) {
+		this.reservationEmail = reservationEmail;
+	}
+
+	public List<Integer> getCounts() {
+		return counts;
+	}
+
+	public void setCounts(List<Integer> counts) {
+		this.counts = counts;
+	}
+
+	public List<Integer> getProductPriceIds() {
+		return productPriceIds;
+	}
+
+	public void setProductPriceIds(List<Integer> productPriceIds) {
+		this.productPriceIds = productPriceIds;
 	}
 
 	public int getDisplayInfoId() {
 		return displayInfoId;
 	}
 
+	public void setDisplayInfoId(int displayInfoId) {
+		this.displayInfoId = displayInfoId;
+	}
+
 	public int getProductId() {
 		return productId;
+	}
+
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
+
+	public LocalDateTime getReservationDate() {
+		return reservationDate;
+	}
+
+	public void setReservationDate(LocalDateTime reservationDate) {
+		this.reservationDate = reservationDate;
+	}
+
+	public LocalDateTime getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(LocalDateTime createDate) {
+		this.createDate = createDate;
+	}
+
+	public LocalDateTime getModifyDate() {
+		return modifyDate;
+	}
+
+	public void setModifyDate(LocalDateTime modifyDate) {
+		this.modifyDate = modifyDate;
 	}
 
 	@Override
 	public String toString() {
 		return "ReservationParam [reservationName=" + reservationName + ", reservationTelephone=" + reservationTelephone
-			+ ", reservationEmail=" + reservationEmail + ", prices=" + prices + ", displayInfoId=" + displayInfoId
-			+ ", productId=" + productId + "]";
+			+ ", reservationEmail=" + reservationEmail + ", counts=" + counts + ", productPriceIds=" + productPriceIds
+			+ ", displayInfoId=" + displayInfoId + ", productId=" + productId + "]";
 	}
 
 }
