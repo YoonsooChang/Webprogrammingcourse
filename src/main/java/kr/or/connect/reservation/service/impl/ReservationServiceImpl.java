@@ -86,8 +86,9 @@ public class ReservationServiceImpl implements ReservationService {
 			return CommentAddStatus.SUCCESS;
 		}
 
-		String saveFileName = "img/" + imageFile.getOriginalFilename();
 		String fileName = imageFile.getOriginalFilename();
+		String saveFileName = "img/" + fileName;
+		String absoluteFilePath = "C:/Temp/" + saveFileName;
 		String contentType = imageFile.getContentType();
 
 		FileParam fileParam = new FileParam.Builder()
@@ -111,7 +112,7 @@ public class ReservationServiceImpl implements ReservationService {
 		}
 
 		try (
-			FileOutputStream fos = new FileOutputStream(saveFileName);
+			FileOutputStream fos = new FileOutputStream(absoluteFilePath);
 			InputStream is = imageFile.getInputStream();) {
 			int readCount = 0;
 			byte[] buffer = new byte[1024];
@@ -119,7 +120,7 @@ public class ReservationServiceImpl implements ReservationService {
 				fos.write(buffer, 0, readCount);
 			}
 		} catch (Exception ex) {
-			throw new RuntimeException("file Save Error");
+			throw new RuntimeException("file Save Error", ex);
 		}
 
 		return CommentAddStatus.SUCCESS;

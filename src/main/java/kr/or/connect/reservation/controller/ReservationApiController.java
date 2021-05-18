@@ -115,7 +115,7 @@ public class ReservationApiController {
 				out.write(buffer, 0, readCount);
 			}
 		} catch (Exception ex) {
-			throw new RuntimeException("file Download Error");
+			throw new RuntimeException("file Download Error", ex);
 		}
 	}
 
