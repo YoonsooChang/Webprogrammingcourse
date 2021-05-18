@@ -41,7 +41,7 @@
 </tbody>
 </table>
 
-## 상제 페이지
+## 상 페이지
 
 <table>
 <thead>
