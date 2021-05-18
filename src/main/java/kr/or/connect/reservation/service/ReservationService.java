@@ -4,6 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kr.or.connect.reservation.dto.CommentAddStatus;
 import kr.or.connect.reservation.dto.CommentParam;
+import kr.or.connect.reservation.dto.FileParam;
 import kr.or.connect.reservation.dto.ReservationAddStatus;
 import kr.or.connect.reservation.dto.ReservationCancelStatus;
 import kr.or.connect.reservation.dto.ReservationInfoResponse;
@@ -18,4 +19,5 @@ public interface ReservationService {
 
 	CommentAddStatus addComment(CommentParam commentParam, MultipartFile imageFile);
 
+	FileParam getFileByImageId(int imageId);
 }

@@ -1,6 +1,9 @@
 package kr.or.connect.reservation.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kr.or.connect.reservation.dto.CommentAddStatus;
 import kr.or.connect.reservation.dto.CommentParam;
+import kr.or.connect.reservation.dto.FileParam;
 import kr.or.connect.reservation.dto.ReservationAddStatus;
 import kr.or.connect.reservation.dto.ReservationCancelStatus;
 import kr.or.connect.reservation.dto.ReservationInfoResponse;
@@ -85,6 +89,34 @@ public class ReservationApiController {
 
 		CommentAddStatus addResult = reservationService.addComment(commentParam, imageFile);
 		return addResult.getMessage();
+	}
+
+	@GetMapping("/download/{id}")
+	public void download(@PathVariable("id")
+	int imageId, HttpServletResponse response) {
+
+		FileParam fileParam = reservationService.getFileByImageId(imageId);
+		String absoluteFilePath = "C:/Temp/" + fileParam.getSaveFileName();
+		long fileLength = new File(absoluteFilePath).length();
+
+		response.setHeader("Content-Disposition", "attachment; filename=\"" + fileParam.getFileName() + "\";");
+		response.setHeader("Content-Transfer-Encoding", "binary");
+		response.setHeader("Content-Type", fileParam.getContentType());
+		response.setHeader("Content-Length", "" + fileLength);
+		response.setHeader("Pragma", "no-cache;");
+		response.setHeader("Expires", "-1;");
+
+		try (
+			FileInputStream fis = new FileInputStream(absoluteFilePath);
+			OutputStream out = response.getOutputStream();) {
+			int readCount = 0;
+			byte[] buffer = new byte[1024];
+			while ((readCount = fis.read(buffer)) != -1) {
+				out.write(buffer, 0, readCount);
+			}
+		} catch (Exception ex) {
+			throw new RuntimeException("file Download Error");
+		}
 	}
 
 }

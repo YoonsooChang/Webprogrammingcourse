@@ -122,4 +122,21 @@ public class CommentDaoSqls {
 		+ "		:fileId"
 		+ ");";
 
+	public static final String SELECT_FILE_INFO = ""
+		+ "SELECT  \n"
+		+ "	   	file.file_name 		AS file_name, \n"
+		+ "    	file.save_file_name AS save_file_name, \n"
+		+ "    	file.content_type 	AS content_type \n"
+
+		+ "FROM \n"
+		+ "		file_info 	AS file \n"
+
+		+ "JOIN \n"
+		+ "		reservation_user_comment_image AS image \n"
+
+		+ "ON \n"
+		+ "		file.id = image.file_id \n"
+
+		+ "WHERE \n"
+		+ "		image.id = :imageId";
 }

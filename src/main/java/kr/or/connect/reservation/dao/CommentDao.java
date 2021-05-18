@@ -4,6 +4,7 @@ import static kr.or.connect.reservation.dao.sqls.CommentDaoSqls.INSERT;
 import static kr.or.connect.reservation.dao.sqls.CommentDaoSqls.INSERT_COMMENT_AND_FILE_IDS;
 import static kr.or.connect.reservation.dao.sqls.CommentDaoSqls.INSERT_IMAGE_FILE;
 import static kr.or.connect.reservation.dao.sqls.CommentDaoSqls.SELECT_BY_DISPLAY_ID;
+import static kr.or.connect.reservation.dao.sqls.CommentDaoSqls.SELECT_FILE_INFO;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +12,8 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -27,6 +30,7 @@ import kr.or.connect.reservation.mapper.CommentMapper;
 @Repository
 public class CommentDao {
 	private NamedParameterJdbcTemplate jdbc;
+	private RowMapper<FileParam> fileMapper = BeanPropertyRowMapper.newInstance(FileParam.class);
 
 	public CommentDao(DataSource dataSource) {
 		this.jdbc = new NamedParameterJdbcTemplate(dataSource);
@@ -72,6 +76,13 @@ public class CommentDao {
 		Number keyValue = keyHolder.getKey();
 
 		return keyValue.intValue();
+	}
+
+	public FileParam selectCommentFileInfo(int imageId) {
+		Map<String, Integer> params = new HashMap<>();
+		params.put("imageId", imageId);
+
+		return jdbc.queryForObject(SELECT_FILE_INFO, params, fileMapper);
 	}
 
 }

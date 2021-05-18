@@ -125,4 +125,9 @@ public class ReservationServiceImpl implements ReservationService {
 		return CommentAddStatus.SUCCESS;
 	}
 
+	@Override
+	public FileParam getFileByImageId(int imageId) {
+		return commentDao.selectCommentFileInfo(imageId);
+	}
+
 }

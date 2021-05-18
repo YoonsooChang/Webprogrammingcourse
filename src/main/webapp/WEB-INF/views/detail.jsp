@@ -252,7 +252,7 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 
 	<script type="rv-template" id="productImagesItem">
 			<li class="item" style="width: 414px;">
-				<img alt= {{fileName}} class="img_thumb" src= /reservation/{{saveFileName}}>
+				<img alt= {{fileName}} class="img_thumb" src=/filepath/{{saveFileName}}>
 				 <span class="img_bg"></span>
 				<div class="visual_txt">
 					<div class="visual_txt_inn">
@@ -272,10 +272,13 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 					<div class="review_area">
 						{{#each commentImages}}
 						<div class="thumb_area">
-							<a href="#" class="thumb" title="이미지 크게 보기"> <img
-								width="90" height="90" class="img_vertical_top"
-								src=/reservation/{{saveFileName}}
-								alt="리뷰이미지">
+							<a href="/reservation/api/reservation/download/{{imageId}}" 
+								class="thumb" title="이미지 크게 보기" download> 
+								<img
+									width="90" height="90" class="img_vertical_top"
+									src="/filepath/{{saveFileName}}"
+									alt="리뷰이미지"
+								>
 							</a> <span class="img_count" style="display: none;">1</span>
 						</div>
 						{{/each}}
