@@ -1,0 +1,28 @@
+@charset "UTF-8";
+
+#contents {
+	text-align: left;
+}
+
+#contents h3 {
+	margin: 1px;
+}
+
+#contents p {
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+
+#wrapper-ability, #wrapper-project-intro {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+#wrapper-portfolio {
+	margin-top: 40px;
+	margin-bottom: 40px;
+}
+
+#my-homepage, #my-srccode {
+	margin-bottom: 10px;
+}

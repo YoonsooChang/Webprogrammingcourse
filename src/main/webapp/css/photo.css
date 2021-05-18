@@ -1,0 +1,35 @@
+@charset "UTF-8";
+
+p {
+	margin: 0;
+}
+
+.photo-container {
+	margin-top: 50px;
+	margin-bottom: 40px;
+	text-align: left;
+	line-height: 170%;
+	overflow: auto;
+}
+
+.photo {
+	float: left;
+	width: 30%;
+	border-width: 5px;
+	border-style: solid;
+	border-color: #747576;
+}
+
+.comment {
+	float: left;
+	width: 50%;
+	margin-left: 5%;
+}
+
+hr {
+	position: relative;
+	left: -10%;
+	width: 120%;
+	height: 1px;
+	background-color: #747576;
+}
