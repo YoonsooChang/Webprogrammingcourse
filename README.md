@@ -41,7 +41,7 @@
 </tbody>
 </table>
 
-## 상 페이지
+## 상세 페이지
 
 <table>
 <thead>
