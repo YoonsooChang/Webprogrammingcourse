@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-Object sessionUserNullable = session.getAttribute("user");
-String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString() : "";
+String userEmail = session.getAttribute("user").toString();
+Integer productId = (Integer) request.getAttribute("product");
+Integer reservationId = (Integer) request.getAttribute("reservation");
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -14,28 +15,24 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 <meta name="viewport"
 	content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
 <title>네이버 예약</title>
-<link href="../css/style.css" rel="stylesheet">
-<link href="../css/reservation.css" rel="stylesheet">
-<link href="../css/bookinglogin.css" rel="stylesheet">
+<link href="/reservation/css/style.css" rel="stylesheet">
 </head>
 
 <body>
 	<input type="hidden" id="user-email" value=<%=userEmail%>>
-	<input type="hidden" id="display-info-id"
-		value=<%=request.getAttribute("id")%>>
+	<input type="hidden" id="product-id" value=<%=productId%>>
+	<input type="hidden" id="reservation-id" value=<%=reservationId%>>
 
 	<div id="container">
 		<div class="header fade">
 			<header class="header_tit">
 				<h1 class="logo">
-					<a href="./mainpage.html" class="lnk_logo" title="네이버"> <span
+					<a href="." class="lnk_logo" title="네이버"> <span
 						class="spr_bi ico_n_logo">네이버</span>
-					</a> <a href="./mainpage.html" class="lnk_logo" title="예약"> <span
+					</a> <a href="." class="lnk_logo" title="예약"> <span
 						class="spr_bi ico_bk_logo">예약</span>
 					</a>
 				</h1>
-				<a href="bookinglogin" id="btn-my-session-off" class="btn_my"> <span
-					class="viewReservation" title="예약확인">예약확인</span>
 				</a> <a href="myreservation" id="btn-my-session-on" class="btn_my">
 					<span class="viewReservation"><%=userEmail%></span>
 				</a>
@@ -68,7 +65,7 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 							<input type="checkbox" name="rating6" value="5"
 								class="rating_rdo" title="5점"> <span class="span"></span>
 							<!-- [D] 0점일 때 gray_star 추기 -->
-							<span class="star_rank gray_star">0</span>
+							<span id="star-rank" class="star_rank gray_star">0</span>
 						</div>
 					</div>
 				</div>
@@ -77,12 +74,14 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 				<!-- 리뷰 입력 -->
 				<div class="review_contents write">
 					<!-- [D] review_write_info 클릭 시 자신을 숨기고 review_textarea 에 focus를 보낸다. -->
-					<a href="#" class="review_write_info"> <span class="middot">
-							실 사용자의 리뷰는 상품명의 더 나은 서비스 제공과 다른 사용자들의 선택에 큰 도움이 됩니다. </span><br> <span
-						class="middot"> 소중한 리뷰에 대한 감사로 네이버페이 포인트 500원을 적립해드립니다. </span> <span
-						class="left_space">(단, 리뷰 포인트는 ID 당 1일 최대 5건까지 지급됩니다.)</span>
+					<a href="#" id="review-textarea-ref" class="review_write_info">
+						<span class="middot"> 실 사용자의 리뷰는 상품명의 더 나은 서비스 제공과 다른 사용자들의
+							선택에 큰 도움이 됩니다. </span><br> <span class="middot"> 소중한 리뷰에 대한
+							감사로 네이버페이 포인트 500원을 적립해드립니다. </span> <span class="left_space">(단,
+							리뷰 포인트는 ID 당 1일 최대 5건까지 지급됩니다.)</span>
 					</a>
-					<textarea cols="30" rows="10" class="review_textarea"></textarea>
+					<textarea cols="30" rows="10" id="review-textarea"
+						class="review_textarea"></textarea>
 				</div>
 				<!-- //리뷰 입력 -->
 
@@ -95,7 +94,7 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 						</label> <input type="file" class="hidden_input"
 							id="reviewImageFileOpenInput" accept="image/*" multiple>
 						<div class="guide_review">
-							<span>0</span>/400 <span>(최소5자이상)</span>
+							<span id="letter-count">0</span>/400 <span>(최소5자이상)</span>
 						</div>
 					</div>
 
@@ -103,12 +102,12 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 					<div class="review_photos review_photos_write">
 						<div class="item_preview_thumbs">
 							<ul class="lst_thumb">
-								<li class="item" style="display: none;"><a href="#"
-									class="anchor"> <span class="spr_book ico_del">삭제</span>
+								<li id="wrap-thumbnail" class="item" style="display: none;"><a
+									href="#" class="anchor"> <span class="spr_book ico_del">삭제</span>
 								</a> <img
 									src="http://naverbooking.phinf.naver.net/20170306_3/1488772023601A4195_JPEG/image.jpg?type=f300_300"
-									width="130" alt="" class="item_thumb"> <span
-									class="img_border"></span></li>
+									width="130" alt="" id="thumbnail-img" class="item_thumb">
+									<span class="img_border"></span></li>
 							</ul>
 						</div>
 					</div>
@@ -119,7 +118,7 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 
 				<!-- 리뷰 등록 -->
 				<div class="box_bk_btn">
-					<button class="bk_btn">
+					<button id="submit-btn" class="bk_btn">
 						<span class="btn_txt">리뷰 등록</span>
 					</button>
 				</div>
@@ -139,11 +138,11 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 		</div>
 	</footer>
 
-	<script src="../js/common.js">
+	<script src="/reservation/js/common.js">
 		
 	</script>
 
-	<script src="../js/reviewWrite.js">
+	<script src="/reservation/js/reviewWrite.js">
 		
 	</script>
 </body>

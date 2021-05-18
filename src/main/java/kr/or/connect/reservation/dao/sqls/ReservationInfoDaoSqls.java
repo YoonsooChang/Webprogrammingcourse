@@ -90,6 +90,7 @@ public class ReservationInfoDaoSqls {
 		+ "		create_date, "
 		+ "		modify_date "
 		+ "	) "
+
 		+ "VALUES "
 		+ "("
 		+ "		:productId,"
@@ -110,6 +111,7 @@ public class ReservationInfoDaoSqls {
 		+ "		product_price_id, "
 		+ "		count "
 		+ "	) "
+
 		+ "VALUES "
 		+ "("
 		+ "		:reservationInfoId,"

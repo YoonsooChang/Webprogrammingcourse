@@ -154,7 +154,7 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
     </script>
 
 	<script type="rv-template" id="promotionItem">
-    	<li class="item" style="background-image: url({productImageUrl});">
+    	<li class="item" style="background-image: url(/filepath/{productImageUrl});">
     	    <a href="#"> <span class="img_btm_border"></span> <span class="img_right_border"></span> <span class="img_bg_gra"></span>
     	        <div class="event_txt">
     	            <h4 class="event_txt_tit"></h4>
@@ -169,7 +169,7 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
         <li class="item">
             <a href="detail/{displayInfoId}" class="item_book">
                 <div class="item_preview">
-                    <img alt="{productDescription}" class="img_thumb" src="{productImageUrl}">
+                    <img alt="{productDescription}" class="img_thumb" src="/filepath/{productImageUrl}">
                     <span class="img_border"></span>
                 </div>
                 <div class="event_txt">

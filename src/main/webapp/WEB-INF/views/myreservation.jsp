@@ -15,8 +15,7 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 	content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
 <title>네이버 예약</title>
 <link href="/reservation/css/style.css" rel="stylesheet">
-<link href="/reservation/css/reservation.css" rel="stylesheet">
-<link href="/reservation/css/bookinglogin.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -236,7 +235,7 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
 								</em>
 							</div>
 							<div class="booking_cancel">
-								<a href="/reservation/reviewWrite/{{reservationInfoId}}"><button class="btn">
+								<a href="/reservation/reviewWrite?user=<%=userEmail%>&product={{productId}}&reservation={{reservationInfoId}}"><button class="btn">
 										<span>예매자 리뷰 남기기</span>
 									</button></a>
 							</div>

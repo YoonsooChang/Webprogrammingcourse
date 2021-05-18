@@ -42,17 +42,22 @@ const appendReservations = (data) => {
 
 			totalPrice:
 				reservation.totalPrice.toLocaleString('ko-KR'),
-		}
+		};
 
 		if (reservation.cancelYn) {
 			canceledCount++;
 			canceledSection.innerHTML += bindCanceledReservation(templateParams);
+		} else if (isDatePassed(reservation.reservationDate)) {
+			const productId = reservation.productId;
+			
+			doneCount++;
+			doneSection.innerHTML += bindDoneReservation({ productId, ...templateParams });
 		} else {
 			todoCount++;
 			todoSection.innerHTML += bindTodoReservation(templateParams);
 		}
 
-	})
+	});
 
 	if (todoCount === 0) {
 		hide(todoSection);
@@ -63,7 +68,7 @@ const appendReservations = (data) => {
 	}
 
 	if (canceledCount === 0) {
-		hide(cancelSection);
+		hide(canceledSection);
 	}
 
 	document.getElementById("count-all").innerHTML = reservations.length;
@@ -72,6 +77,19 @@ const appendReservations = (data) => {
 	document.getElementById("count-canceled").innerHTML = canceledCount;
 
 	setUpCancelBtnClickListener();
+}
+
+const isDatePassed = (dateObject) => {
+	const {
+		dayOfMonth: date,
+		monthValue: month,
+		year,
+	} = dateObject;
+
+	const reservationDate = new Date(year, month - 1, date);
+	const now = new Date();
+
+	return now.getTime() > reservationDate.getTime();
 }
 
 const moveToCancelSection = (id) => {

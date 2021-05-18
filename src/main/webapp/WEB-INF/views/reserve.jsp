@@ -216,7 +216,7 @@ String userEmail = (sessionUserNullable != null) ? sessionUserNullable.toString(
   				<li class="item" style="width: 414px;">
 					 <img alt="{{fileName}}"
 						 class="img_thumb" 
-						 src=/reservation/{{saveFileName}}>
+						 src="/filepath/{{saveFileName}}">
 					 <span class="img_bg"></span>
                 	<div class="preview_txt">
                     	<h2 class="preview_txt_tit"></h2> 

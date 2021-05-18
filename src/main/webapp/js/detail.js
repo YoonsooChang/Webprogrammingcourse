@@ -214,7 +214,7 @@ const setUpInnerTabs = () => {
 const fillUpLocationSectionNodes = (displayInfo, saveFileName) => {
 	const { placeStreet, placeLot, placeName, telephone } = displayInfo;
 
-	document.getElementById("map-image").setAttribute("src", `/reservation/${saveFileName}`);
+	document.getElementById("map-image").setAttribute("src", `/filepath/${saveFileName}`);
 	document.getElementById("store-street").innerHTML = placeStreet;
 	document.getElementById("store-lot").innerHTML = placeLot;
 	document.getElementById("store-name").innerHTML = placeName;

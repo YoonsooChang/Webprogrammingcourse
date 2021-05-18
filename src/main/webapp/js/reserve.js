@@ -54,9 +54,9 @@ const PRICE_TYPES_SEAT = {
 
 const getPriceTypeFullName = (typeId, typeName) => {
 	if (typeId === 1) {
-		return PRICE_TYPES_AGE[typeName];
+		return PRICE_TYPES_AGE[typeName] || PRICE_TYPES_SEAT[typeName];
 	}
-	return PRICE_TYPES_SEAT[typeName];
+	return PRICE_TYPES_SEAT[typeName] || PRICE_TYPES_AGE[typeName];
 }
 
 const fillUpDetailSectionNodes = (placeLot, openingDays, openingTime, productPrices, categoryId) => {
@@ -226,7 +226,7 @@ const sendReservationParams = (productPriceIds, productId) => {
 		(msg) => msg === "success",
 	);
 
-	reqHandler.postRequest(jsonObj, "application/json", "text");
+	reqHandler.postRequest(jsonObj, "text", "application/json");
 }
 
 const setUpFormButtons = (priceIds, productId) => {
@@ -240,7 +240,7 @@ const setUpFormButtons = (priceIds, productId) => {
 	const allCheckBtn = document.getElementById("chk3");
 	allCheckBtn.onclick = () => {
 		document.getElementById("book-btn-wrapper").classList.toggle("disable");
-		
+
 		if (allCheckBtn.checked) {
 			submitBtn.style.pointerEvents = "auto";
 		} else {

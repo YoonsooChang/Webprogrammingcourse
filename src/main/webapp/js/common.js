@@ -32,13 +32,15 @@ class RequestHandler {
 		oReq.send();
 	};
 
-	postRequest = (requestBody, contentType = "application/x-www-form-urlencoded", responseType = "json") => {
+	postRequest = (requestBody, responseType = "json", contentType) => {
 		const url = this.path;
 		const oReq = this.setRequestObject();
 
 		oReq.responseType = responseType;
 		oReq.open("POST", url);
-		oReq.setRequestHeader("Content-Type", contentType);
+		if (contentType) {
+			oReq.setRequestHeader("Content-Type", contentType);
+		}
 		oReq.send(requestBody);
 	};
 
@@ -51,8 +53,11 @@ class RequestHandler {
 		oReq.send();
 	};
 
-	makeQueryString = (paramObject) => (paramObject ? ("?" + new URLSearchParams(paramObject)) : "");
 }
+
+RequestHandler.prototype.makeQueryString = (paramObject) => (paramObject ? ("?" + new URLSearchParams(paramObject)) : "");
+
+
 
 const fetchData = (url, successHandler, failureHandler, validator, pathVariableNodeId) => {
 	if (pathVariableNodeId) {

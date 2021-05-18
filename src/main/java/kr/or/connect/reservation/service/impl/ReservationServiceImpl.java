@@ -1,12 +1,19 @@
 package kr.or.connect.reservation.service.impl;
 
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import kr.or.connect.reservation.dao.CommentDao;
 import kr.or.connect.reservation.dao.ReservationInfoDao;
+import kr.or.connect.reservation.dto.CommentAddStatus;
+import kr.or.connect.reservation.dto.CommentParam;
+import kr.or.connect.reservation.dto.FileParam;
 import kr.or.connect.reservation.dto.ReservationAddStatus;
 import kr.or.connect.reservation.dto.ReservationCancelStatus;
 import kr.or.connect.reservation.dto.ReservationInfo;
@@ -18,9 +25,11 @@ import kr.or.connect.reservation.service.ReservationService;
 @Service
 public class ReservationServiceImpl implements ReservationService {
 	private final ReservationInfoDao reservationInfoDao;
+	private final CommentDao commentDao;
 
-	public ReservationServiceImpl(ReservationInfoDao reservationInfoDao) {
+	public ReservationServiceImpl(ReservationInfoDao reservationInfoDao, CommentDao commentDao) {
 		this.reservationInfoDao = reservationInfoDao;
+		this.commentDao = commentDao;
 	}
 
 	@Override
@@ -61,6 +70,59 @@ public class ReservationServiceImpl implements ReservationService {
 		return (priceInsertResult == counts.size())
 			? ReservationAddStatus.SUCCESS
 			: ReservationAddStatus.PRICE_FAILURE;
+	}
+
+	@Override
+	@Transactional
+	public CommentAddStatus addComment(CommentParam commentParam, MultipartFile imageFile) {
+		final int NOT_DELETED = 0;
+
+		int commentId = commentDao.insert(commentParam);
+		if (commentId == 0) {
+			return CommentAddStatus.COMMENT_FAILURE;
+		}
+
+		if (imageFile == null) {
+			return CommentAddStatus.SUCCESS;
+		}
+
+		String saveFileName = "img/" + imageFile.getOriginalFilename();
+		String fileName = imageFile.getOriginalFilename();
+		String contentType = imageFile.getContentType();
+
+		FileParam fileParam = new FileParam.Builder()
+			.fileName(fileName)
+			.saveFileName(saveFileName)
+			.contentType(contentType)
+			.deleteFlag(NOT_DELETED)
+			.createDate(commentParam.getCreateDate())
+			.modifyDate(commentParam.getModifyDate())
+			.build();
+
+		int fileId = commentDao.insertImageFile(fileParam);
+		if (fileId == 0) {
+			return CommentAddStatus.FILE_FAILURE;
+		}
+
+		int junctionImageId = commentDao.insertCommentAndFileIdIntoJuncTbl(commentId, fileId,
+			commentParam.getReservationInfoId());
+		if (junctionImageId == 0) {
+			return CommentAddStatus.JUNCTION_FAILURE;
+		}
+
+		try (
+			FileOutputStream fos = new FileOutputStream(saveFileName);
+			InputStream is = imageFile.getInputStream();) {
+			int readCount = 0;
+			byte[] buffer = new byte[1024];
+			while ((readCount = is.read(buffer)) != -1) {
+				fos.write(buffer, 0, readCount);
+			}
+		} catch (Exception ex) {
+			throw new RuntimeException("file Save Error");
+		}
+
+		return CommentAddStatus.SUCCESS;
 	}
 
 }
